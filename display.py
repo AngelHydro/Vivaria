@@ -1,0 +1,3 @@
+"""
+Gère l'affichage graphique.
+"""
