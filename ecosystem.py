@@ -36,23 +36,25 @@ class Herbivores(pygame.sprite.Sprite):
         self.energy = 100
         self.hunger = 0
         self.vitesse = 1
-        self.energie_coutee_par_frame = 0.5
-        self.energie_coutee_par_deplacement = 0.1
+        self.energy_coutee_par_frame = 0.25
+        self.energy_coutee_par_deplacement = 0.25
+        self.hunger_coutee_par_frame = 0.25
+        self.hunger_coutee_par_deplacement = 0.25
 
     def grow(self):
         self.age += 0.001
-        self.energie -= self.energie_coutee_par_frame
-        self.energie -= self.energie_coutee_par_deplacement
-        if self.energie <= 75:
-            self.hunger += 25
-        self.die()
+        self.energy -= self.energy_coutee_par_frame
+        self.energy -= self.energy_coutee_par_deplacement
+        self.hunger -= self.hunger_coutee_par_frame
+        self.hunger -= self.hunger_coutee_par_deplacement
+        self.die()  # Nom de méthode à modifier
         if self.display.verifier_collision(
             self, self.display.tous_plantes
         ):  # Si plante sur la position de herbivore
             self.eat()
 
-    def die(self):  # Les plantes vivent 30 ans
-        if self.age > 10950 or self.energie <= 0:
+    def die(self):  # Les herbivores vivent 30 ans
+        if self.age > 10950 or self.energy <= 0:
             self.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
@@ -60,7 +62,7 @@ class Herbivores(pygame.sprite.Sprite):
         self.y += random.randint(-1, 1) * self.vitesse
 
     def eat(self):
-        if self.hunger > 100:
+        if self.hunger < 100:
             self.energy += 10
             self.hunger -= 10
 
@@ -77,23 +79,25 @@ class Carnivores(pygame.sprite.Sprite):
         self.energy = 100
         self.hunger = 0
         self.vitesse = 1
-        self.energie_coutee_par_frame = 0.5
-        self.energie_coutee_par_deplacement = 0.1
+        self.energy_coutee_par_frame = 0.25
+        self.energy_coutee_par_deplacement = 0.25
+        self.hunger_coutee_par_frame = 0.25
+        self.hunger_coutee_par_deplacement = 0.25
 
     def grow(self):
         self.age += 0.001
-        self.energie -= self.energie_coutee_par_frame
-        self.energie -= self.energie_coutee_par_deplacement
-        if self.energie <= 75:
-            self.hunger += 25
-        self.die()
+        self.energy -= self.energy_coutee_par_frame
+        self.energy -= self.energy_coutee_par_deplacement
+        self.hunger -= self.hunger_coutee_par_frame
+        self.hunger -= self.hunger_coutee_par_deplacement
+        self.die()  # Nom de méthode à modifier
         if self.display.verifier_collision(
             self, self.display.tous_herbivores
         ):  # Si herbivore sur la position de carnivore
             self.eat()
 
-    def die(self):  # Les plantes vivent 15 ans
-        if self.age > 5475 or self.energie <= 0:
+    def die(self):  # Les carnivores vivent 15 ans
+        if self.age > 5475 or self.energy <= 0:
             self.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
