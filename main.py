@@ -2,6 +2,8 @@
 Lance la simulation avec l'interface graphique.
 """
 
+import sys  # Pour quitter le programme
+
 import pygame
 
 import config
@@ -35,6 +37,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+            sys.exit()  # ferme le programme une fois la fenêtre fermée
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
                 fullscreen = not fullscreen
