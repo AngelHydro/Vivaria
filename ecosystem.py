@@ -1,5 +1,5 @@
 """
-Contient toute la logique de simulation.
+Contient toute la logique de simulation de l'écosystème.
 """
 
 import random
