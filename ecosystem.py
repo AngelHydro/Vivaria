@@ -18,8 +18,9 @@ class Plantes(pygame.sprite.Sprite):
 
     def grow(self):
         self.age += 1
+        self.check_life()
 
-    def die(self):  # Les plantes vivent 100 ans
+    def check_life(self):  # Les plantes vivent 100 ans
         if self.age > 36500:
             self.remove()
 
@@ -47,13 +48,13 @@ class Herbivores(pygame.sprite.Sprite):
         self.energy -= self.energy_coutee_par_deplacement
         self.hunger -= self.hunger_coutee_par_frame
         self.hunger -= self.hunger_coutee_par_deplacement
-        self.die()  # Nom de méthode à modifier
+        self.check_life()
         if self.display.verifier_collision(
             self, self.display.tous_plantes
         ):  # Si plante sur la position de herbivore
             self.eat()
 
-    def die(self):  # Les herbivores vivent 30 ans
+    def check_life(self):  # Les herbivores vivent 30 ans
         if self.age > 10950 or self.energy <= 0:
             self.remove()
 
@@ -90,13 +91,13 @@ class Carnivores(pygame.sprite.Sprite):
         self.energy -= self.energy_coutee_par_deplacement
         self.hunger -= self.hunger_coutee_par_frame
         self.hunger -= self.hunger_coutee_par_deplacement
-        self.die()  # Nom de méthode à modifier
+        self.check_life()
         if self.display.verifier_collision(
             self, self.display.tous_herbivores
         ):  # Si herbivore sur la position de carnivore
             self.eat()
 
-    def die(self):  # Les carnivores vivent 15 ans
+    def check_life(self):  # Les carnivores vivent 15 ans
         if self.age > 5475 or self.energy <= 0:
             self.remove()
 
