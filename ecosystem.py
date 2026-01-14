@@ -10,11 +10,12 @@ import pygame
 class Plantes(pygame.sprite.Sprite):
     """Classe représentant les plantes dans l'écosystème."""
 
-    def __init__(self, name, x, y):
+    def __init__(self, display, name, x, y):
         super().__init__(name)
         self.x = x
         self.y = y
         self.age = 0
+        self.display = display
 
     def grow(self):
         self.age += 1
@@ -22,7 +23,7 @@ class Plantes(pygame.sprite.Sprite):
 
     def check_life(self):  # Les plantes vivent 100 ans
         if self.age > 36500:
-            self.remove()
+            self.display.tous_plantes.remove()
 
 
 class Herbivores(pygame.sprite.Sprite):
@@ -56,7 +57,7 @@ class Herbivores(pygame.sprite.Sprite):
 
     def check_life(self):  # Les herbivores vivent 30 ans
         if self.age > 10950 or self.energy <= 0:
-            self.remove()
+            self.display.tous_herbivores.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
         self.x += random.randint(-1, 1) * self.vitesse
@@ -99,7 +100,7 @@ class Carnivores(pygame.sprite.Sprite):
 
     def check_life(self):  # Les carnivores vivent 15 ans
         if self.age > 5475 or self.energy <= 0:
-            self.remove()
+            self.display.tous_carnivores.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
         self.x += random.randint(-1, 1) * self.vitesse
@@ -109,3 +110,4 @@ class Carnivores(pygame.sprite.Sprite):
         if self.hunger < 100:
             self.energy += 10
             self.hunger -= 10
+
