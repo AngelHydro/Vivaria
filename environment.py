@@ -1,3 +1,6 @@
+# Projet : Vivaria
+# Auteurs : Benjamin MICHALAK, Angel SANCHEZ, Augustin MINOT
+
 """
 Contient toute la logique de simulation de l'environnement.
 """

@@ -1,3 +1,6 @@
+# Projet : Vivaria
+# Auteurs : Benjamin MICHALAK, Angel SANCHEZ, Augustin MINOT
+
 """
 Lance la simulation avec l'interface graphique.
 """
@@ -27,9 +30,15 @@ instruction_font = pygame.font.Font(None, 14)
 instruction = instruction_font.render(
     "Cliquez sur les contrôles pour intéragir", True, (255, 255, 255)
 )
-
-bouton_demarrer_font = pygame.font.Font(None, 12)
-bouton_demarrer = bouton_demarrer_font.render("Démarrer", True, (0, 0, 0))
+bouton_demarrer = pygame.Rect(
+    config.LARGEUR * 83 / 100,
+    config.HAUTEUR * 65 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+)
+texte_demarrer_font = pygame.font.Font(None, 12)
+texte_demarrer = texte_demarrer_font.render("Démarrer", True, (0, 0, 0))
+texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
 
 running = True
 fullscreen = False
@@ -46,13 +55,11 @@ while running:
         instruction_rect = instruction.get_rect(
             center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
         )
-        rectangle_demarrer = pygame.draw.rect(screen, (0, 0, 0), (config.LARGEUR - 10 / 100, config.HAUTEUR - 25 / 100))
-        bouton_demarrer_rect = bouton_demarrer.get_rect()
-        bouton_demarrer_rect.center = rectangle_demarrer.center
-        
+        pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
+
         screen.blit(titre, titre_rect)
         screen.blit(instruction, instruction_rect)
-        screen.blit(bouton_demarrer, bouton_demarrer_rect)
+        screen.blit(texte_demarrer, texte_demarrer_rect)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,7 +82,9 @@ while running:
             screen = pygame.display.set_mode(
                 (config.LARGEUR, config.HAUTEUR), pygame.RESIZABLE
             )
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if bouton_demarrer.collidepoint(event.pos):
+                display.demarrage(screen)
 
     pygame.display.flip()
     clock.tick(60)
-

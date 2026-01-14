@@ -1,3 +1,6 @@
+# Projet : Vivaria
+# Auteurs : Benjamin MICHALAK, Angel SANCHEZ, Augustin MINOT
+
 """
 Tous les paramètres réglables du jeu.
 """
