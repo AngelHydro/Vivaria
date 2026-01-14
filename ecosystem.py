@@ -1,3 +1,6 @@
+# Projet : Vivaria
+# Auteurs : Benjamin MICHALAK, Angel SANCHEZ, Augustin MINOT
+
 """
 Contient toute la logique de simulation de l'écosystème.
 """
@@ -10,11 +13,21 @@ import pygame
 class Plantes(pygame.sprite.Sprite):
     """Classe représentant les plantes dans l'écosystème."""
 
-    def __init__(self, name, x, y):
-        super().__init__(name)
+    def __init__(self, display, name, x, y, screen):
+        super().__init__()
+        self.screen = screen
         self.x = x
         self.y = y
         self.age = 0
+        self.display = display
+        self.image = pygame.draw.rect(
+            self.screen,
+            (255, 255, 0),
+            [self.x, self.y, 10, 10],  # à remplacer plus tard par une image
+        )
+        self.rect = pygame.Rect(
+            self.x, self.y, 10, 10
+        )  # à changer en self.image.get_rect() quand il y aura une image
 
     def grow(self):
         self.age += 1
@@ -22,18 +35,25 @@ class Plantes(pygame.sprite.Sprite):
 
     def check_life(self):  # Les plantes vivent 100 ans
         if self.age > 36500:
-            self.remove()
+            self.display.tous_plantes.remove()
 
 
 class Herbivores(pygame.sprite.Sprite):
     """Classe représentant les herbivores dans l'écosystème."""
 
-    def __init__(self, display, name, x, y):
-        super().__init__(name)
+    def __init__(self, display, name, x, y, screen):
+        super().__init__()
+        self.screen = screen
         self.display = display
         self.x = x
         self.y = y
         self.age = 0
+        self.image = pygame.draw.circle(
+            self.screen, (255, 0, 0), (self.x, self.y), 5
+        )  # à remplacer plus tard par une image
+        self.rect = pygame.Rect(
+            self.x - 5, self.y - 5, 5 * 2, 5 * 2
+        )  # à changer en self.image.get_rect() quand il y aura une image
         self.energy = 100
         self.hunger = 0
         self.vitesse = 1
@@ -56,7 +76,7 @@ class Herbivores(pygame.sprite.Sprite):
 
     def check_life(self):  # Les herbivores vivent 30 ans
         if self.age > 10950 or self.energy <= 0:
-            self.remove()
+            self.display.tous_herbivores.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
         self.x += random.randint(-1, 1) * self.vitesse
@@ -71,12 +91,19 @@ class Herbivores(pygame.sprite.Sprite):
 class Carnivores(pygame.sprite.Sprite):
     """Classe représentant les carnivores dans l'écosystème."""
 
-    def __init__(self, display, name, x, y):
-        super().__init__(name)
+    def __init__(self, display, name, x, y, screen):
+        super().__init__()
+        self.screen = screen
         self.display = display
         self.x = x
         self.y = y
         self.age = 0
+        self.image = pygame.draw.circle(
+            self.screen, (0, 0, 255), (self.x, self.y), 5
+        )  # à remplacer plus tard par une image
+        self.rect = pygame.Rect(
+            self.x - 5, self.y - 5, 5 * 2, 5 * 2
+        )  # à changer en self.image.get_rect() quand il y aura une image
         self.energy = 100
         self.hunger = 0
         self.vitesse = 1
@@ -99,7 +126,7 @@ class Carnivores(pygame.sprite.Sprite):
 
     def check_life(self):  # Les carnivores vivent 15 ans
         if self.age > 5475 or self.energy <= 0:
-            self.remove()
+            self.display.tous_carnivores.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
         self.x += random.randint(-1, 1) * self.vitesse

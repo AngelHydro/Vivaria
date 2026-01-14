@@ -1,3 +1,6 @@
+# Projet : Vivaria
+# Auteurs : Benjamin MICHALAK, Angel SANCHEZ, Augustin MINOT
+
 """
 Contient toute la logique de simulation de l'environnement.
 """
@@ -11,7 +14,7 @@ import pygame
 class Biomes:
     """Classe qui gère les biomes du jeu (effet et visuel compris)."""
 
-    def __init(self, display):
+    def __init__(self, display):
         self.display = display
         self.etat = "plaine"
 

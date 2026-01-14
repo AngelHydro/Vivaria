@@ -1,9 +1,16 @@
+# Projet : Vivaria
+# Auteurs : Benjamin MICHALAK, Angel SANCHEZ, Augustin MINOT
+
 """
 Gère l'affichage graphique.
 """
 
+from random import randint
+
 import pygame
 
+import config
+import ecosystem
 from ecosystem import Carnivores, Herbivores, Plantes
 
 
@@ -19,13 +26,37 @@ class Display:
         self.temps_echelle = 1
         self.pause = True
 
-    def demarrage(self):
+    def demarrage(self, screen):
         """Méthode démarrage qui sert à démarrer la simulation créant les êtres vivants"""
         self.is_playing = True
         # méthodes de spawn des êtres vivants à créer
-        self.apparaitre_plante(Plantes)
-        self.apparaitre_herbivore(Herbivores)
-        self.apparaitre_carnivore(Carnivores)
+        self.apparaitre_plante(
+            Plantes(
+                self,
+                "Pissenlit",
+                randint(0, config.LARGEUR),
+                randint(0, config.HAUTEUR),
+                screen,
+            )
+        )
+        self.apparaitre_herbivore(
+            Herbivores(
+                self,
+                "Vache",
+                randint(0, config.LARGEUR),
+                randint(0, config.HAUTEUR),
+                screen,
+            )
+        )
+        self.apparaitre_carnivore(
+            Carnivores(
+                self,
+                "Loup",
+                randint(0, config.LARGEUR),
+                randint(0, config.HAUTEUR),
+                screen,
+            )
+        )
 
     def mise_a_jour(self, screen):
         """Méthode qui met à jour l'écran et permet l'affichage et les déplacements des êtres vivants"""
@@ -52,14 +83,14 @@ class Display:
 
     def verifier_collision(self, sprite, group):
         return pygame.sprite.spritecollide(
-            sprite, group, False, pygame.sprite.collide_mask
-        )
+            sprite, group, False, None
+        )  # mettre pygame.sprite.collide_mask à la place de None quand les sprites seront ajoutés
 
-    def apparaitre_plante(self, plantes_class_name):
-        self.tous_plantes.add(plantes_class_name.__call__(self))
+    def apparaitre_plante(self, plantes_class):
+        self.tous_plantes.add(plantes_class)
 
-    def apparaitre_herbivore(self, herbivores_class_name):
-        self.tous_herbivores.add(herbivores_class_name.__call__(self))
+    def apparaitre_herbivore(self, herbivores_class):
+        self.tous_herbivores.add(herbivores_class)
 
-    def apparaitre_carnivore(self, carnivores_class_name):
-        self.tous_carnivores.add(carnivores_class_name.__call__(self))
+    def apparaitre_carnivore(self, carnivores_class):
+        self.tous_carnivores.add(carnivores_class)
