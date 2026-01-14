@@ -28,11 +28,32 @@ instruction = instruction_font.render(
     "Cliquez sur les contrôles pour intéragir", True, (255, 255, 255)
 )
 
+bouton_demarrer_font = pygame.font.Font(None, 12)
+bouton_demarrer = bouton_demarrer_font.render("Démarrer", True, (0, 0, 0))
+
 running = True
 fullscreen = False
 display = Display()
 
 while running:
+    draw_background()
+
+    if display.is_playing:
+        display.mise_a_jour(screen)
+    else:
+        # Calcul des rectangles de texte à chaque frame, selon la taille actuelle
+        titre_rect = titre.get_rect(center=(config.LARGEUR // 2, config.HAUTEUR // 2))
+        instruction_rect = instruction.get_rect(
+            center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
+        )
+        rectangle_demarrer = pygame.draw.rect(screen, (0, 0, 0), (config.LARGEUR - 10 / 100, config.HAUTEUR - 25 / 100))
+        bouton_demarrer_rect = bouton_demarrer.get_rect()
+        bouton_demarrer_rect.center = rectangle_demarrer.center
+        
+        screen.blit(titre, titre_rect)
+        screen.blit(instruction, instruction_rect)
+        screen.blit(bouton_demarrer, bouton_demarrer_rect)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -55,18 +76,6 @@ while running:
                 (config.LARGEUR, config.HAUTEUR), pygame.RESIZABLE
             )
 
-    draw_background()
-
-    if display.is_playing:
-        display.mise_a_jour(screen)
-    else:
-        # Calcul des rectangles de texte à chaque frame, selon la taille actuelle
-        titre_rect = titre.get_rect(center=(config.LARGEUR // 2, config.HAUTEUR // 2))
-        instruction_rect = instruction.get_rect(
-            center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
-        )
-        screen.blit(titre, titre_rect)
-        screen.blit(instruction, instruction_rect)
-
     pygame.display.flip()
     clock.tick(60)
+
