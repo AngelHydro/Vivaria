@@ -22,13 +22,13 @@ class Display:
         self.tous_plantes = pygame.sprite.Group()
         self.tous_herbivores = pygame.sprite.Group()
         self.tous_carnivores = pygame.sprite.Group()
-        self.temps = 0
         self.temps_echelle = 1
         self.pause = True
 
-    def demarrage(self, screen):
+    def demarrage(self, screen, temps):
         """Méthode démarrage qui sert à démarrer la simulation créant les êtres vivants"""
         self.is_playing = True
+        self.pause = False
         # méthodes de spawn des êtres vivants à créer
         self.apparaitre_plante(
             Plantes(
@@ -37,6 +37,7 @@ class Display:
                 randint(0, config.LARGEUR),
                 randint(0, config.HAUTEUR),
                 screen,
+                temps
             )
         )
         self.apparaitre_herbivore(
@@ -46,6 +47,7 @@ class Display:
                 randint(0, config.LARGEUR),
                 randint(0, config.HAUTEUR),
                 screen,
+                temps
             )
         )
         self.apparaitre_carnivore(
@@ -55,11 +57,15 @@ class Display:
                 randint(0, config.LARGEUR),
                 randint(0, config.HAUTEUR),
                 screen,
+                temps
             )
         )
 
     def mise_a_jour(self, screen):
         """Méthode qui met à jour l'écran et permet l'affichage et les déplacements des êtres vivants"""
+        if self.pause:
+            return
+        
         for herbivore in self.tous_herbivores:
             # créer déplacements des herbivores
             herbivore.move()
@@ -70,9 +76,6 @@ class Display:
             carnivore.grow()
         for plante in self.tous_plantes:
             plante.grow()
-
-        if self.pause:
-            return
 
         for _ in range(self.temps_echelle):
             self.temps += 1

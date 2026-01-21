@@ -46,6 +46,7 @@ display = Display()
 
 while running:
     draw_background()
+    temps = clock.tick(60)
 
     if display.is_playing:
         display.mise_a_jour(screen)
@@ -84,7 +85,6 @@ while running:
             )
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if bouton_demarrer.collidepoint(event.pos):
-                display.demarrage(screen)
+                display.demarrage(screen, temps)
 
     pygame.display.flip()
-    clock.tick(60)

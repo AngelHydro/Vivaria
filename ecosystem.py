@@ -13,7 +13,7 @@ import pygame
 class Plantes(pygame.sprite.Sprite):
     """Classe représentant les plantes dans l'écosystème."""
 
-    def __init__(self, display, name, x, y, screen):
+    def __init__(self, display, name, x, y, screen, temps):
         super().__init__()
         self.screen = screen
         self.x = x
@@ -41,7 +41,7 @@ class Plantes(pygame.sprite.Sprite):
 class Herbivores(pygame.sprite.Sprite):
     """Classe représentant les herbivores dans l'écosystème."""
 
-    def __init__(self, display, name, x, y, screen):
+    def __init__(self, display, name, x, y, screen, temps):
         super().__init__()
         self.screen = screen
         self.display = display
@@ -56,7 +56,7 @@ class Herbivores(pygame.sprite.Sprite):
         )  # à changer en self.image.get_rect() quand il y aura une image
         self.energy = 100
         self.hunger = 0
-        self.vitesse = 1
+        self.vitesse = 50/60
         self.energy_coutee_par_frame = 0.25
         self.energy_coutee_par_deplacement = 0.25
         self.hunger_coutee_par_frame = 0.25
@@ -91,7 +91,7 @@ class Herbivores(pygame.sprite.Sprite):
 class Carnivores(pygame.sprite.Sprite):
     """Classe représentant les carnivores dans l'écosystème."""
 
-    def __init__(self, display, name, x, y, screen):
+    def __init__(self, display, name, x, y, screen, temps):
         super().__init__()
         self.screen = screen
         self.display = display
@@ -106,7 +106,7 @@ class Carnivores(pygame.sprite.Sprite):
         )  # à changer en self.image.get_rect() quand il y aura une image
         self.energy = 100
         self.hunger = 0
-        self.vitesse = 1
+        self.vitesse = 50/60
         self.energy_coutee_par_frame = 0.25
         self.energy_coutee_par_deplacement = 0.25
         self.hunger_coutee_par_frame = 0.25
