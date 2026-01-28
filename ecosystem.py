@@ -20,11 +20,13 @@ class Plantes(pygame.sprite.Sprite):
         self.y = y
         self.age = 0
         self.display = display
-        self.image = pygame.draw.rect(
-            self.screen,
+        img = pygame.Surface((10, 10))
+        pygame.draw.rect(
+            img,
             (255, 255, 0),
             [self.x, self.y, 10, 10],  # à remplacer plus tard par une image
         )
+        self.image = img
         self.rect = pygame.Rect(
             self.x, self.y, 10, 10
         )  # à changer en self.image.get_rect() quand il y aura une image
@@ -48,9 +50,11 @@ class Herbivores(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.age = 0
-        self.image = pygame.draw.circle(
-            self.screen, (255, 0, 0), (self.x, self.y), 5
+        img = pygame.Surface((5, 5))
+        pygame.draw.circle(
+            img, (255, 0, 0), (self.x, self.y), 5
         )  # à remplacer plus tard par une image
+        self.image = img
         self.rect = pygame.Rect(
             self.x - 5, self.y - 5, 5 * 2, 5 * 2
         )  # à changer en self.image.get_rect() quand il y aura une image
@@ -98,9 +102,11 @@ class Carnivores(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.age = 0
-        self.image = pygame.draw.circle(
-            self.screen, (0, 0, 255), (self.x, self.y), 5
+        img = pygame.Surface((5, 5))
+        pygame.draw.circle(
+            img, (0, 0, 255), (self.x, self.y), 5
         )  # à remplacer plus tard par une image
+        self.image = img
         self.rect = pygame.Rect(
             self.x - 5, self.y - 5, 5 * 2, 5 * 2
         )  # à changer en self.image.get_rect() quand il y aura une image

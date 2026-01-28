@@ -77,8 +77,8 @@ class Display:
         for plante in self.tous_plantes:
             plante.grow()
 
-        for _ in range(self.temps_echelle):
-            self.temps += 1
+        #for _ in range(self.temps_echelle):
+            #self.temps += 1
 
         self.tous_plantes.draw(screen)
         self.tous_herbivores.draw(screen)
