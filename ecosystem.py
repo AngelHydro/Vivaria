@@ -83,8 +83,20 @@ class Herbivores(pygame.sprite.Sprite):
             self.display.tous_herbivores.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
-        self.x += random.randint(-1, 1) * self.vitesse
-        self.y += random.randint(-1, 1) * self.vitesse
+        if self.rect.x > 0:
+            if self.rect.x + self.rect.width < self.screen.get_width():
+                self.rect.x += random.randint(-10, 10) * self.vitesse
+            else:
+                self.rect.x -= 10
+        else:
+            self.rect.x += 10
+        if self.rect.y < 0:
+            if self.rect.y + self.rect.height > self.screen.get_height():
+                self.rect.y += random.randint(-10, 10) * self.vitesse
+            else:
+                self.rect.y += 10
+        else:
+            self.rect.y -= 10
 
     def eat(self):
         if self.hunger < 100:
@@ -135,8 +147,21 @@ class Carnivores(pygame.sprite.Sprite):
             self.display.tous_carnivores.remove()
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
-        self.x += random.randint(-1, 1) * self.vitesse
-        self.y += random.randint(-1, 1) * self.vitesse
+        if self.rect.x > 0:
+            if self.rect.x + self.rect.width < self.screen.get_width():
+                self.rect.x += random.randint(-10, 10) * self.vitesse
+            else:
+                self.rect.x -= 10
+        else:
+            self.rect.x += 10
+        if self.rect.y < 0:
+            if self.rect.y + self.rect.height > self.screen.get_height():
+                self.rect.y += random.randint(-10, 10) * self.vitesse
+            else:
+                self.rect.y += 10
+        else:
+            self.rect.y -= 10
+
 
     def eat(self):
         if self.hunger < 100:

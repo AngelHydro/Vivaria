@@ -23,12 +23,10 @@ class Display:
         self.tous_herbivores = pygame.sprite.Group()
         self.tous_carnivores = pygame.sprite.Group()
         self.temps_echelle = 1
-        self.pause = True
 
     def demarrage(self, screen, temps):
         """Méthode démarrage qui sert à démarrer la simulation créant les êtres vivants"""
         self.is_playing = True
-        self.pause = False
         # méthodes de spawn des êtres vivants à créer
         self.apparaitre_plante(
             Plantes(
@@ -63,26 +61,23 @@ class Display:
 
     def mise_a_jour(self, screen):
         """Méthode qui met à jour l'écran et permet l'affichage et les déplacements des êtres vivants"""
-        if self.pause:
+        if not self.is_playing:
             return
-        
-        for herbivore in self.tous_herbivores:
-            # créer déplacements des herbivores
-            herbivore.move()
-            herbivore.grow()
-        for carnivore in self.tous_carnivores:
-            # créer déplacements des carnivores
-            carnivore.move()
-            carnivore.grow()
-        for plante in self.tous_plantes:
-            plante.grow()
+        else:
+            for herbivore in self.tous_herbivores:
+                # créer déplacements des herbivores
+                herbivore.move()
+                #herbivore.grow()
+            for carnivore in self.tous_carnivores:
+                # créer déplacements des carnivores
+                carnivore.move()
+                #carnivore.grow()
+            for plante in self.tous_plantes:
+                plante.grow()
 
-        #for _ in range(self.temps_echelle):
-            #self.temps += 1
-
-        self.tous_plantes.draw(screen)
-        self.tous_herbivores.draw(screen)
-        self.tous_carnivores.draw(screen)
+            self.tous_plantes.draw(screen)
+            self.tous_herbivores.draw(screen)
+            self.tous_carnivores.draw(screen)
 
     def verifier_collision(self, sprite, group):
         return pygame.sprite.spritecollide(
