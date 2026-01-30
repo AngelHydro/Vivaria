@@ -14,13 +14,15 @@ Benjamin s’occupe quant à lui du visuel du projet (comment le projet apparaî
 
 ### Temps passé sur le projet
 #### En groupe
-
+Temps passé en groupe : 
 
 #### Individuellement
-
+**Angel SANCHEZ** : 
+**Augustin MINOT** : 
+**Benjamin MICHALAK** : 
 
 #### Total
-
+Au total, nous aons donc passés 
 
 ## Notre projet
 ### Naissance de l’idée
@@ -28,10 +30,11 @@ Nous voulions tout d’abord créer une **application utile** qui apportera de l
 Nous avons donc décidé de nous rabattre tout simplement vers un **projet uniquement lié à la nature**. Pour cela, nous avons réalisé un brainstorming et avons décidé de créer un projet **basé sur un de nos cours de SVT** où nous avions **visualiser l’évolution d’une population** à l’aide d’un graphique. Enfin, afin d’y donner un côté plus interactif, nous avons finalement décidé de **créer un visuel** dans le genre du jeu SlowRoad (qui soit **minimaliste** mais qui permette tout de même d’**avoir un impact sur la simulation** en modifiant l'environnement).
 
 ### Problématique
-
+La plus grosse problématique est donc la suivante : comment **modéliser et visualiser** de manière interactive les **dynamiques d'équilibre et de déséquilibre** au sein d'un écosystème ?
 
 ### Présentation
 #### idée
-
+L'idée est donc de créer un **simulateur écologique interactif** en Python, permettant d'**obserer l'évolution d'un écosystème** (plantes, herbiores, carniores) en temps réel et d'expérimenter l'**impact de différents paramètres** sur l'équilibre naturel.
 
 #### Objectif
+L'objectif principal est de permettre à l'utilisateur d'**observer en temps réel** l'évolution des populations de trois types d'entités (plantes, herbivores, carnivores) et de **comprendre comment les modifications de paramètres environnementaux** (météo, saisons, biomes) impactent l'équilibre naturel de l'écosystème.
