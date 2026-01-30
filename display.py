@@ -8,6 +8,7 @@ Gère l'affichage graphique.
 from random import randint
 
 import pygame
+from math import *
 
 import config
 import ecosystem
@@ -64,14 +65,68 @@ class Display:
         if not self.is_playing:
             return
         else:
-            for herbivore in self.tous_herbivores:
-                # créer déplacements des herbivores
-                herbivore.move()
-                #herbivore.grow()
             for carnivore in self.tous_carnivores:
-                # créer déplacements des carnivores
+                if carnivore.x < 0 or carnivore.x > screen.get_width() or carnivore.y < 0 or carnivore.y > screen.get_height():
+                    carnivore.bordure()
+                else:
+                    proies_detectees = []
+                    distance_proies = []
+                    for herbivore in self.tous_herbivores:
+                        distance = carnivore.calcul_distance_proie((herbivore.x, herbivore.y))
+                        if distance <= carnivore.rayon_vision:
+                            proies_detectees.append(herbivore)
+                            distance_proies.append(distance)
+                    if proies_detectees == []:
+                        carnivore.changer_direction([-5, 0, 5])
+                    else:
+                        proie_la_plus_proche = min(distance_proies)
+                        indice_proie = distance_proies.index(proie_la_plus_proche)
+                        proie_cible = proies_detectees[indice_proie]
+                        angle_cible = carnivore.calcul_angle_proie((proie_cible.x, proie_cible.y))
+                        carnivore.ciblage_proie(angle_cible)
                 carnivore.move()
-                #carnivore.grow()
+                carnivore.grow()
+
+            for herbivore in self.tous_herbivores:
+                marge = 20
+                au_bord = (herbivore.x < marge or herbivore.x > screen.get_width() - marge or
+                           herbivore.y < marge or herbivore.y > screen.get_height() - marge)
+                if au_bord:
+                    herbivore.bordure()
+                else:
+                    predateurs_detectes = []
+                    distance_predateurs = []
+                    for carnivore in self.tous_carnivores:
+                        distance = herbivore.calcul_distance_predateur((carnivore.x, carnivore.y))
+                        if distance <= herbivore.rayon_vision:
+                            predateurs_detectes.append(carnivore)
+                            distance_predateurs.append(distance)
+                    if predateurs_detectes == []:
+                        for herbivore in self.tous_herbivores:
+                            proies_detectees = []
+                            distance_proies = []
+                            for plante in self.tous_plantes:
+                                distance = herbivore.calcul_distance_proie((plante.x, plante.y))
+                                if distance <= herbivore.rayon_vision:
+                                    proies_detectees.append(plante)
+                                    distance_proies.append(distance)
+                            if proies_detectees == []:
+                                herbivore.changer_direction([-5, 0, 5])
+                            else:
+                                proie_la_plus_proche = min(distance_proies)
+                                indice_proie = distance_proies.index(proie_la_plus_proche)
+                                proie_cible = proies_detectees[indice_proie]
+                                angle_cible = herbivore.calcul_angle_proie((proie_cible.x, proie_cible.y))
+                                herbivore.ciblage_proie(angle_cible)
+                    else:
+                        predateur_le_plus_proche = min(distance_predateurs)
+                        indice_predateur = distance_predateurs.index(predateur_le_plus_proche)
+                        predateur_danger = predateurs_detectes[indice_predateur]
+                        angle_danger = herbivore.calcul_angle_predateur((predateur_danger.x, predateur_danger.y))
+                        herbivore.fuite(angle_danger)
+                herbivore.move()
+                herbivore.grow()
+
             for plante in self.tous_plantes:
                 plante.grow()
 
