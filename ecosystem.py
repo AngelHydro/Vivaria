@@ -8,7 +8,14 @@ Contient toute la logique de simulation de l'écosystème.
 import random
 
 import pygame
-from math import *
+import math
+
+# Si dist n'existe pas dans la bibliothèque math, on la crée
+if not hasattr(math, 'dist'):
+    def dist(p, q):
+        return math.sqrt(sum((px - qx) ** 2 for px, qx in zip(p, q)))
+else:
+    from math import dist
 
 
 class Plantes(pygame.sprite.Sprite):
@@ -51,22 +58,17 @@ class Plantes(pygame.sprite.Sprite):
 class Herbivores(pygame.sprite.Sprite):
     """Classe représentant les herbivores dans l'écosystème."""
 
-    def __init__(self, display, name, x, y, screen, temps):
+    def __init__(self, display, name, x, y, screen, temps, img):
         super().__init__()
         self.screen = screen
         self.display = display
         self.x = x
         self.y = y
         self.age = 0
-        img = pygame.Surface((5, 5))
-        pygame.draw.circle(
-            img, (255, 0, 0), (self.x, self.y), 5
-        )  # à remplacer plus tard par une image
-        self.image = img
+        self.image = pygame.image.load(img)
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.image.fill((255, 0, 0))
-        self.rect = pygame.Rect(
-            self.x - 5, self.y - 5, 5 * 2, 5 * 2
-        )  # à changer en self.image.get_rect() quand il y aura une image
+        self.rect = self.image.get_rect() # à changer en self.image.get_rect() quand il y aura une image
         self.energy = 100
         self.hunger = 0
         self.direction = 0
@@ -106,7 +108,7 @@ class Herbivores(pygame.sprite.Sprite):
     def calcul_angle_proie(self, position_proie):
         self.delta_x = position_proie[0] - self.x
         self.delta_y = position_proie[1] - self.y
-        return degrees(atan2(self.delta_y, self.delta_x))
+        return math.degrees(math.atan2(self.delta_y, self.delta_x))
 
     def ciblage_proie(self, angle):
         self.direction = angle
@@ -117,7 +119,7 @@ class Herbivores(pygame.sprite.Sprite):
     def calcul_angle_predateur(self, position_predateur):
         self.delta_x = position_predateur[0] - self.x
         self.delta_y = position_predateur[1] - self.y
-        return degrees(atan2(self.delta_y, self.delta_x))
+        return math.degrees(math.atan2(self.delta_y, self.delta_x))
 
     def fuite(self, angle):
         self.direction = - angle
@@ -134,8 +136,8 @@ class Herbivores(pygame.sprite.Sprite):
            self.changer_direction([-20, 20])
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
-        self.x += cos(radians(self.direction)) * self.vitesse
-        self.y += sin(radians(self.direction)) * self.vitesse
+        self.x += math.cos(math.radians(self.direction)) * self.vitesse
+        self.y += math.sin(math.radians(self.direction)) * self.vitesse
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 
@@ -199,7 +201,7 @@ class Carnivores(pygame.sprite.Sprite):
     def calcul_angle_proie(self, position_proie):
         self.delta_x = position_proie[0] - self.x
         self.delta_y = position_proie[1] - self.y
-        return degrees(atan2(self.delta_y, self.delta_x))
+        return math.degrees(math.atan2(self.delta_y, self.delta_x))
 
     def ciblage_proie(self, angle):
         self.direction = angle
@@ -214,8 +216,8 @@ class Carnivores(pygame.sprite.Sprite):
            self.direction = - self.direction
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
-        self.x += cos(radians(self.direction)) * self.vitesse
-        self.y += sin(radians(self.direction)) * self.vitesse
+        self.x += math.cos(math.radians(self.direction)) * self.vitesse
+        self.y += math.sin(math.radians(self.direction)) * self.vitesse
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 

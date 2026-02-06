@@ -18,19 +18,15 @@ from ecosystem import Carnivores, Herbivores, Plantes
 class Display:
     """Class Display qui sert à faire fonctionner toutes les interactions entre les êtres vivants"""
 
-    def __init__(self):
+    def __init__(self, screen):
         self.is_playing = False
-        self.tous_plantes = pygame.sprite.Group()
         self.tous_herbivores = pygame.sprite.Group()
         self.tous_carnivores = pygame.sprite.Group()
         self.temps_echelle = 1
 
     def demarrage(self, screen, temps):
         """Méthode démarrage qui sert à démarrer la simulation créant les êtres vivants"""
-        self.is_playing = True
-        # méthodes de spawn des êtres vivants à créer
-        self.apparaitre_plante(
-            Plantes(
+        self.plante = Plantes(
                 self,
                 "Pissenlit",
                 randint(0, config.LARGEUR),
@@ -38,19 +34,16 @@ class Display:
                 screen,
                 temps
             )
-        )
-        self.apparaitre_herbivore(
-            Herbivores(
+        self.herbivore = Herbivores(
                 self,
                 "Vache",
                 randint(0, config.LARGEUR),
                 randint(0, config.HAUTEUR),
                 screen,
-                temps
+                temps,
+                "data/img/Herbivore2_plaine.png"
             )
-        )
-        self.apparaitre_carnivore(
-            Carnivores(
+        self.carnivore = Carnivores(
                 self,
                 "Loup",
                 randint(0, config.LARGEUR),
@@ -58,13 +51,19 @@ class Display:
                 screen,
                 temps
             )
-        )
+        self.tous_plantes = pygame.sprite.Group()
+        self.is_playing = True
+        # méthodes de spawn des êtres vivants à créer
+        self.apparaitre_plante(self.plante)
+        self.apparaitre_herbivore(self.herbivore)
+        self.apparaitre_carnivore(self.carnivore)
 
     def mise_a_jour(self, screen):
         """Méthode qui met à jour l'écran et permet l'affichage et les déplacements des êtres vivants"""
         if not self.is_playing:
             return
         else:
+            screen.blit(self.herbivore.image, self.herbivore.rect)
             for carnivore in self.tous_carnivores:
                 if carnivore.x < 0 or carnivore.x > screen.get_width() or carnivore.y < 0 or carnivore.y > screen.get_height():
                     carnivore.bordure()

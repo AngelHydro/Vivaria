@@ -42,7 +42,7 @@ texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
 
 running = True
 fullscreen = False
-display = Display()
+display = Display(screen)
 
 while running:
     draw_background()
