@@ -1,6 +1,6 @@
 SANCHEZ Angel, MINOT Augustin, MICHALAK Benjamin
-# Vivaria
-#### Trophées NSI de l'année 2026 par la classe de terminale NSI du lycée polyvalent Clos Maire sous la direction du professeur de NSI Fouché Chaddai
+![logo](data/img/logo.png)
+#### Trophées NSI de l'année 2026 par la classe de terminale NSI du lycée polyvalent Clos Maire sous la direction du professeur de NSI Chaddai FOUCHE & Christophe GUENEAU
 
 ## Notre équipe et l'organisation du travail
 #### Angel SANCHEZ
