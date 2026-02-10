@@ -7,6 +7,8 @@ Contient toute la logique de simulation de l'environnement.
 
 import pygame
 
+import ecosystem
+
 # Ajouter les effets de bases des différentes classes
 ...
 
@@ -32,13 +34,27 @@ class Biomes:
 
     def effets(self):
         if self.etat == "plaine":
-            ...
+            for herbivore in self.display.tous_herbivores:
+                herbivore.multiplicateur_vitesse(1.1)
+            for carnivore in self.display.tous_carnivores:
+                carnivore.multiplicateur_vitesse(1.1)
         elif self.etat == "foret":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(1.2)
+            for herbivore in self.display.tous_herbivores:
+                herbivore.multiplicateur_vitesse(0.9)
+            for carnivore in self.display.tous_carnivores:
+                carnivore.multiplicateur_vitesse(0.9)
         elif self.etat == "desert":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(0.5)
+            for herbivore in self.display.tous_herbivores:
+                herbivore.multiplicateur_energy(1.2)
+            for carnivore in self.display.tous_carnivores:
+                carnivore.multiplicateur_energy(1.2)
         elif self.etat == "toundra":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(0.8)
 
 
 class Meteo:
@@ -62,13 +78,17 @@ class Meteo:
 
     def effets(self):
         if self.etat == "soleil":
-            ...
+            for plante in self.display.tous_plantes:
+                self.croissance = 1
         elif self.etat == "pluie":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(1.5)
         elif self.etat == "orage":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(0.8)
         elif self.etat == "neige":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(0.5)
 
 
 class Saisons:
@@ -92,10 +112,14 @@ class Saisons:
 
     def effets(self):
         if self.etat == "printemps":
-            ...
-        elif self.etat == "ete":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(1.5)
+        elif self.etat == "et":
+            for plante in self.display.tous_plantes:
+                self.croissance = 1
         elif self.etat == "automne":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(0.8)
         elif self.etat == "hiver":
-            ...
+            for plante in self.display.tous_plantes:
+                plante.multiplicateur_grow(0.5)

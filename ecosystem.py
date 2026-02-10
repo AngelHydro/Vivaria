@@ -5,13 +5,13 @@
 Contient toute la logique de simulation de l'écosystème.
 """
 
+import math
 import random
 
 import pygame
-import math
 
 # Si dist n'existe pas dans la bibliothèque math, on la crée
-if not hasattr(math, 'dist'):
+if not hasattr(math, "dist"):
     def dist(p, q):
         return math.sqrt(sum((px - qx) ** 2 for px, qx in zip(p, q)))
 else:
@@ -21,29 +21,30 @@ else:
 class Plantes(pygame.sprite.Sprite):
     """Classe représentant les plantes dans l'écosystème."""
 
-    def __init__(self, display, name, x, y, screen, temps):
+    def __init__(self, display, name, x, y, screen, temps, img):
         super().__init__()
         self.screen = screen
         self.x = x
         self.y = y
-        self.age = 0
+        self.age = 1
         self.display = display
-        img = pygame.Surface((10, 10))
-        pygame.draw.rect(
-            img,
-            (255, 255, 0),
-            [self.x, self.y, 10, 10],  # à remplacer plus tard par une image
-        )
-        self.image = img
-        self.rect = pygame.Rect(
-            self.x, self.y, 10, 10
-        )  # à changer en self.image.get_rect() quand il y aura une image
+        self.image = pygame.image.load(img)
+        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.rect = self.image.get_rect()
+
+    def multiplicateur_grow(self, multiplicateur):
+        """Multiplie la vitesse de croissance de la plante."""
+        self.croissance = self.croissance * multiplicateur
 
     def die(self):
         self.kill()
 
     def grow(self):
-        self.age += 1
+        # Utilise le multiplicateur de croissance si défini, sinon croissance normale
+        if hasattr(self, 'croissance'):
+            self.age += self.croissance
+        else:
+            self.age += 1
         self.check_life()
 
     def check_life(self):  # Les plantes vivent 100 ans
@@ -64,38 +65,34 @@ class Herbivores(pygame.sprite.Sprite):
         self.display = display
         self.x = x
         self.y = y
-        self.age = 0
+        self.age = 1
         self.image = pygame.image.load(img)
         self.image = pygame.transform.scale(self.image, (50, 50))
-        self.image.fill((255, 0, 0))
-        self.rect = self.image.get_rect() # à changer en self.image.get_rect() quand il y aura une image
+        self.rect = self.image.get_rect()
         self.energy = 100
-        self.hunger = 0
         self.direction = 0
-        self.vitesse = 1.5
-        #self.energy_coutee_par_frame = 0.25
-        #self.energy_coutee_par_deplacement = 0.25
-        self.hunger_coutee_par_frame = 0.25
-        self.hunger_coutee_par_deplacement = 0.25
+        self.vitesse = float(1)
+        self.cout_energy = 0.1
         self.rayon_vision = 100
+
+    def multiplicateur_vitesse(self, vitesse):
+        self.vitesse = self.vitesse * vitesse
+
+    def multiplicateur_energy(self, energy):
+        self.cout_energy += self.cout_energy * energy
 
     def die(self):
         self.kill()
 
     def grow(self):
-        self.age += 0.001
-        #self.energy -= self.energy_coutee_par_frame
-        #self.energy -= self.energy_coutee_par_deplacement
-        self.hunger -= self.hunger_coutee_par_frame
-        self.hunger -= self.hunger_coutee_par_deplacement
+        self.age +=
+        self.energy -= self.cout_energy
         self.check_life()
         if self.display.verifier_collision(
             self, self.display.tous_plantes
         ):  # Si plante sur la position de herbivore
             self.eat()
-        if self.display.verifier_collision(
-            self, self.display.tous_carnivores
-        ):
+        if self.display.verifier_collision(self, self.display.tous_carnivores):
             self.die()
 
     def check_life(self):  # Les herbivores vivent 30 ans
@@ -122,7 +119,7 @@ class Herbivores(pygame.sprite.Sprite):
         return math.degrees(math.atan2(self.delta_y, self.delta_x))
 
     def fuite(self, angle):
-        self.direction = - angle
+        self.direction = -angle
 
     def changer_direction(self, var_direction):
         self.direction += random.choice(var_direction)
@@ -132,8 +129,8 @@ class Herbivores(pygame.sprite.Sprite):
             self.direction = 180 - self.direction
             self.changer_direction([-20, 20])
         elif self.y < 0 or self.y > self.screen.get_height():
-           self.direction = - self.direction
-           self.changer_direction([-20, 20])
+            self.direction = -self.direction
+            self.changer_direction([-20, 20])
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
         self.x += math.cos(math.radians(self.direction)) * self.vitesse
@@ -143,45 +140,38 @@ class Herbivores(pygame.sprite.Sprite):
 
     def eat(self):
         if self.hunger < 100:
-            #self.energy += 10
+            # self.energy += 10
             self.hunger -= 10
 
 
 class Carnivores(pygame.sprite.Sprite):
     """Classe représentant les carnivores dans l'écosystème."""
 
-    def __init__(self, display, name, x, y, screen, temps):
+    def __init__(self, display, name, x, y, screen, temps, img):
         super().__init__()
         self.screen = screen
         self.display = display
         self.x = x
         self.y = y
-        self.age = 0
-        img = pygame.Surface((5, 5))
-        pygame.draw.circle(
-            img, (0, 0, 255), (self.x, self.y), 5
-        )  # à remplacer plus tard par une image
-        self.image = img
-        self.image.fill((0, 0, 255))
-        self.rect = pygame.Rect(
-            self.x - 5, self.y - 5, 5 * 2, 5 * 2
-        )  # à changer en self.image.get_rect() quand il y aura une image
+        self.age = 1
+        self.image = pygame.image.load(img)
+        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.rect = self.image.get_rect()
         self.energy = 100
-        self.hunger = 0
         self.direction = 0
-        self.vitesse = 1.5
-        #self.energy_coutee_par_frame = 0.25
-        #self.energy_coutee_par_deplacement = 0.25
-        self.hunger_coutee_par_frame = 0.25
-        self.hunger_coutee_par_deplacement = 0.25
+        self.vitesse = float(1)
+        self.cout_energy = 0.001
         self.rayon_vision = 100
+
+    def multiplicateur_vitesse(self, vitesse):
+        self.vitesse = self.vitesse * vitesse
+
+    def multiplicateur_energy(self, energy):
+        self.cout_energy += self.cout_energy * energy
 
     def grow(self):
         self.age += 0.001
-        #self.energy -= self.energy_coutee_par_frame
-        #self.energy -= self.energy_coutee_par_deplacement
-        self.hunger -= self.hunger_coutee_par_frame
-        self.hunger -= self.hunger_coutee_par_deplacement
+        self.energy -= self.cout_energy
         self.check_life()
         if self.display.verifier_collision(
             self, self.display.tous_herbivores
@@ -213,7 +203,7 @@ class Carnivores(pygame.sprite.Sprite):
         if self.x < 0 or self.x > self.screen.get_width():
             self.direction = 180 - self.direction
         elif self.y < 0 or self.y > self.screen.get_height():
-           self.direction = - self.direction
+            self.direction = -self.direction
 
     def move(self):  # Se déplace aléatoirement en fonction de sa vitesse
         self.x += math.cos(math.radians(self.direction)) * self.vitesse
@@ -221,8 +211,7 @@ class Carnivores(pygame.sprite.Sprite):
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 
-
     def eat(self):
         if self.hunger < 100:
-            #self.energy += 10
+            # self.energy += 10
             self.hunger -= 10

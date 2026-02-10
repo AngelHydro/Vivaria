@@ -1,19 +1,19 @@
-- 3 types d'entités (plantes, herbivores, carnivores)
-- Déplacement aléatoire des animaux
-- Herbivores mangent plantes (même case = consommation)
-- Carnivores mangent herbivores (même case = consommation)
+- 3 types d'entités (plantes, herbivores, carnivores) v
+- Déplacement aléatoire des animaux v
+- Herbivores mangent plantes (même case = consommation) v
+- Carnivores mangent herbivores (même case = consommation) v
 
 - Système d'énergie :
-  - Manger = gain d'énergie
-  - Vivre = perte continue d'énergie
-  - 0 énergie = mort
-    - Mort par famine OU vieillesse
+  - Manger = gain d'énergie v
+  - Vivre = perte continue d'énergie v
+  - 0 énergie = mort v
+    - Mort par famine OU vieillesse v
   - Reproduction si énergie suffisante
   - Cycle de croissance des plantes (repoussent naturellement)
 
 
 Interface Base
-- Affichage grille de simulation (entités = cercles colorés)
+- Affichage grille de simulation (entités = cercles colorés) v
 
 - Stats temps réel dans les coins :
   -🌱 Nombre de plantes
@@ -25,41 +25,42 @@ Interface Base
 - Bouton 🔄 Reset (réinitialise tout)
 
 - Sélection de 4 biomes :
-  -🌲 Forêt
-  -🌾 Plaine
-  -🏜️ Désert
-  -❄️ Toundra
+  -🌲 Forêt v
+  -🌾 Plaine v
+  -🏜️ Désert v
+  -❄️ Toundra v
 
 
 Technique
-- Boucle de jeu stable (30 FPS minimum)
+- Boucle de jeu stable (30 FPS minimum) v
 - Code structuré :
-  - main.py - Point d'entrée
-  - ecosystem.py - Logique simulation
-  - display.py - Interface graphique
-  - config.py - Paramètres
+  - main.py - Point d'entrée v
+  - ecosystem.py - Logique simulation v
+  - display.py - Interface graphique v
+  - config.py - Paramètres v
+  - bouton.py - Dessiner les boutons
 
 - Gestion propre des événements (clavier, souris)
 
 
 Environnement Dynamique
 - Système météo (4 options) avec effets sur croissance plantes :
-  -☀️ Soleil (croissance normale)
-  -🌧️ Pluie (croissance +50%)
-  -⛈️ Orageux (croissance -20%)
-  -❄️ Neige (croissance -50%)
+  -☀️ Soleil (croissance normale) v
+  -🌧️ Pluie (croissance +50%) v
+  -⛈️ Orageux (croissance -20%) v
+  -❄️ Neige (croissance -50%) v
 
 - Système saisons (4 options) avec effets sur reproduction :
-  -🌸 Printemps (reproduction +50%)
-  -☀️ Été (reproduction normale)
-  -🍂 Automne (reproduction -20%)
-  -❄️ Hiver (reproduction -50%)
+  -🌸 Printemps (croissance des plantes +50%) v
+  -☀️ Été (croissance des plantes normale) v
+  -🍂 Automne (croissance des plantes -20%) v
+  -❄️ Hiver (croissance des plantes -50%) v
 
 - Impacts mécaniques des biomes (pas seulement visuel) :
-  -🌲 Forêt : Croissance plantes +20%, vitesse animaux -10%
-  -🌾 Plaine : Équilibré (baseline), vitesse animaux +10%
-  -🏜️ Désert : Croissance plantes -50%, coût énergie +20%
-  -❄️ Toundra : Reproduction -30%, croissance plantes -20%
+  -🌲 Forêt : Croissance plantes +20%, vitesse animaux -10% v
+  -🌾 Plaine : Équilibré (baseline), vitesse animaux +10% v
+  -🏜️ Désert : Croissance plantes -50%, coût énergie +20% v
+  -❄️ Toundra : Croissance plantes -20% v
 
 
 Interface Avancée
@@ -114,7 +115,7 @@ Visuel (DA)
 - Animations simples (herbivore mange plante = flash)
 
 Gameplay
-- IA améliorée : animaux détectent nourriture proche (rayon 5 cases)
+- IA améliorée : animaux détectent nourriture proche (rayon 5 cases) v
 - Événements aléatoires (sécheresse soudaine, migration)
 
 Polish Interface

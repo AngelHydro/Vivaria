@@ -40,6 +40,18 @@ texte_demarrer_font = pygame.font.Font(None, 12)
 texte_demarrer = texte_demarrer_font.render("Démarrer", True, (0, 0, 0))
 texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
 
+bouton_reinitialiser = pygame.Rect(
+    config.LARGEUR * 93 / 100,
+    config.HAUTEUR * 65 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+)
+texte_reinitialiser_font = pygame.font.Font(None, 12)
+texte_reinitialiser = texte_reinitialiser_font.render("Réinitialiser", True, (0, 0, 0))
+texte_reinitialiser_rect = texte_reinitialiser.get_rect(
+    center=bouton_reinitialiser.center
+)
+
 running = True
 fullscreen = False
 display = Display(screen)
@@ -48,7 +60,7 @@ while running:
     draw_background()
     temps = clock.tick(60)
 
-    if display.is_playing:
+    if display.is_playing and not display.pause:
         display.mise_a_jour(screen)
     else:
         # Calcul des rectangles de texte à chaque frame, selon la taille actuelle
@@ -85,6 +97,11 @@ while running:
             )
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if bouton_demarrer.collidepoint(event.pos):
-                display.demarrage(screen, temps)
+                if not display.pause:
+                    display.demarrage(screen, temps, 5)
+                elif:
+                    display.pause = False
+            if bouton_reinitialiser.collidepoint(even.pos):
+                display.reinitialiser()
 
     pygame.display.flip()
