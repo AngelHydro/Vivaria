@@ -32,29 +32,30 @@ class Biomes:
     def toundra(self):
         self.etat = "toundra"
 
-    def effets(self):
-        if self.etat == "plaine":
-            for herbivore in self.display.tous_herbivores:
-                herbivore.multiplicateur_vitesse(1.1)
-            for carnivore in self.display.tous_carnivores:
-                carnivore.multiplicateur_vitesse(1.1)
-        elif self.etat == "foret":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(1.2)
-            for herbivore in self.display.tous_herbivores:
-                herbivore.multiplicateur_vitesse(0.9)
-            for carnivore in self.display.tous_carnivores:
-                carnivore.multiplicateur_vitesse(0.9)
+    def multiplicateur_plante(self):
+        if self.etat == "foret":
+            return 1.2
         elif self.etat == "desert":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(0.5)
-            for herbivore in self.display.tous_herbivores:
-                herbivore.multiplicateur_energy(1.2)
-            for carnivore in self.display.tous_carnivores:
-                carnivore.multiplicateur_energy(1.2)
+            return 0.5
         elif self.etat == "toundra":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(0.8)
+            return 0.8
+        return 1
+
+    def multiplicateur_vitesse_animaux(self):
+        if self.etat == "plaine":
+            return 1.1
+        elif self.etat == "foret":
+            return 0.9
+        elif self.etat == "desert":
+            return 1
+        elif self.etat == "toundra":
+            return 1
+        return 1
+
+    def multiplicateur_cout_energie_animaux(self):
+        if self.etat == "desert":
+            return 1.2
+        return 1
 
 
 class Meteo:
@@ -76,19 +77,14 @@ class Meteo:
     def neige(self):
         self.etat = "neige"
 
-    def effets(self):
-        if self.etat == "soleil":
-            for plante in self.display.tous_plantes:
-                self.croissance = 1
-        elif self.etat == "pluie":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(1.5)
+    def multiplicateur_plante(self):
+        if self.etat == "pluie":
+            return 1.5
         elif self.etat == "orage":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(0.8)
+            return 0.8
         elif self.etat == "neige":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(0.5)
+            return 0.5
+        return 1
 
 
 class Saisons:
@@ -110,16 +106,54 @@ class Saisons:
     def hiver(self):
         self.etat = "hiver"
 
-    def effets(self):
+    def multiplicateur_plante(self):
         if self.etat == "printemps":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(1.5)
-        elif self.etat == "et":
-            for plante in self.display.tous_plantes:
-                self.croissance = 1
+            return 1.5
         elif self.etat == "automne":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(0.8)
+            return 0.8
         elif self.etat == "hiver":
-            for plante in self.display.tous_plantes:
-                plante.multiplicateur_grow(0.5)
+            return 0.5
+        return 1
+
+
+def appliquer_effets_environnement(display, biome, meteo, saison):
+    """
+    Applique les multiplicateurs cumulés de biome, météo et saison
+    sur les entités du display (plantes, herbivores, carnivores).
+    À appeler à chaque frame ou à chaque changement d'état environnemental.
+    """
+    # Plantes
+    mult_biome_plante = biome.multiplicateur_plante()
+    mult_meteo_plante = meteo.multiplicateur_plante()
+    mult_saison_plante = saison.multiplicateur_plante()
+    for plante in display.tous_plantes:
+        if hasattr(plante, "appliquer_multiplicateurs"):
+            plante.appliquer_multiplicateurs(
+                mult_biome=mult_biome_plante,
+                mult_meteo=mult_meteo_plante,
+                mult_saison=mult_saison_plante,
+            )
+
+    # Herbivores
+    mult_biome_vitesse = (
+        biome.multiplicateur_vitesse_animaux()
+        if hasattr(biome, "multiplicateur_vitesse_animaux")
+        else 1
+    )
+    mult_biome_cout = (
+        biome.multiplicateur_cout_energie_animaux()
+        if hasattr(biome, "multiplicateur_cout_energie_animaux")
+        else 1
+    )
+    for herbivore in display.tous_herbivores:
+        if hasattr(herbivore, "appliquer_multiplicateurs"):
+            herbivore.appliquer_multiplicateurs(
+                mult_biome_vitesse=mult_biome_vitesse, mult_biome_cout=mult_biome_cout
+            )
+
+    # Carnivores
+    for carnivore in display.tous_carnivores:
+        if hasattr(carnivore, "appliquer_multiplicateurs"):
+            carnivore.appliquer_multiplicateurs(
+                mult_biome_vitesse=mult_biome_vitesse, mult_biome_cout=mult_biome_cout
+            )

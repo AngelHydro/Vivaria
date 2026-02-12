@@ -31,9 +31,14 @@ class Plantes(pygame.sprite.Sprite):
         self.image = pygame.image.load(img)
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
+        self.croissance_base = 1  # valeur de base
+        self.croissance = self.croissance_base
+
+    def appliquer_multiplicateurs(self, mult_biome=1, mult_meteo=1, mult_saison=1):
+        self.croissance = self.croissance_base * mult_biome * mult_meteo * mult_saison
 
     def multiplicateur_grow(self, multiplicateur):
-        """Multiplie la vitesse de croissance de la plante."""
+        """Multiplie la vitesse de croissance de la plante (déprécié, utiliser appliquer_multiplicateurs)."""
         self.croissance = self.croissance * multiplicateur
 
     def die(self):
@@ -71,9 +76,15 @@ class Herbivores(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.energy = 100
         self.direction = 0
-        self.vitesse = float(1)
-        self.cout_energy = 0.1
+        self.vitesse_base = 1.0
+        self.vitesse = self.vitesse_base
+        self.cout_energy_base = 0.1
+        self.cout_energy = self.cout_energy_base
         self.rayon_vision = 100
+
+    def appliquer_multiplicateurs(self, mult_biome_vitesse=1, mult_biome_cout=1):
+        self.vitesse = self.vitesse_base * mult_biome_vitesse
+        self.cout_energy = self.cout_energy_base * mult_biome_cout
 
     def multiplicateur_vitesse(self, vitesse):
         self.vitesse = self.vitesse * vitesse
@@ -159,9 +170,15 @@ class Carnivores(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.energy = 100
         self.direction = 0
-        self.vitesse = float(1)
-        self.cout_energy = 0.001
+        self.vitesse_base = 1.0
+        self.vitesse = self.vitesse_base
+        self.cout_energy_base = 0.001
+        self.cout_energy = self.cout_energy_base
         self.rayon_vision = 100
+
+    def appliquer_multiplicateurs(self, mult_biome_vitesse=1, mult_biome_cout=1):
+        self.vitesse = self.vitesse_base * mult_biome_vitesse
+        self.cout_energy = self.cout_energy_base * mult_biome_cout
 
     def multiplicateur_vitesse(self, vitesse):
         self.vitesse = self.vitesse * vitesse

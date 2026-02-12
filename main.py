@@ -11,6 +11,7 @@ import pygame
 
 import config
 from display import Display
+import environment  # Ajout pour appliquer les effets cumulés
 
 pygame.init()
 
@@ -59,6 +60,14 @@ display = Display(screen)
 while running:
     draw_background()
     temps = clock.tick(60)
+
+    # Appliquer les effets cumulés de biome, météo et saison à chaque frame
+    environment.appliquer_effets_environnement(
+        display,
+        display.biome if hasattr(display, "biome") else None,
+        display.meteo if hasattr(display, "meteo") else None,
+        display.saisons if hasattr(display, "saisons") else None,
+    )
 
     if display.is_playing and not display.pause:
         display.mise_a_jour(screen)

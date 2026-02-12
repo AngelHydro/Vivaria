@@ -50,7 +50,7 @@ Environnement Dynamique
   -⛈️ Orageux (croissance -20%) v
   -❄️ Neige (croissance -50%) v
 
-- Système saisons (4 options) avec effets sur reproduction :
+- Système saisons (4 options) avec effets sur la croissance des plantes :
   -🌸 Printemps (croissance des plantes +50%) v
   -☀️ Été (croissance des plantes normale) v
   -🍂 Automne (croissance des plantes -20%) v
