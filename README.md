@@ -1,11 +1,11 @@
-![logo](data/img/logo.png)
+<img src="data/img/logo.png" alt="logo" width="500"/>
 
 Simulateur écologique interactif en Python permettant d'observer l'évolution d'un écosystème (plantes, herbivores, carnivores) en temps réel et d'expérimenter l'impact de différents paramètres sur l'équilibre naturel.
 
 ---
 ## À propos
 
-**Vivaria** est un projet développé dans le cadre des **Trophées NSI 2026** par trois élèves de Terminale NSI du Lycée Polyvalent Clos Maire, sous la direction du professeur Chaddai Fouché & Christophe GUENEAU.
+**Vivaria** est un projet développé dans le cadre des **Trophées NSI 2026** par trois élèves de Terminale NSI du Lycée Polyvalent Clos Maire, sous la direction des professeurs Chaddai Fouché & Christophe GUENEAU.
 
 ### Problématique
 Comment **modéliser et visualiser** de manière interactive les **dynamiques d'équilibre et de déséquilibre** au sein d'un écosystème ?
@@ -20,9 +20,8 @@ Permettre à l'utilisateur d'**observer en temps réel** l'évolution des popula
 - **Comportements intelligents** : Les herbivores fuient les carnivores, les carnivores chassent les herbivores
 - **Système d'énergie** : Manger = gain, vivre = perte, 0 énergie = mort
 - **Vieillissement** et mort naturelle
-- **Reproduction** (à venir)
 
-### Environnement dynamique (à venir)
+### Environnement dynamique
 - **4 biomes** : Forêt, Plaine, Désert, Toundra
 - **4 météos** : Soleil, Pluie, Orage, Neige
 - **4 saisons** : Printemps, Été, Automne, Hiver
@@ -37,33 +36,29 @@ Permettre à l'utilisateur d'**observer en temps réel** l'évolution des popula
 ---
 ## Comment jouer
 ### Prérequis
-- Python 3.x
+- Python 3.8 ou supérieur
 - Pygame 3.6.2
 
 ### Installation
-```bash
-# Cloner le projet
-git clone [votre-repo]
+#### Cloner le projet
+git clone https://github.com/AngelHydro/Vivaria.git
 cd vivaria
 
-# Installer les dépendances
+#### Installer les dépendances
 pip install -r requirements.txt
-```
 
 ### Lancement
-```bash
 python main.py
-```
 
 ### Contrôles
-- **Clic** sur "Démarrer" pour lancer la simulation
+- **Clique gauche** sur "Démarrer" pour lancer la simulation
+- **Clique gauche** sur les différents boutons pour impacter la simulation
 - **F** : Basculer en plein écran
-- (Plus de contrôles à venir)
 
 ---
 ## Technologies utilisées
 
-- **Python 3.x** : Langage principal
+- **Python 3.8 ou supérieur** : Langage principal
 - **Pygame 3.6.2** : Moteur graphique et gestion des sprites
 - **Programmation Orientée Objet** : Architecture modulaire
 
@@ -96,5 +91,5 @@ Interface utilisateur - Intégration visuelle et tests de simulation
 **Cadre :** Trophées NSI 2026  
 **Établissement :** Lycée Polyvalent Clos Maire  
 **Classe :** Terminale NSI  
-**Encadrant :** Chaddai FOUCHE & Christophe GUENEAU(Professeurs de NSI)  
+**Encadrants :** Chaddai FOUCHE & Christophe GUENEAU(Professeurs de NSI)  
 **Thème :** Nature

@@ -1,5 +1,7 @@
 SANCHEZ Angel, MINOT Augustin, MICHALAK Benjamin
-![logo](data/img/logo.png)
+
+<img src="data/img/logo.png" alt="logo" width="500"/>
+
 #### Trophées NSI de l'année 2026 par la classe de terminale NSI du lycée polyvalent Clos Maire sous la direction du professeur de NSI Chaddai FOUCHE & Christophe GUENEAU
 
 ## Notre équipe et l'organisation du travail
@@ -22,7 +24,7 @@ Temps passé en groupe :
 **Benjamin MICHALAK** : 
 
 #### Total
-Au total, nous aons donc passés 
+Au total, nous avons donc passés 
 
 ## Notre projet
 ### Naissance de l’idée
