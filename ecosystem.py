@@ -33,6 +33,8 @@ class Plantes(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.croissance_base = 1  # valeur de base
         self.croissance = self.croissance_base
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def appliquer_multiplicateurs(self, mult_biome=1, mult_meteo=1, mult_saison=1):
         self.croissance = self.croissance_base * mult_biome * mult_meteo * mult_saison
@@ -42,6 +44,7 @@ class Plantes(pygame.sprite.Sprite):
         self.croissance = self.croissance * multiplicateur
 
     def die(self):
+        self.display.nb_plantes -= 1
         self.kill()
 
     def grow(self):
@@ -81,6 +84,8 @@ class Herbivores(pygame.sprite.Sprite):
         self.cout_energy_base = 0.1
         self.cout_energy = self.cout_energy_base
         self.rayon_vision = 100
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def appliquer_multiplicateurs(self, mult_biome_vitesse=1, mult_biome_cout=1):
         self.vitesse = self.vitesse_base * mult_biome_vitesse
@@ -93,16 +98,17 @@ class Herbivores(pygame.sprite.Sprite):
         self.cout_energy += self.cout_energy * energy
 
     def die(self):
+        self.display.nb_herbivores -= 1
         self.kill()
 
     def grow(self):
-        self.age +=
+        self.age += 0.001 # à changer plus tard
         self.energy -= self.cout_energy
         self.check_life()
-        if self.display.verifier_collision(
+        """if self.display.verifier_collision(
             self, self.display.tous_plantes
         ):  # Si plante sur la position de herbivore
-            self.eat()
+            self.eat()"""
         if self.display.verifier_collision(self, self.display.tous_carnivores):
             self.die()
 
@@ -149,10 +155,10 @@ class Herbivores(pygame.sprite.Sprite):
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 
-    def eat(self):
+    """def eat(self):
         if self.hunger < 100:
             # self.energy += 10
-            self.hunger -= 10
+            self.hunger -= 10"""
 
 
 class Carnivores(pygame.sprite.Sprite):
@@ -175,6 +181,8 @@ class Carnivores(pygame.sprite.Sprite):
         self.cout_energy_base = 0.001
         self.cout_energy = self.cout_energy_base
         self.rayon_vision = 100
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def appliquer_multiplicateurs(self, mult_biome_vitesse=1, mult_biome_cout=1):
         self.vitesse = self.vitesse_base * mult_biome_vitesse
@@ -193,9 +201,11 @@ class Carnivores(pygame.sprite.Sprite):
         if self.display.verifier_collision(
             self, self.display.tous_herbivores
         ):  # Si herbivore sur la position de carnivore
-            self.eat()
+            #self.eat()
+            pass
 
     def die(self):
+        self.display.nb_carnivores -= 1
         self.kill()
 
     def check_life(self):  # Les carnivores vivent 15 ans
@@ -228,7 +238,7 @@ class Carnivores(pygame.sprite.Sprite):
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 
-    def eat(self):
+    """def eat(self):
         if self.hunger < 100:
             # self.energy += 10
-            self.hunger -= 10
+            self.hunger -= 10"""

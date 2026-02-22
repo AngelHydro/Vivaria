@@ -23,6 +23,7 @@ screen = pygame.display.set_mode((config.LARGEUR, config.HAUTEUR), pygame.RESIZA
 def draw_background():
     pygame.draw.rect(screen, (0, 255, 0), (0, 0, config.LARGEUR, config.HAUTEUR))
 
+display = Display(screen)
 
 # Prépare les surfaces de texte (le rendu ne dépend pas de la taille de la fenêtre)
 titre_font = pygame.font.Font(None, 20)
@@ -42,8 +43,8 @@ texte_demarrer = texte_demarrer_font.render("Démarrer", True, (0, 0, 0))
 texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
 
 bouton_reinitialiser = pygame.Rect(
-    config.LARGEUR * 93 / 100,
-    config.HAUTEUR * 65 / 100,
+    config.LARGEUR * 83 / 100,
+    config.HAUTEUR * 75 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
 )
@@ -53,21 +54,33 @@ texte_reinitialiser_rect = texte_reinitialiser.get_rect(
     center=bouton_reinitialiser.center
 )
 
+surface_nb_plantes = pygame.Rect(config.LARGEUR * 2 / 100, config.HAUTEUR * 3 / 100, config.LARGEUR * 15 / 100, config.HAUTEUR * 7 / 100)
+
+
+
 running = True
 fullscreen = False
-display = Display(screen)
 
 while running:
     draw_background()
     temps = clock.tick(60)
 
+    texte_nb_plantes_font = pygame.font.Font(None, 15)
+    texte_nb_plantes = texte_nb_plantes_font.render(f"{display.nb_plantes} plantes", True, (0, 0, 0))
+
     # Appliquer les effets cumulés de biome, météo et saison à chaque frame
-    environment.appliquer_effets_environnement(
+    """environment.appliquer_effets_environnement(
         display,
         display.biome if hasattr(display, "biome") else None,
         display.meteo if hasattr(display, "meteo") else None,
         display.saisons if hasattr(display, "saisons") else None,
-    )
+    )"""
+
+    pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
+    screen.blit(texte_demarrer, texte_demarrer_rect)
+    texte_nb_plantes_rect = texte_nb_plantes.get_rect(center=surface_nb_plantes.center)
+    pygame.draw.rect(screen, (0, 0, 0), surface_nb_plantes, 3)
+    screen.blit(texte_nb_plantes, texte_nb_plantes_rect)
 
     if display.is_playing and not display.pause:
         display.mise_a_jour(screen)
@@ -77,11 +90,11 @@ while running:
         instruction_rect = instruction.get_rect(
             center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
         )
-        pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
 
+        pygame.draw.rect(screen, (0, 0, 0), bouton_reinitialiser, 3)
         screen.blit(titre, titre_rect)
         screen.blit(instruction, instruction_rect)
-        screen.blit(texte_demarrer, texte_demarrer_rect)
+        screen.blit(texte_reinitialiser, texte_reinitialiser_rect)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -106,11 +119,14 @@ while running:
             )
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if bouton_demarrer.collidepoint(event.pos):
-                if not display.pause:
-                    display.demarrage(screen, temps, 5)
-                elif:
-                    display.pause = False
-            if bouton_reinitialiser.collidepoint(even.pos):
+                if display.pause:
+                    if not display.start:
+                        display.demarrage(screen, temps, 5)
+                    else:
+                        display.pause = False
+                else:
+                    display.pause = True
+            if bouton_reinitialiser.collidepoint(event.pos):
                 display.reinitialiser()
 
     pygame.display.flip()

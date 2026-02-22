@@ -23,9 +23,14 @@ class Display:
         self.tous_herbivores = pygame.sprite.Group()
         self.tous_carnivores = pygame.sprite.Group()
         self.temps_echelle = 1
+        self.start = False
+        self.nb_plantes = 0
+        self.nb_herbivores = 0
+        self.nb_carnivores = 0
 
     def demarrage(self, screen, temps, nb_entites):
         """Méthode démarrage qui sert à démarrer la simulation créant les êtres vivants"""
+        self.start = True
         for _ in range(nb_entites):
             self.spawn_entite = choice(["plante", "herbivore", "carnivore"])
             if self.spawn_entite == "plante":
@@ -44,6 +49,7 @@ class Display:
                     "data/img/Herbivore_desert.png",
                 )
                 self.apparaitre_plante(self.plante)
+                self.nb_plantes += 1
             elif self.spawn_entite == "herbivore":
                 self.type_herbivore = choice(["Poule", "Vache"])
                 if self.type_herbivore == "Poule":
@@ -60,6 +66,7 @@ class Display:
                     self.herbivore_image,
                 )
                 self.apparaitre_herbivore(self.herbivore)
+                self.nb_herbivores += 1
             elif self.spawn_entite == "carnivore":
                 self.type_carnivore = "Renard"
                 self.carnivore_image = "data/img/Predateur_plaine.png"
@@ -73,6 +80,7 @@ class Display:
                     self.carnivore_image,
                 )
                 self.apparaitre_carnivore(self.carnivore)
+                self.nb_carnivores += 1
         self.is_playing = True
         self.pause = False
 
@@ -83,7 +91,6 @@ class Display:
         elif self.pause:
             pass
         else:
-            screen.blit(self.herbivore.image, self.herbivore.rect)
             for carnivore in self.tous_carnivores:
                 if (
                     carnivore.x < 0
@@ -179,7 +186,16 @@ class Display:
             self.tous_carnivores.draw(screen)
 
     def reinitialiser(self):
-
+        for plante in self.tous_plantes:
+            self.tous_plantes.remove(plante)
+        for herbivore in self.tous_herbivores:
+            self.tous_herbivores.remove(herbivore)
+        for carnivore in self.tous_carnivores:
+            self.tous_carnivores.remove(carnivore)
+        self.nb_plantes = 0
+        self.nb_herbivores = 0
+        self.nb_carnivores = 0
+        self.start = False
 
     def verifier_collision(self, sprite, group):
         return pygame.sprite.spritecollide(
