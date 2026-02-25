@@ -16,13 +16,13 @@ Interface Base
 - Affichage grille de simulation (entités = cercles colorés) v
 
 - Stats temps réel dans les coins :
-  -🌱 Nombre de plantes
-  -🐰 Nombre d'herbivores
-  -🦁 Nombre de carnivores
+  -🌱 Nombre de plantes v
+  -🐰 Nombre d'herbivores v
+  -🦁 Nombre de carnivores v
   -⏱️ Temps écoulé (en jours simulés)
 
 - Bouton ▶️ Play / ⏸️ Pause
-- Bouton 🔄 Reset (réinitialise tout)
+- Bouton 🔄 Reset (réinitialise tout) v
 
 - Sélection de 4 biomes :
   -🌲 Forêt v
@@ -36,11 +36,11 @@ Technique
 - Code structuré :
   - main.py - Point d'entrée v
   - ecosystem.py - Logique simulation v
+  - environment.py - Environnement dynamique v
   - display.py - Interface graphique v
   - config.py - Paramètres v
-  - bouton.py - Dessiner les boutons
 
-- Gestion propre des événements (clavier, souris)
+- Gestion propre des événements (clavier, souris) v
 
 
 Environnement Dynamique
@@ -87,12 +87,11 @@ Interface Avancée
 
 - Stockage historique populations :
   - Liste circulaire des 1000 dernières valeurs
-  - Mise à jour chaque frame
+  - Mise à jour chaque frame v
   - Nécessaire pour graphiques
 
 - Indicateur état simulation :
   - Texte visible : "⏸️ PAUSE" / "▶️ EN COURS" / "⚡ x5"
-  - Position : en haut au centre
   - Feedback utilisateur clair
 
 - Presets d'écosystèmes (3 scénarios) :
@@ -110,7 +109,7 @@ Données
 
 🟢 BONUS
 Visuel (DA)
-- Sprites pixel-art pour entités (16x16 ou 32x32)
+- Sprites pixel-art pour entités (16x16 ou 32x32) v
 - Backgrounds PNG par biome (optionnel)
 - Animations simples (herbivore mange plante = flash)
 
@@ -121,5 +120,4 @@ Gameplay
 Polish Interface
 - Mini-map (aperçu densité population)
 - Notifications visuelles ("⚠️ Herbivores en danger !")
-- Touche F = plein écran
-- Affichage FPS (petit coin bas gauche)
+- Touche F = plein écran v
