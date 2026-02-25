@@ -5,6 +5,7 @@
 Tous les paramètres réglables du jeu.
 """
 
-# Affichage
+# Paramètres d'affichage de la fenêtre principale du jeu
+# LARGEUR et HAUTEUR définissent la taille initiale de la fenêtre (en pixels)
 LARGEUR = 800
 HAUTEUR = 600
