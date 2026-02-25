@@ -11,7 +11,6 @@ import pygame
 
 import config
 from display import Display
-import environment  # Ajout pour appliquer les effets cumulés
 
 pygame.init()
 
@@ -54,9 +53,15 @@ texte_reinitialiser_rect = texte_reinitialiser.get_rect(
     center=bouton_reinitialiser.center
 )
 
+# Positionnement de boutons compteurs
 surface_nb_plantes = pygame.Rect(config.LARGEUR * 2 / 100, config.HAUTEUR * 3 / 100, config.LARGEUR * 15 / 100, config.HAUTEUR * 7 / 100)
+surface_nb_herbivores = pygame.Rect(config.LARGEUR * 2 / 100, config.HAUTEUR * 13 / 100, config.LARGEUR * 15 / 100, config.HAUTEUR * 7 / 100)
+surface_nb_carnivores = pygame.Rect(config.LARGEUR * 2 / 100, config.HAUTEUR * 23 / 100, config.LARGEUR * 15 / 100, config.HAUTEUR * 7 / 100)
 
-
+bouton_plaine = 0 # à changer plus tard par la création du bouton
+bouton_foret = 0 # à changer plus tard par la création du bouton
+bouton_desert = 0 # à changer plus tard par la création du bouton
+bouton_toundra = 0 # à changer plus tard par la création du bouton
 
 running = True
 fullscreen = False
@@ -67,6 +72,10 @@ while running:
 
     texte_nb_plantes_font = pygame.font.Font(None, 15)
     texte_nb_plantes = texte_nb_plantes_font.render(f"{display.nb_plantes} plantes", True, (0, 0, 0))
+    texte_nb_herbivores_font = pygame.font.Font(None, 15)
+    texte_nb_herbivores = texte_nb_herbivores_font.render(f"{display.nb_herbivores} herbivores", True, (0, 0, 0))
+    texte_nb_carnivores_font = pygame.font.Font(None, 15)
+    texte_nb_carnivores = texte_nb_carnivores_font.render(f"{display.nb_carnivores} carnivores", True, (0, 0, 0))
 
     # Appliquer les effets cumulés de biome, météo et saison à chaque frame
     """environment.appliquer_effets_environnement(
@@ -78,9 +87,18 @@ while running:
 
     pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
     screen.blit(texte_demarrer, texte_demarrer_rect)
+    
     texte_nb_plantes_rect = texte_nb_plantes.get_rect(center=surface_nb_plantes.center)
     pygame.draw.rect(screen, (0, 0, 0), surface_nb_plantes, 3)
     screen.blit(texte_nb_plantes, texte_nb_plantes_rect)
+    
+    texte_nb_herbivores_rect = texte_nb_herbivores.get_rect(center=surface_nb_herbivores.center)
+    pygame.draw.rect(screen, (0, 0, 0), surface_nb_herbivores, 3)
+    screen.blit(texte_nb_herbivores, texte_nb_herbivores_rect)
+    
+    texte_nb_carnivores_rect = texte_nb_carnivores.get_rect(center=surface_nb_carnivores.center)
+    pygame.draw.rect(screen, (0, 0, 0), surface_nb_carnivores, 3)
+    screen.blit(texte_nb_carnivores, texte_nb_carnivores_rect)
 
     if display.is_playing and not display.pause:
         display.mise_a_jour(screen)
@@ -126,7 +144,16 @@ while running:
                         display.pause = False
                 else:
                     display.pause = True
-            if bouton_reinitialiser.collidepoint(event.pos):
+            elif bouton_reinitialiser.collidepoint(event.pos):
                 display.reinitialiser()
+            if bouton_plaine.collidepoint(event.pos):
+                display.biome.plaine()
+            elif bouton_foret.collidepoint(event.pos):
+                display.biome.foret()
+            elif bouton_desert.collidepoint(event.pos):
+                display.biome.desert()
+            elif bouton_toundra.collidepoint(event.pos):
+                display.biome.toundra()
+            
 
     pygame.display.flip()

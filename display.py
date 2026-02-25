@@ -11,6 +11,7 @@ import pygame
 
 import config
 from ecosystem import Carnivores, Herbivores, Plantes
+from environment import Biomes, Meteo, Saisons
 
 
 class Display:
@@ -27,6 +28,7 @@ class Display:
         self.nb_plantes = 0
         self.nb_herbivores = 0
         self.nb_carnivores = 0
+        self.biome = Biomes(self)
 
     def demarrage(self, screen, temps, nb_entites):
         """Méthode démarrage qui sert à démarrer la simulation créant les êtres vivants"""
@@ -34,28 +36,48 @@ class Display:
         for _ in range(nb_entites):
             self.spawn_entite = choice(["plante", "herbivore", "carnivore"])
             if self.spawn_entite == "plante":
-                # self.type_plante = choice([])
-                # if self.type_plante == "":
-                #   self.plante_image = ""
-                # else:
-                #   self.plante_image = ""
+                if self.biome.etat == "plaine":
+                    self.type_plante = "Fleur" # choice([])
+                    #if self.type_plante == "":
+                    self.plante_image = "data/img/Herbivore_desert.png"
+                    # else:
+                    #   self.plante_image = ""
+                elif self.biome.etat == "foret":
+                    self.type_plante = "Fleur"
+                    self.plante_image = "data/img/Herbivore_desert.png"
+                elif self.biome.etat == "desert":
+                    self.type_plante = "Fleur"
+                    self.plante_image = "data/img/Herbivore_desert.png"
+                elif self.biome.etat == "toundra":
+                    self.type_plante = "Fleur"
+                    self.plante_image = "data/img/Herbivore_desert.png"
                 self.plante = Plantes(
                     self,
-                    "Pissenlit",
+                    self.type_plante,
                     randint(0, config.LARGEUR),
                     randint(0, config.HAUTEUR),
                     screen,
                     temps,
-                    "data/img/Herbivore_desert.png",
+                    self.plante_image,
                 )
                 self.apparaitre_plante(self.plante)
                 self.nb_plantes += 1
             elif self.spawn_entite == "herbivore":
-                self.type_herbivore = choice(["Poule", "Vache"])
-                if self.type_herbivore == "Poule":
-                    self.herbivore_image = "data/img/Herbivore_plaine.png"
-                elif self.type_herbivore == "Vache":
-                    self.herbivore_image = "data/img/Herbivore2_plaine.png"
+                if self.biome.etat == "plaine":
+                    self.type_herbivore = choice(["Poule", "Vache"])
+                    if self.type_herbivore == "Poule":
+                        self.herbivore_image = "data/img/Herbivore_plaine.png"
+                    elif self.type_herbivore == "Vache":
+                        self.herbivore_image = "data/img/Herbivore2_plaine.png"
+                elif self.biome.etat == "foret":
+                    self.type_herbivore = "Sanglier"
+                    self.herbivore_image = "data/img/Herbivore_foret.png"
+                elif self.biome.etat == "desert":
+                    self.type_herbivore = "Chameau"
+                    self.herbivore_image = "data/img/Herbivore_desert.png"
+                elif self.biome.etat == "toundra":
+                    self.type_herbivore = "Cerf"
+                    self.herbivore_image = "data/img/Herbivore_toundra.png"
                 self.herbivore = Herbivores(
                     self,
                     self.type_herbivore,
@@ -68,8 +90,19 @@ class Display:
                 self.apparaitre_herbivore(self.herbivore)
                 self.nb_herbivores += 1
             elif self.spawn_entite == "carnivore":
-                self.type_carnivore = "Renard"
-                self.carnivore_image = "data/img/Predateur_plaine.png"
+                if self.biome.etat == "plaine":
+                    self.type_carnivore = "Renard"
+                    self.carnivore_image = "data/img/Predateur_plaine.png"
+                elif self.biome.etat == "foret":
+                    self.type_carnivore == "Ours"
+                    self.carnivore_image = "data/img/Predateur_foret.png"
+                elif self.biome.etat == "desert":
+                    self.type_carnivore = "Fennec"
+                    self.carnivore_image = "data/img/Predateur_desert.png"
+                elif self.biome.etat == "toundra":
+                    self.type_carnivore = "Loup"
+                    self.carnivore_image = "data/img/Predateur_toundra.png"
+                    
                 self.carnivore = Carnivores(
                     self,
                     self.type_carnivore,
