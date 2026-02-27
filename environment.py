@@ -7,6 +7,7 @@ Contient toute la logique de simulation de l'environnement.
 
 import pygame
 
+import config
 import ecosystem
 
 # Les classes suivantes définissent les différents environnements du jeu :
@@ -44,29 +45,29 @@ class Biomes:
     def multiplicateur_plante(self):
         # Retourne un multiplicateur de croissance pour les plantes selon le biome
         if self.etat == "foret":
-            return 1.2
+            return config.MULT_BIOME_FORET
         elif self.etat == "desert":
-            return 0.5
+            return config.MULT_BIOME_DESERT
         elif self.etat == "toundra":
-            return 0.8
+            return config.MULT_BIOME_TOUNDRA
         return 1
 
     def multiplicateur_vitesse_animaux(self):
         # Retourne un multiplicateur de vitesse pour les animaux selon le biome
         if self.etat == "plaine":
-            return 1.1
+            return config.MULT_VITESSE_PLAINE
         elif self.etat == "foret":
-            return 0.9
+            return config.MULT_VITESSE_FORET
         elif self.etat == "desert":
-            return 1
+            return config.MULT_VITESSE_DESERT
         elif self.etat == "toundra":
-            return 1
+            return config.MULT_VITESSE_TOUNDRA
         return 1
 
     def multiplicateur_cout_energie_animaux(self):
         # Retourne un multiplicateur de coût énergétique pour les animaux selon le biome
         if self.etat == "desert":
-            return 1.2
+            return config.MULT_COUT_ENERGIE_DESERT
         return 1
 
 
@@ -96,11 +97,11 @@ class Meteo:
     def multiplicateur_plante(self):
         # Retourne un multiplicateur de croissance pour les plantes selon la météo
         if self.etat == "pluie":
-            return 1.5
+            return config.MULT_METEO_PLUIE
         elif self.etat == "orage":
-            return 0.8
+            return config.MULT_METEO_ORAGE
         elif self.etat == "neige":
-            return 0.5
+            return config.MULT_METEO_NEIGE
         return 1
 
 
@@ -130,11 +131,11 @@ class Saisons:
     def multiplicateur_plante(self):
         # Retourne un multiplicateur de croissance pour les plantes selon la saison
         if self.etat == "printemps":
-            return 1.5
+            return config.MULT_SAISON_PRINTEMPS
         elif self.etat == "automne":
-            return 0.8
+            return config.MULT_SAISON_AUTOMNE
         elif self.etat == "hiver":
-            return 0.5
+            return config.MULT_SAISON_HIVER
         return 1
 
 

@@ -10,6 +10,8 @@ import random
 
 import pygame
 
+import config
+
 # Si dist n'existe pas dans la bibliothèque math (Python < 3.8), on la crée manuellement.
 # Cette fonction calcule la distance euclidienne entre deux points p et q.
 if not hasattr(math, "dist"):
@@ -31,11 +33,9 @@ class Plantes(pygame.sprite.Sprite):
         self.age = 1  # Âge de la plante (en "jours" de simulation)
         self.display = display
         self.image = pygame.image.load(img)
-        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.image = pygame.transform.scale(self.image, config.TAILLE_SPRITE)
         self.rect = self.image.get_rect()
-        self.croissance_base = (
-            1  # Vitesse de croissance de base (modifiable par l'environnement)
-        )
+        self.croissance_base = 1
         self.croissance = self.croissance_base
         self.rect.x = self.x
         self.rect.y = self.y
@@ -83,13 +83,18 @@ class Herbivores(pygame.sprite.Sprite):
         self.image = pygame.image.load(img)
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
-        self.energy = 100  # Énergie de l'herbivore (diminue à chaque déplacement)
+        self.energy = (
+            config.ENERGIE_MAX_HERBIVORE
+        )  # Énergie de l'herbivore (diminue à chaque déplacement)
         self.direction = 0  # Direction actuelle (en degrés)
-        self.vitesse_base = 1.0  # Vitesse de base
+        self.vitesse_base = config.VITESSE_HERBIVORE  # Vitesse de base
         self.vitesse = self.vitesse_base
-        self.cout_energy_base = 0.1  # Coût énergétique de base par déplacement
-        self.cout_energy = self.cout_energy_base
-        self.rayon_vision = 100  # Rayon de vision pour détecter proies/prédateurs
+        self.cout_energy_base = (
+            config.COUT_ENERGY_HERBIVORE
+        )  # Coût énergétique de base par déplacement
+        self.rayon_vision = (
+            config.RAYON_VISION_HERBIVORE
+        )  # Rayon de vision pour détecter proies/prédateurs
         self.rect.x = self.x
         self.rect.y = self.y
 
@@ -113,12 +118,20 @@ class Herbivores(pygame.sprite.Sprite):
 
     def grow(self):
         # Vieillit l'herbivore et réduit son énergie à chaque "tick"
-        self.age += 0.001  # à ajuster selon l'échelle de temps souhaitée
-        self.energy -= self.cout_energy
+        self.age += config.CROISSANCE  # à ajuster selon l'échelle de temps souhaitée
+        self.energy -= self.cout_energy_base
         self.check_life()
         # Si un carnivore est en collision avec l'herbivore, il meurt (prédation)
         if self.display.verifier_collision(self, self.display.tous_carnivores):
             self.die()
+        # Si une plante est en collision avec l'herbivore, il la mange et gagne de l'énergie
+        plante_mangee = self.display.verifier_collision(self, self.display.tous_plantes)
+        if plante_mangee:
+            self.energy += (
+                config.ENERGIE_RECHARGE
+            )  # Valeur à ajuster selon l'équilibrage souhaité
+            if self.energy > config.ENERGIE_MAX_HERBIVORE:
+                self.energy = config.ENERGIE_MAX_HERBIVORE  # Limite l'énergie maximale
 
     def check_life(self):  # Les herbivores vivent 30 ans
         # Meurt si l'âge ou l'énergie tombe à zéro
@@ -173,11 +186,6 @@ class Herbivores(pygame.sprite.Sprite):
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 
-    """def eat(self):
-        if self.hunger < 100:
-            # self.energy += 10
-            self.hunger -= 10"""
-
 
 class Carnivores(pygame.sprite.Sprite):
     """Classe représentant les carnivores dans l'écosystème."""
@@ -192,13 +200,17 @@ class Carnivores(pygame.sprite.Sprite):
         self.image = pygame.image.load(img)
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
-        self.energy = 100  # Énergie du carnivore
+        self.energy = config.ENERGIE_MAX_CARNIVORE  # Énergie du carnivore
         self.direction = 0  # Direction actuelle (en degrés)
-        self.vitesse_base = 1.0  # Vitesse de base
+        self.vitesse_base = config.VITESSE_CARNIVORE  # Vitesse de base
         self.vitesse = self.vitesse_base
-        self.cout_energy_base = 0.001  # Coût énergétique de base par déplacement
+        self.cout_energy_base = (
+            config.COUT_ENERGY_CARNIVORE
+        )  # Coût énergétique de base par déplacement
         self.cout_energy = self.cout_energy_base
-        self.rayon_vision = 100  # Rayon de vision pour détecter les proies
+        self.rayon_vision = (
+            config.RAYON_VISION_CARNIVORE
+        )  # Rayon de vision pour détecter les proies
         self.rect.x = self.x
         self.rect.y = self.y
 
@@ -217,15 +229,19 @@ class Carnivores(pygame.sprite.Sprite):
 
     def grow(self):
         # Vieillit le carnivore et réduit son énergie à chaque "tick"
-        self.age += 0.001
+        self.age += config.CROISSANCE
         self.energy -= self.cout_energy
         self.check_life()
-        # Si un herbivore est en collision avec le carnivore, il pourrait le manger (logique à compléter)
-        if self.display.verifier_collision(
+        # Si un herbivore est en collision avec le carnivore, il le mange et gagne de l'énergie
+        herbivore_mange = self.display.verifier_collision(
             self, self.display.tous_herbivores
-        ):  # Si herbivore sur la position de carnivore
-            # self.eat()
-            pass
+        )
+        if herbivore_mange:
+            self.energy += (
+                config.ENERGIE_RECHARGE
+            )  # Valeur à ajuster selon l'équilibrage souhaité
+            if self.energy > config.ENERGIE_MAX_CARNIVORE:
+                self.energy = config.ENERGIE_MAX_CARNIVORE  # Limite l'énergie maximale
 
     def die(self):
         # Supprime le carnivore de la simulation et décrémente le compteur global
@@ -268,8 +284,3 @@ class Carnivores(pygame.sprite.Sprite):
         self.y += math.sin(math.radians(self.direction)) * self.vitesse
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
-
-    """def eat(self):
-        if self.hunger < 100:
-            # self.energy += 10
-            self.hunger -= 10"""

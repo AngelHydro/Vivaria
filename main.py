@@ -10,6 +10,7 @@ import sys  # Pour quitter le programme
 import pygame
 
 import config
+import environment
 from display import Display
 
 # Initialisation de Pygame et de la fenêtre principale
@@ -106,14 +107,28 @@ bouton_toundra = pygame.Rect(
     config.HAUTEUR * 7 / 100,
 )
 
+# Création des polices et des surfaces de texte pour les boutons de sélection de biome
+# Création des polices et surfaces de texte pour chaque bouton de sélection de biome
+
+# Bouton "Plaine"
 texte_plaine_font = pygame.font.Font(None, 12)
 texte_plaine = texte_plaine_font.render("Plaine", True, (0, 0, 0))
+texte_plaine_rect = texte_plaine.get_rect(center=bouton_plaine.center)
+
+# Bouton "Forêt"
 texte_foret_font = pygame.font.Font(None, 12)
 texte_foret = texte_foret_font.render("Forêt", True, (0, 0, 0))
+texte_foret_rect = texte_foret.get_rect(center=bouton_foret.center)
+
+# Bouton "Désert"
 texte_desert_font = pygame.font.Font(None, 12)
 texte_desert = texte_desert_font.render("Désert", True, (0, 0, 0))
+texte_desert_rect = texte_desert.get_rect(center=bouton_desert.center)
+
+# Bouton "Toundra"
 texte_toundra_font = pygame.font.Font(None, 12)
 texte_toundra = texte_toundra_font.render("Toundra", True, (0, 0, 0))
+texte_toundra_rect = texte_toundra.get_rect(center=bouton_toundra.center)
 
 running = True
 fullscreen = False
@@ -139,13 +154,17 @@ while running:
     )
 
     # Appliquer les effets cumulés de biome, météo et saison à chaque frame
-    # (décommenter si la logique d'environnement est activée)
-    """environment.appliquer_effets_environnement(
-        display,
-        display.biome if hasattr(display, "biome") else None,
-        display.meteo if hasattr(display, "meteo") else None,
-        display.saisons if hasattr(display, "saisons") else None,
-    )"""
+    if (
+        hasattr(display, "biome")
+        and hasattr(display, "meteo")
+        and hasattr(display, "saisons")
+    ):
+        environment.appliquer_effets_environnement(
+            display,
+            display.biome,
+            display.meteo,
+            display.saisons,
+        )
 
     # Affichage des boutons et compteurs sur la fenêtre
     pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
@@ -186,7 +205,10 @@ while running:
         screen.blit(titre, titre_rect)
         screen.blit(instruction, instruction_rect)
         screen.blit(texte_reinitialiser, texte_reinitialiser_rect)
-        screen.blit()
+        screen.blit(texte_plaine, texte_plaine_rect)
+        screen.blit(texte_foret, texte_foret_rect)
+        screen.blit(texte_desert, texte_desert_rect)
+        screen.blit(texte_desert, texte_desert_rect)
 
     # Gestion des événements utilisateur (clavier, souris, redimensionnement, fermeture)
     for event in pygame.event.get():
@@ -218,7 +240,13 @@ while running:
             if bouton_demarrer.collidepoint(event.pos):
                 if display.pause:
                     if not display.start:
-                        display.demarrage(screen, temps, 5)
+                        display.demarrage(
+                            screen,
+                            temps,
+                            config.NOMBRE_INITIAL_PLANTES,
+                            config.NOMBRE_INITIAL_HERBIVORES,
+                            config.NOMBRE_INITIAL_CARNIVORES,
+                        )
                     else:
                         display.pause = False
                 else:
