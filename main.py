@@ -86,7 +86,7 @@ bouton_plaine = pygame.Rect(
     config.HAUTEUR * 3 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
-) 
+)
 bouton_foret = pygame.Rect(
     0,
     config.HAUTEUR * 3 / 100,
@@ -179,9 +179,14 @@ while running:
         )
 
         pygame.draw.rect(screen, (0, 0, 0), bouton_reinitialiser, 3)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_plaine, 3)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_desert, 3)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_foret, 3)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_toundra, 3)
         screen.blit(titre, titre_rect)
         screen.blit(instruction, instruction_rect)
         screen.blit(texte_reinitialiser, texte_reinitialiser_rect)
+        screen.blit()
 
     # Gestion des événements utilisateur (clavier, souris, redimensionnement, fermeture)
     for event in pygame.event.get():
