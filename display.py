@@ -36,6 +36,7 @@ class Display:
         self.nb_carnivores = 0
         # Biome courant (modifie les comportements et apparences)
         self.biome = Biomes(self)
+        self.saison = Saisons(self)
 
     def demarrage(self, screen, temps, nb_entites):
         """
@@ -49,20 +50,51 @@ class Display:
             if self.spawn_entite == "plante":
                 # Sélectionne l'image de la plante selon le biome (à améliorer pour plus de variété)
                 if self.biome.etat == "plaine":
-                    self.type_plante = "Fleur"  # choice([])
-                    # if self.type_plante == "":
-                    self.plante_image = "data/img/Herbivore_desert.png"
-                    # else:
-                    #   self.plante_image = ""
+                    if self.saison.etat == "printemps":
+                        self.type_plante = choice(["Fleur", "Buisson"])
+                        if self.type_plante == "Fleur":
+                            self.plante_image = "data/img/FleurPrintemps_Plaine.png"
+                        else:
+                            self.plante_image = "data/img/PlantePrintemps_plaine.png"
+                    elif self.saison.etat == "ete":
+                        self.type_plante = "Buisson"
+                        self.plante_image = "data/img/PlanteEte_plaine.png"
+                    elif self.saison.etat == "automne":
+                        self.type_plante = "Buisson"
+                        self.plante_image = "data/img/PlanteAutomne_plaine.png"
+                    elif self.saison.etat == "hiver":
+                        self.type_plante = "Buisson"
+                        self.plante_image = "data/img/PlanteHiver_plaine.png"
                 elif self.biome.etat == "foret":
-                    self.type_plante = "Fleur"
-                    self.plante_image = "data/img/Herbivore_desert.png"
+                    self.type_plante = "Buisson"
+                    if self.saison.etat == "printemps":
+                        self.plante_image = "data/img/PlantePrintemps_Foret.png"
+                    elif self.saison.etat == "ete":
+                        self.plante_image = "data/img/PlanteEte_Foret.png"
+                    elif self.saison.etat == "automne":
+                        self.plante_image = "data/img/PlanteAutomne_Foret.png"
+                    elif self.saison.etat == "hiver":
+                        self.plante_image = "data/img/PlanteHiver_Foret.png"
                 elif self.biome.etat == "desert":
-                    self.type_plante = "Fleur"
-                    self.plante_image = "data/img/Herbivore_desert.png"
+                    self.type_plante = "Cactus"
+                    if self.saison.etat == "printemps":
+                        self.plante_image = "data/img/PlantePrintemps_Desert.png"
+                    elif self.saison.etat == "ete":
+                        self.plante_image = "data/img/PlanteEte_Desert.png"
+                    elif self.saison.etat == "automne":
+                        self.plante_image = "data/img/PlanteAutomne_Desert.png"
+                    elif self.saison.etat == "hiver":
+                        self.plante_image = "data/img/PlanteHiver_Desert.png"
                 elif self.biome.etat == "toundra":
-                    self.type_plante = "Fleur"
-                    self.plante_image = "data/img/Herbivore_desert.png"
+                    self.type_plante = "Buisson"
+                    if self.saison.etat == "printemps":
+                        self.plante_image = "data/img/PlantePrintemps_Toundra.png"
+                    elif self.saison.etat == "ete":
+                        self.plante_image = "data/img/PlanteEte_Toundra.png"
+                    elif self.saison.etat == "automne":
+                        self.plante_image = "data/img/PlanteAutomne_Toundra.png"
+                    elif self.saison.etat == "hiver":
+                        self.plante_image = "data/img/PlanteHiver_Toundra.png"
                 # Création et ajout de la plante
                 self.plante = Plantes(
                     self,

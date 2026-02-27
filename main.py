@@ -81,10 +81,39 @@ surface_nb_carnivores = pygame.Rect(
 )
 
 # Placeholders pour les boutons de sélection de biome (à remplacer par de vrais boutons plus tard)
-bouton_plaine = 0  # à changer plus tard par la création du bouton
-bouton_foret = 0  # à changer plus tard par la création du bouton
-bouton_desert = 0  # à changer plus tard par la création du bouton
-bouton_toundra = 0  # à changer plus tard par la création du bouton
+bouton_plaine = pygame.Rect(
+    0,
+    config.HAUTEUR * 3 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+) 
+bouton_foret = pygame.Rect(
+    0,
+    config.HAUTEUR * 3 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+)
+bouton_desert = pygame.Rect(
+    0,
+    config.HAUTEUR * 3 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+)
+bouton_toundra = pygame.Rect(
+    0,
+    config.HAUTEUR * 3 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+)
+
+texte_plaine_font = pygame.font.Font(None, 12)
+texte_plaine = texte_plaine_font.render("Plaine", True, (0, 0, 0))
+texte_foret_font = pygame.font.Font(None, 12)
+texte_foret = texte_foret_font.render("Forêt", True, (0, 0, 0))
+texte_desert_font = pygame.font.Font(None, 12)
+texte_desert = texte_desert_font.render("Désert", True, (0, 0, 0))
+texte_toundra_font = pygame.font.Font(None, 12)
+texte_toundra = texte_toundra_font.render("Toundra", True, (0, 0, 0))
 
 running = True
 fullscreen = False
