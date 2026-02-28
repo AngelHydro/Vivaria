@@ -5,10 +5,7 @@
 Contient toute la logique de simulation de l'environnement.
 """
 
-import pygame
-
 import config
-import ecosystem
 
 # Les classes suivantes définissent les différents environnements du jeu :
 # - Biomes : influence la croissance des plantes et les caractéristiques des animaux selon le type de terrain
@@ -67,7 +64,7 @@ class Biomes:
     def multiplicateur_cout_energie_animaux(self):
         # Retourne un multiplicateur de coût énergétique pour les animaux selon le biome
         if self.etat == "desert":
-            return config.MULT_COUT_ENERGIE_DESERT
+            return config.MULT_COUT_ENERGY_DESERT
         return 1
 
 

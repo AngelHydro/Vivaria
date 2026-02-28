@@ -12,14 +12,14 @@ import pygame
 
 import config
 
-# Si dist n'existe pas dans la bibliothèque math (Python < 3.8), on la crée manuellement.
-# Cette fonction calcule la distance euclidienne entre deux points p et q.
-if not hasattr(math, "dist"):
 
-    def dist(p, q):
+# Fonction dist compatible avec tous les Python et le typage statique.
+# Utilise math.dist si disponible, sinon une version manuelle.
+def dist(p, q):
+    if hasattr(math, "dist"):
+        return math.dist(p, q)
+    else:
         return math.sqrt(sum((px - qx) ** 2 for px, qx in zip(p, q)))
-else:
-    from math import dist
 
 
 class Plantes(pygame.sprite.Sprite):

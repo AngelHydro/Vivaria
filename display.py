@@ -37,6 +37,7 @@ class Display:
         # Biome courant (modifie les comportements et apparences)
         self.biome = Biomes(self)
         self.saison = Saisons(self)
+        self.meteo = Meteo(self)
 
     def demarrage(
         self,
@@ -290,9 +291,7 @@ class Display:
                         else:
                             # Sinon, cible la plante la plus proche
                             proie_la_plus_proche = min(distance_proies)
-                            indice_proie = distance_proies.index(
-                                proie_la_plus_proche
-                            )
+                            indice_proie = distance_proies.index(proie_la_plus_proche)
                             proie_cible = proies_detectees[indice_proie]
                             angle_cible = herbivore.calcul_angle_proie(
                                 (proie_cible.x, proie_cible.y)

@@ -84,10 +84,7 @@ surface_nb_carnivores = pygame.Rect(
 texte_biome_font = pygame.font.Font(None, 12)
 texte_biome = texte_biome_font.render("Biome", True, (255, 255, 255))
 surface_biome = pygame.Rect(
-    0,
-    config.HAUTEUR * 53 / 100,
-    config.LARGEUR * 60 / 100,
-    config.HAUTEUR * 14 / 100
+    0, config.HAUTEUR * 53 / 100, config.LARGEUR * 60 / 100, config.HAUTEUR * 14 / 100
 )
 
 # Placeholders pour les boutons de sélection de biome (à remplacer par de vrais boutons plus tard)
@@ -162,17 +159,16 @@ while running:
         f"{display.nb_carnivores} carnivores", True, (0, 0, 0)
     )
 
-    # Appliquer les effets cumulés de biome, météo et saison à chaque frame
     if (
         hasattr(display, "biome")
         and hasattr(display, "meteo")
-        and hasattr(display, "saisons")
+        and hasattr(display, "saison")
     ):
         environment.appliquer_effets_environnement(
             display,
             display.biome,
             display.meteo,
-            display.saisons,
+            display.saison,
         )
 
     # Affichage des boutons et compteurs sur la fenêtre
