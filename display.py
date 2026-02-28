@@ -317,25 +317,88 @@ class Display:
             # --- Gestion des plantes ---
             # --- Apparition périodique de nouvelles plantes ---
             # On utilise un timer pour contrôler la fréquence d'apparition
-            if not hasattr(self, 'spawn_timer'):
+            if not hasattr(self, "spawn_timer"):
                 self.spawn_timer = 0  # Initialisation du timer si nécessaire
 
             self.spawn_timer += 1  # Incrémentation du timer à chaque frame
-            if self.spawn_timer >= config.DELAIS_SPAWN_PLANTES:  # Toutes les 20 secondes (à 60 FPS)
+            if (
+                self.spawn_timer >= config.DELAIS_SPAWN_PLANTES
+            ):  # Toutes les 20 secondes (à 60 FPS)
                 self.spawn_timer = 0  # Réinitialisation du timer
                 # On génère entre 1 et 4 nouvelles plantes à chaque apparition
                 nb_nouvelles = randint(1, 4)
                 for _ in range(nb_nouvelles):
                     # Sélection du type et de l'image de la plante selon le biome et la saison
+                    # Apparition de nouvelles plantes selon le biome et la saison, avec des noms de fichiers cohérents
+                    """Les chemins de fichiers ne sont pas bon et doivent être modifiés"""
+                    # Plantes de la plaine
                     if self.biome.etat == "plaine":
                         if self.saison.etat == "printemps":
+                            # Printemps : Fleur ou Buisson
                             self.type_plante = choice(["Fleur", "Buisson"])
                             if self.type_plante == "Fleur":
                                 self.plante_image = "data/img/FleurPrintemps_Plaine.png"
                             else:
-                                self.plante_image = "data/img/PlantePrintemps_plaine.png"
-                        # Ici, il faudrait compléter la logique pour les autres saisons et biomes
-                        # comme dans la méthode demarrage
+                                self.plante_image = (
+                                    "data/img/BuissonPrintemps_Plaine.png"
+                                )
+                        elif self.saison.etat == "ete":
+                            # Été : Fleur ou Buisson
+                            self.type_plante = choice(["Fleur", "Buisson"])
+                            if self.type_plante == "Fleur":
+                                self.plante_image = "data/img/FleurEte_Plaine.png"
+                            else:
+                                self.plante_image = "data/img/BuissonEte_Plaine.png"
+                        elif self.saison.etat == "automne":
+                            # Automne : Fleur ou Buisson
+                            self.type_plante = choice(["Fleur", "Buisson"])
+                            if self.type_plante == "Fleur":
+                                self.plante_image = "data/img/FleurAutomne_Plaine.png"
+                            else:
+                                self.plante_image = "data/img/BuissonAutomne_Plaine.png"
+                        elif self.saison.etat == "hiver":
+                            # Hiver : Fleur ou Buisson
+                            self.type_plante = choice(["Fleur", "Buisson"])
+                            if self.type_plante == "Fleur":
+                                self.plante_image = "data/img/FleurHiver_Plaine.png"
+                            else:
+                                self.plante_image = "data/img/BuissonHiver_Plaine.png"
+
+                    # Plantes de la forêt
+                    elif self.biome.etat == "foret":
+                        self.type_plante = "Buisson"
+                        if self.saison.etat == "printemps":
+                            self.plante_image = "data/img/BuissonPrintemps_Foret.png"
+                        elif self.saison.etat == "ete":
+                            self.plante_image = "data/img/BuissonEte_Foret.png"
+                        elif self.saison.etat == "automne":
+                            self.plante_image = "data/img/BuissonAutomne_Foret.png"
+                        elif self.saison.etat == "hiver":
+                            self.plante_image = "data/img/BuissonHiver_Foret.png"
+
+                    # Plantes du désert (Cactus)
+                    elif self.biome.etat == "desert":
+                        self.type_plante = "Cactus"
+                        if self.saison.etat == "printemps":
+                            self.plante_image = "data/img/CactusPrintemps_Desert.png"
+                        elif self.saison.etat == "ete":
+                            self.plante_image = "data/img/CactusEte_Desert.png"
+                        elif self.saison.etat == "automne":
+                            self.plante_image = "data/img/CactusAutomne_Desert.png"
+                        elif self.saison.etat == "hiver":
+                            self.plante_image = "data/img/CactusHiver_Desert.png"
+
+                    # Plantes de la toundra (Buisson)
+                    elif self.biome.etat == "toundra":
+                        self.type_plante = "Buisson"
+                        if self.saison.etat == "printemps":
+                            self.plante_image = "data/img/BuissonPrintemps_Toundra.png"
+                        elif self.saison.etat == "ete":
+                            self.plante_image = "data/img/BuissonEte_Toundra.png"
+                        elif self.saison.etat == "automne":
+                            self.plante_image = "data/img/BuissonAutomne_Toundra.png"
+                        elif self.saison.etat == "hiver":
+                            self.plante_image = "data/img/BuissonHiver_Toundra.png"
 
                     # Création de la nouvelle plante et ajout au groupe de sprites
                     nouvelle_plante = Plantes(
