@@ -315,6 +315,42 @@ class Display:
                         herbivore.grow()
 
             # --- Gestion des plantes ---
+            # --- Apparition périodique de nouvelles plantes ---
+            # On utilise un timer pour contrôler la fréquence d'apparition
+            if not hasattr(self, 'spawn_timer'):
+                self.spawn_timer = 0  # Initialisation du timer si nécessaire
+
+            self.spawn_timer += 1  # Incrémentation du timer à chaque frame
+            if self.spawn_timer >= config.DELAIS_SPAWN_PLANTES:  # Toutes les 20 secondes (à 60 FPS)
+                self.spawn_timer = 0  # Réinitialisation du timer
+                # On génère entre 1 et 4 nouvelles plantes à chaque apparition
+                nb_nouvelles = randint(1, 4)
+                for _ in range(nb_nouvelles):
+                    # Sélection du type et de l'image de la plante selon le biome et la saison
+                    if self.biome.etat == "plaine":
+                        if self.saison.etat == "printemps":
+                            self.type_plante = choice(["Fleur", "Buisson"])
+                            if self.type_plante == "Fleur":
+                                self.plante_image = "data/img/FleurPrintemps_Plaine.png"
+                            else:
+                                self.plante_image = "data/img/PlantePrintemps_plaine.png"
+                        # Ici, il faudrait compléter la logique pour les autres saisons et biomes
+                        # comme dans la méthode demarrage
+
+                    # Création de la nouvelle plante et ajout au groupe de sprites
+                    nouvelle_plante = Plantes(
+                        self,
+                        self.type_plante,
+                        randint(0, config.LARGEUR),
+                        randint(0, config.HAUTEUR),
+                        screen,
+                        0,
+                        self.plante_image,
+                    )
+                    self.apparaitre_plante(nouvelle_plante)
+                    self.nb_plantes += 1
+
+            # Fait grandir chaque plante (croissance, vieillissement, etc.)
             for plante in list(self.tous_plantes):
                 plante.grow()
 

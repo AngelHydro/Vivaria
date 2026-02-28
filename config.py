@@ -12,6 +12,7 @@ TAILLE_SPRITE = (50, 50)
 # Paramètres d'affichage de la fenêtre principale du jeu
 LARGEUR = 800
 HAUTEUR = 600
+TAILLE_FONT = 20
 
 # Paramètres de simulation
 NOMBRE_INITIAL_PLANTES = 20
@@ -21,6 +22,7 @@ NOMBRE_INITIAL_CARNIVORES = 5
 # Paramètres de comportement des organismes
 AGE_BASE = 1
 CROISSANCE = 0.05
+DELAIS_SPAWN_PLANTES = 300
 
 # Energie
 ENERGIE_MAX_HERBIVORE = 100
