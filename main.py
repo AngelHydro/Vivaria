@@ -81,28 +81,37 @@ surface_nb_carnivores = pygame.Rect(
     config.HAUTEUR * 7 / 100,
 )
 
+texte_biome_font = pygame.font.Font(None, 12)
+texte_biome = texte_biome_font.render("Biome", True, (255, 255, 255))
+surface_biome = pygame.Rect(
+    0,
+    config.HAUTEUR * 53 / 100,
+    config.LARGEUR * 60 / 100,
+    config.HAUTEUR * 14 / 100
+)
+
 # Placeholders pour les boutons de sélection de biome (à remplacer par de vrais boutons plus tard)
 bouton_plaine = pygame.Rect(
     0,
-    config.HAUTEUR * 3 / 100,
+    config.HAUTEUR * 53 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
 )
 bouton_foret = pygame.Rect(
-    0,
-    config.HAUTEUR * 3 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 53 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
 )
 bouton_desert = pygame.Rect(
-    0,
-    config.HAUTEUR * 3 / 100,
+    config.LARGEUR * 30 / 100,
+    config.HAUTEUR * 53 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
 )
 bouton_toundra = pygame.Rect(
     0,
-    config.HAUTEUR * 3 / 100,
+    config.HAUTEUR * 60 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
 )
@@ -196,7 +205,9 @@ while running:
         instruction_rect = instruction.get_rect(
             center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
         )
+        texte_biome_rect = texte_biome.get_rect(center=(20, config.HAUTEUR * 55 / 100))
 
+        pygame.draw.rect(screen, (0, 0, 0), surface_biome, 3)
         pygame.draw.rect(screen, (0, 0, 0), bouton_reinitialiser, 3)
         pygame.draw.rect(screen, (0, 0, 0), bouton_plaine, 3)
         pygame.draw.rect(screen, (0, 0, 0), bouton_desert, 3)
@@ -204,11 +215,12 @@ while running:
         pygame.draw.rect(screen, (0, 0, 0), bouton_toundra, 3)
         screen.blit(titre, titre_rect)
         screen.blit(instruction, instruction_rect)
+        screen.blit(texte_biome, texte_biome_rect)
         screen.blit(texte_reinitialiser, texte_reinitialiser_rect)
         screen.blit(texte_plaine, texte_plaine_rect)
         screen.blit(texte_foret, texte_foret_rect)
         screen.blit(texte_desert, texte_desert_rect)
-        screen.blit(texte_desert, texte_desert_rect)
+        screen.blit(texte_toundra, texte_toundra_rect)
 
     # Gestion des événements utilisateur (clavier, souris, redimensionnement, fermeture)
     for event in pygame.event.get():

@@ -213,7 +213,7 @@ class Display:
             pass
         else:
             # --- Gestion des carnivores ---
-            for carnivore in self.tous_carnivores:
+            for carnivore in list(self.tous_carnivores):
                 # Si le carnivore sort de l'écran, il rebondit sur le bord
                 if (
                     carnivore.x < 0
@@ -226,7 +226,7 @@ class Display:
                     # Recherche des proies (herbivores) dans le rayon de vision
                     proies_detectees = []
                     distance_proies = []
-                    for herbivore in self.tous_herbivores:
+                    for herbivore in list(self.tous_herbivores):
                         distance = carnivore.calcul_distance_proie(
                             (herbivore.x, herbivore.y)
                         )
@@ -249,21 +249,24 @@ class Display:
                 carnivore.grow()
 
             # --- Gestion des herbivores ---
-            for herbivore in self.tous_herbivores:
+            for herbivore in list(self.tous_herbivores):
                 # Détection de la proximité des bords de l'écran
+                marge = 20
                 au_bord = (
-                    herbivore.x < 0
-                    or herbivore.x > screen.get_width()
-                    or herbivore.y < 0
-                    or herbivore.y > screen.get_height()
+                    herbivore.x < marge
+                    or herbivore.x > screen.get_width() - marge
+                    or herbivore.y < marge
+                    or herbivore.y > screen.get_height() - marge
                 )
                 if au_bord:
                     herbivore.bordure()
+                    herbivore.move()
+                    herbivore.grow()
                 else:
                     # Recherche de prédateurs (carnivores) dans le rayon de vision
                     predateurs_detectes = []
                     distance_predateurs = []
-                    for carnivore in self.tous_carnivores:
+                    for carnivore in list(self.tous_carnivores):
                         distance = herbivore.calcul_distance_predateur(
                             (carnivore.x, carnivore.y)
                         )
@@ -272,32 +275,31 @@ class Display:
                             distance_predateurs.append(distance)
                     if predateurs_detectes == []:
                         # Si aucun prédateur détecté, recherche de plantes à manger
-                        for herbivore in self.tous_herbivores:
-                            proies_detectees = []
-                            distance_proies = []
-                            for plante in self.tous_plantes:
-                                distance = herbivore.calcul_distance_proie(
-                                    (plante.x, plante.y)
-                                )
-                                if distance <= herbivore.rayon_vision:
-                                    proies_detectees.append(plante)
-                                    distance_proies.append(distance)
-                            if proies_detectees == []:
-                                # Si aucune plante détectée, déplacement aléatoire
-                                herbivore.changer_direction([-5, 0, 5])
-                            else:
-                                # Sinon, cible la plante la plus proche
-                                proie_la_plus_proche = min(distance_proies)
-                                indice_proie = distance_proies.index(
-                                    proie_la_plus_proche
-                                )
-                                proie_cible = proies_detectees[indice_proie]
-                                angle_cible = herbivore.calcul_angle_proie(
-                                    (proie_cible.x, proie_cible.y)
-                                )
-                                herbivore.ciblage_proie(angle_cible)
-                            herbivore.move()
-                            herbivore.grow()
+                        proies_detectees = []
+                        distance_proies = []
+                        for plante in list(self.tous_plantes):
+                            distance = herbivore.calcul_distance_proie(
+                                (plante.x, plante.y)
+                            )
+                            if distance <= herbivore.rayon_vision:
+                                proies_detectees.append(plante)
+                                distance_proies.append(distance)
+                        if proies_detectees == []:
+                            # Si aucune plante détectée, déplacement aléatoire
+                            herbivore.changer_direction([-5, 0, 5])
+                        else:
+                            # Sinon, cible la plante la plus proche
+                            proie_la_plus_proche = min(distance_proies)
+                            indice_proie = distance_proies.index(
+                                proie_la_plus_proche
+                            )
+                            proie_cible = proies_detectees[indice_proie]
+                            angle_cible = herbivore.calcul_angle_proie(
+                                (proie_cible.x, proie_cible.y)
+                            )
+                            herbivore.ciblage_proie(angle_cible)
+                        herbivore.move()
+                        herbivore.grow()
                     else:
                         # Si un prédateur est détecté, fuite dans la direction opposée
                         predateur_le_plus_proche = min(distance_predateurs)
@@ -309,11 +311,12 @@ class Display:
                             (predateur_danger.x, predateur_danger.y)
                         )
                         herbivore.fuite(angle_danger)
+                        herbivore.changer_direction([-20, -10, 0, 10, 20])
                         herbivore.move()
                         herbivore.grow()
 
             # --- Gestion des plantes ---
-            for plante in self.tous_plantes:
+            for plante in list(self.tous_plantes):
                 plante.grow()
 
             # Affichage de tous les sprites sur l'écran

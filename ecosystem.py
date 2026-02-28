@@ -164,7 +164,7 @@ class Herbivores(pygame.sprite.Sprite):
 
     def fuite(self, angle):
         # Fait fuir l'herbivore dans la direction opposée à celle du prédateur
-        self.direction = -angle
+        self.direction = (angle + 180) % 360
 
     def changer_direction(self, var_direction):
         # Change la direction de l'herbivore de façon aléatoire parmi les valeurs proposées
