@@ -7,6 +7,7 @@ Tous les paramètres réglables du jeu.
 
 # Affichage
 FPS = 60
+VITESSE_SIMULATION = [1, 2, 5, 10]
 TAILLE_SPRITE = (50, 50)
 
 # Paramètres d'affichage de la fenêtre principale du jeu

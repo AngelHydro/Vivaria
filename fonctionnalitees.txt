@@ -9,7 +9,7 @@
   - 0 énergie = mort v
     - Mort par famine OU vieillesse v
   - Reproduction si énergie suffisante
-  - Cycle de croissance des plantes (repoussent naturellement)
+  - Cycle de croissance des plantes (repoussent naturellement) v
 
 
 Interface Base
@@ -66,7 +66,7 @@ Environnement Dynamique
 Interface Avancée
 - Interface overlay complète (style jeu vidéo moderne)
 - Tous les boutons environnement fonctionnels :
-  - 4 boutons biomes
+  - 4 boutons biomes v
   - 4 boutons météo
   - 4 boutons saisons
 
@@ -93,12 +93,6 @@ Interface Avancée
 - Indicateur état simulation :
   - Texte visible : "⏸️ PAUSE" / "▶️ EN COURS" / "⚡ x5"
   - Feedback utilisateur clair
-
-- Presets d'écosystèmes (3 scénarios) :
-  - 🌿 "Équilibre" : 100 plantes, 30 herbivores, 10 carnivores
-  - 💥 "Chaos" : 50 plantes, 20 herbivores, 20 carnivores
-  - 🌱 "Jardin" : 200 plantes, 15 herbivores, 3 carnivores
-  - Boutons accès rapide
 
 
 Données

@@ -7,13 +7,12 @@ Contient toute la logique de simulation de l'environnement.
 
 import config
 
-# Les classes suivantes définissent les différents environnements du jeu :
-# - Biomes : influence la croissance des plantes et les caractéristiques des animaux selon le type de terrain
-# - Meteo : influence la croissance des plantes selon la météo courante
-# - Saisons : influence la croissance des plantes selon la saison courante
-
-# Ajouter les effets de bases des différentes classes
-...
+"""
+Les classes suivantes définissent les différents environnements du jeu :
+- Biomes : influence la croissance des plantes et les caractéristiques des animaux selon le type de terrain
+- Meteo : influence la croissance des plantes selon la météo courante
+- Saisons : influence la croissance des plantes selon la saison courante
+"""
 
 
 class Biomes:
