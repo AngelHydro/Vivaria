@@ -345,13 +345,13 @@ class Display:
                                     "data/img/PlantePrintemps_Plaine.png"
                                 )
                         elif self.saison.etat == "ete":
-                            self.type_plante == "Buisson"
+                            self.type_plante = "Buisson"
                             self.plante_image = "data/img/PlanteEte_Plaine.png"
                         elif self.saison.etat == "automne":
-                            self.type_plante == "Buisson"
+                            self.type_plante = "Buisson"
                             self.plante_image = "data/img/PlanteAutomne_Plaine.png"
                         elif self.saison.etat == "hiver":
-                            self.type_plante == "Buisson"
+                            self.type_plante = "Buisson"
                             self.plante_image = "data/img/PlanteHiver_Plaine-Grown.png"
 
                     # Plantes de la forêt
@@ -418,7 +418,6 @@ class Display:
             if self.seconde == 60:
                 self.minute = 1
                 self.seconde = 0
-
 
     def reinitialiser(self):
         """
