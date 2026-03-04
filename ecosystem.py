@@ -28,6 +28,7 @@ class Plantes(pygame.sprite.Sprite):
     def __init__(self, display, name, x, y, screen, temps, img):
         super().__init__()
         self.screen = screen
+        self.name = name
         self.x = x
         self.y = y
         self.age = 1  # Âge de la plante (en "jours" de simulation)
@@ -77,6 +78,7 @@ class Herbivores(pygame.sprite.Sprite):
         super().__init__()
         self.screen = screen
         self.display = display
+        self.name = name
         self.x = x
         self.y = y
         self.age = 1  # Âge de l'herbivore
@@ -194,6 +196,7 @@ class Carnivores(pygame.sprite.Sprite):
         super().__init__()
         self.screen = screen
         self.display = display
+        self.name = name
         self.x = x
         self.y = y
         self.age = 1  # Âge du carnivore

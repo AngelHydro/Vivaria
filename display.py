@@ -38,9 +38,13 @@ class Display:
         self.biome = Biomes(self)
         self.saison = Saisons(self)
         self.meteo = Meteo(self)
-        self.nb_frames = 0
+        self.chrono_ms = 0
         self.seconde = 0
         self.minute = 0
+        # On utilise un timer pour contrôler la fréquence d'apparition
+        self.spawn_timer_plante = 0  # Initialisation du timer
+        self.spawn_timer_herbivore = 0
+        self.spawn_timer_carnivore = 0
 
     def demarrage(
         self,
@@ -220,10 +224,10 @@ class Display:
             for carnivore in list(self.tous_carnivores):
                 # Si le carnivore sort de l'écran, il rebondit sur le bord
                 if (
-                    carnivore.x < 0
-                    or carnivore.x > screen.get_width()
-                    or carnivore.y < 0
-                    or carnivore.y > screen.get_height()
+                    carnivore.x < 20
+                    or carnivore.x > screen.get_width() - 20
+                    or carnivore.y < 20
+                    or carnivore.y > screen.get_height() - 20
                 ):
                     carnivore.bordure()
                 else:
@@ -255,12 +259,11 @@ class Display:
             # --- Gestion des herbivores ---
             for herbivore in list(self.tous_herbivores):
                 # Détection de la proximité des bords de l'écran
-                marge = 20
                 au_bord = (
-                    herbivore.x < marge
-                    or herbivore.x > screen.get_width() - marge
-                    or herbivore.y < marge
-                    or herbivore.y > screen.get_height() - marge
+                    herbivore.x < 20
+                    or herbivore.x > screen.get_width() - 20
+                    or herbivore.y < 20
+                    or herbivore.y > screen.get_height() - 20
                 )
                 if au_bord:
                     herbivore.bordure()
@@ -318,16 +321,14 @@ class Display:
                         herbivore.grow()
 
             # --- Gestion des plantes ---
-            # --- Apparition périodique de nouvelles plantes ---
-            # On utilise un timer pour contrôler la fréquence d'apparition
-            if not hasattr(self, "spawn_timer"):
-                self.spawn_timer = 0  # Initialisation du timer si nécessaire
-
-            self.spawn_timer += 1  # Incrémentation du timer à chaque frame
+            # --- Apparition périodique de nouvelles entités ---
+            self.spawn_timer_plante += 1  # Incrémentation du timer à chaque frame
+            self.spawn_timer_herbivore += 1
+            self.spawn_timer_carnivore += 1
             if (
-                self.spawn_timer >= config.DELAIS_SPAWN_PLANTES
+                self.spawn_timer_plante >= config.DELAIS_SPAWN_PLANTES
             ):  # Toutes les 5 secondes (à 60 FPS)
-                self.spawn_timer = 0  # Réinitialisation du timer
+                self.spawn_timer_plante = 0  # Réinitialisation du timer
                 # On génère entre 1 et 4 nouvelles plantes à chaque apparition
                 nb_nouvelles = randint(1, 4)
                 for _ in range(nb_nouvelles):
@@ -403,6 +404,83 @@ class Display:
                     self.apparaitre_plante(nouvelle_plante)
                     self.nb_plantes += 1
 
+            if (
+                self.spawn_timer_herbivore >= config.DELAIS_SPAWN_HERBIVORES
+            ):  # Toutes les 7.5 secondes (à 60 FPS)
+                self.spawn_timer_herbivore = 0  # Réinitialisation du timer
+                if not len(self.tous_herbivores) == 0:
+                    nb_nouvelles = randint(1, 2)
+                    index = randint(0, len(self.tous_herbivores) - 1)
+                    for _ in range(nb_nouvelles):
+                        if self.biome.etat == "plaine":
+                            if list(self.tous_herbivores)[index].name == "Poule":
+                                self.type_herbivore = "Poule"
+                                self.herbivore_image = "data/img/Herbivore_plaine.png"
+                            elif list(self.tous_herbivores)[index].name == "Vache":
+                                self.type_herbivore = "Vache"
+                                self.herbivore_image = "data/img/Herbivore2_plaine.png"
+                        # Textures des herbivores de la forêt
+                        elif self.biome.etat == "foret":
+                            self.type_herbivore = "Sanglier"
+                            self.herbivore_image = "data/img/Herbivore_foret.png"
+                        # Textures des herbivores du désert
+                        elif self.biome.etat == "desert":
+                            self.type_herbivore = "Chameau"
+                            self.herbivore_image = "data/img/Herbivore_desert.png"
+                        # Textures des herbivores de la toundra
+                        elif self.biome.etat == "toundra":
+                            self.type_herbivore = "Cerf"
+                            self.herbivore_image = "data/img/Herbivore_toundra.png"
+                        # Création et ajout de l'herbivore
+                        self.herbivore = Herbivores(
+                            self,
+                            self.type_herbivore,
+                            list(self.tous_herbivores)[index].x,
+                            list(self.tous_herbivores)[index].y,
+                            screen,
+                            temps,
+                            self.herbivore_image,
+                        )
+                        self.apparaitre_herbivore(self.herbivore)
+                        self.nb_herbivores += 1
+
+            if (
+                self.spawn_timer_carnivore >= config.DELAIS_SPAWN_CARNIVORES
+            ):  # Toutes les 10 secondes (à 60 FPS)
+                self.spawn_timer_carnivore = 0  # Réinitialisation du timer
+                if not len(self.tous_carnivores) == 0:
+                    nb_nouvelles = randint(1, 2)
+                    for _ in range(nb_nouvelles):
+                        if self.biome.etat == "plaine":
+                            self.type_carnivore = "Renard"
+                            self.carnivore_image = "data/img/Predateur_plaine.png"
+                        # Textures des carnivores de la forêt
+                        elif self.biome.etat == "foret":
+                            self.type_carnivore = "Ours"
+                            self.carnivore_image = "data/img/Predateur_foret.png"
+                        # Textures des carnivores du désert
+                        elif self.biome.etat == "desert":
+                            self.type_carnivore = "Fennec"
+                            self.carnivore_image = "data/img/Predateur_desert.png"
+                        # Textures des carnivores de la toundra
+                        elif self.biome.etat == "toundra":
+                            self.type_carnivore = "Loup"
+                            self.carnivore_image = "data/img/Predateur_toundra.png"
+                        # Création et ajout du carnivore
+                        index = randint(0, len(self.tous_carnivores) - 1)
+                        self.carnivore = Carnivores(
+                            self,
+                            self.type_carnivore,
+                            list(self.tous_carnivores)[index].x,
+                            list(self.tous_carnivores)[index].y,
+                            screen,
+                            temps,
+                            self.carnivore_image,
+                        )
+                        self.apparaitre_carnivore(self.carnivore)
+                        self.nb_carnivores += 1
+
+
             # Fait grandir chaque plante (croissance, vieillissement, etc.)
             for plante in list(self.tous_plantes):
                 plante.grow()
@@ -412,12 +490,13 @@ class Display:
             self.tous_herbivores.draw(screen)
             self.tous_carnivores.draw(screen)
 
-            if self.nb_frames >= temps:
+            self.chrono_ms += temps  # accumule les millisecondes
+            if self.chrono_ms >= 1000:  # 1000ms = 1 seconde réelle
                 self.seconde += 1
-                self.nb_frames = 0
-            if self.seconde == 60:
-                self.minute = 1
-                self.seconde = 0
+                self.chrono_ms -= 1000  # soustrait plutôt que remet à 0 pour pas perdre les ms en trop
+                if self.seconde >= 60:
+                    self.minute += 1
+                    self.seconde = 0
 
     def reinitialiser(self):
         """
@@ -432,6 +511,12 @@ class Display:
         self.nb_plantes = 0
         self.nb_herbivores = 0
         self.nb_carnivores = 0
+        self.spawn_timer_plante = 0
+        self.spawn_timer_herbivore = 0
+        self.spawn_timer_carnivore = 0
+        self.chrono_ms = 0
+        self.seconde = 0
+        self.minute = 0
         self.start = False
 
     def verifier_collision(self, sprite, group):

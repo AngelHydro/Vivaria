@@ -161,8 +161,8 @@ bouton_hiver = pygame.Rect(
 )
 
 surface_chrono = pygame.Rect(
-    config.LARGEUR * 83 / 100,
-    config.HAUTEUR * 10 / 100,
+    config.LARGEUR * 90 / 100,
+    config.HAUTEUR * 3 / 100,
     config.LARGEUR * 7 / 100,
     config.HAUTEUR * 4 / 100,
 )
@@ -208,6 +208,7 @@ def recalculer_dimensions(screen):
     bouton_ete = pygame.Rect(w * 10 / 100, h * 91 / 100, w * 7 / 100, h * 4 / 100)
     bouton_automne = pygame.Rect(w * 19 / 100, h * 91 / 100, w * 7 / 100, h * 4 / 100)
     bouton_hiver = pygame.Rect(w * 2 / 100, h * 97 / 100, w * 7 / 100, h * 4 / 100)
+    surface_chrono = pygame.Rect(w * 90 / 100, h * 3 / 100, w * 7 / 100, h * 4 / 100)
 
     # Retourne tous les boutons et surfaces recalculés
     return (
@@ -231,15 +232,16 @@ def recalculer_dimensions(screen):
         bouton_ete,
         bouton_automne,
         bouton_hiver,
+        surface_chrono
     )
 
+contenu_texte_demarrer = "Lancer"
 
 # Boucle principale du jeu
 while running:
     draw_background()
     # Limite la boucle à 60 FPS et récupère le temps écoulé depuis la dernière frame
     temps = clock.tick(60)
-
     # Recalcule dynamiquement les positions et tailles des boutons/surfaces à chaque frame
     (
         bouton_demarrer,
@@ -262,6 +264,7 @@ while running:
         bouton_ete,
         bouton_automne,
         bouton_hiver,
+        surface_chrono
     ) = recalculer_dimensions(screen)
 
     # Applique les effets de l'environnement si les attributs nécessaires existent
@@ -279,7 +282,7 @@ while running:
 
     # Affichage des boutons et compteurs sur la fenêtre
     texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
-    texte_demarrer = texte_demarrer_font.render("Démarrer", True, (0, 0, 0))
+    texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
     texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
     pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
     screen.blit(texte_demarrer, texte_demarrer_rect)
@@ -330,8 +333,10 @@ while running:
 
     # Si la simulation est en cours et non en pause, on met à jour les entités
     if display.is_playing and not display.pause:
+        contenu_texte_demarrer = "Pause"
         display.mise_a_jour(screen, temps)
     else:
+        contenu_texte_demarrer = "Lancer"
         # Sinon, on affiche le titre, les instructions et le bouton réinitialiser
         # (utile lors de la pause ou avant le démarrage)
         titre_font = pygame.font.Font(None, config.TAILLE_FONT)
