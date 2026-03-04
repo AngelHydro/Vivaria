@@ -266,9 +266,12 @@ while running:
     pygame.draw.rect(screen, (0, 0, 0), surface_nb_carnivores, 3)
     screen.blit(texte_nb_carnivores, texte_nb_carnivores_rect)
 
+    texte_temps_font = pygame.font.Font(None, config.TAILLE_FONT)
+    texte_temps = texte_temps_font.render(f"{display.minute}:{display.seconde}")
+
     # Si la simulation est en cours et non en pause, on met à jour les entités
     if display.is_playing and not display.pause:
-        display.mise_a_jour(screen)
+        display.mise_a_jour(screen, temps)
     else:
         # Sinon, on affiche le titre, les instructions et le bouton réinitialiser
         # (utile lors de la pause ou avant le démarrage)

@@ -38,6 +38,9 @@ class Display:
         self.biome = Biomes(self)
         self.saison = Saisons(self)
         self.meteo = Meteo(self)
+        self.nb_frames = 0
+        self.seconde = 0
+        self.minute = 0
 
     def demarrage(
         self,
@@ -203,7 +206,7 @@ class Display:
         self.is_playing = True
         self.pause = False
 
-    def mise_a_jour(self, screen):
+    def mise_a_jour(self, screen, temps):
         """
         Met à jour l'écran et permet l'affichage et les déplacements des êtres vivants.
         Gère la logique de poursuite, fuite, et bordures pour chaque entité.
@@ -408,6 +411,14 @@ class Display:
             self.tous_plantes.draw(screen)
             self.tous_herbivores.draw(screen)
             self.tous_carnivores.draw(screen)
+
+            if self.nb_frames >= temps:
+                self.seconde += 1
+                self.nb_frames = 0
+            if self.seconde == 60:
+                self.minute = 1
+                self.seconde = 0
+
 
     def reinitialiser(self):
         """
