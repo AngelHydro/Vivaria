@@ -24,14 +24,18 @@ pygame.display.set_icon(icone)
 # Création de la fenêtre redimensionnable avec la taille définie dans config
 screen = pygame.display.set_mode((config.LARGEUR, config.HAUTEUR), pygame.RESIZABLE)
 
+# Instancie la classe Display qui gère toutes les entités et interactions
+display = Display(screen)
+
+fond = pygame.image.load("data/img/Plaine_printemps.png")
+taille_w = fond.get_width()
+taille_h = fond.get_height()
 
 def draw_background():
     # Dessine un fond vert sur toute la surface de la fenêtre
-    pygame.draw.rect(screen, (0, 255, 0), (0, 0, config.LARGEUR, config.HAUTEUR))
-
-
-# Instancie la classe Display qui gère toutes les entités et interactions
-display = Display(screen)
+    for i in range(0, config.LARGEUR, taille_w):
+        for j in range(0, config.HAUTEUR, taille_h):
+            screen.blit(fond, (i, j))
 
 """Préparation des surfaces de texte et des boutons (affichage statique)"""
 # Positionnement du bouton "Démarrer"
@@ -242,6 +246,42 @@ while running:
     draw_background()
     # Limite la boucle à 60 FPS et récupère le temps écoulé depuis la dernière frame
     temps = clock.tick(60)
+    if display.biome.etat == "plaine":
+        if display.saison.etat == "printemps":
+            fond = pygame.image.load("data/img/Plaine_printemps.png")
+        elif display.saison.etat == "ete":
+            fond = pygame.image.load("data/img/Plaine_été.png")
+        elif display.saison.etat == "automne":
+            fond = pygame.image.load("data/img/Plaine_automne.png")
+        elif display.saison.etat == "hiver":
+            fond = pygame.image.load("data/img/Plaine_Hiver.png")
+    elif display.biome.etat == "foret":
+        if display.saison.etat == "printemps":
+            
+        elif display.saison.etat == "ete":
+
+        elif display.saison.etat == "automne":
+
+        elif display.saison.etat == "hiver":
+
+    elif display.biome.etat == "desert":
+        if display.saison.etat == "printemps"
+        
+        elif display.saison.etat == "ete":
+            
+        elif display.saison.etat == "automne":
+            
+        elif display.saison.etat == "hiver":
+
+    elif display.biome.etat == "toundra":
+        if display.saison.etat == "printemps":
+
+        elif display.saison.etat == "ete":
+
+        elif display.saison.etat == "automne":
+
+        elif display.saison.etat == "hiver":
+
     # Recalcule dynamiquement les positions et tailles des boutons/surfaces à chaque frame
     (
         bouton_demarrer,
