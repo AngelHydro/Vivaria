@@ -12,6 +12,7 @@ import pygame
 import config
 from ecosystem import Carnivores, Herbivores, Plantes
 from environment import Biomes, Meteo, Saisons
+from graphique import *
 
 
 class Display:
@@ -39,12 +40,23 @@ class Display:
         self.saison = Saisons(self)
         self.meteo = Meteo(self)
         self.chrono_ms = 0
-        self.seconde = 0
-        self.minute = 0
+        self.heures = 0
+        self.jours = 0
         # On utilise un timer pour contrôler la fréquence d'apparition
         self.spawn_timer_plante = 0  # Initialisation du timer
         self.spawn_timer_herbivore = 0
         self.spawn_timer_carnivore = 0
+
+        self.chrono_graphique = 0
+        self.chrono_graphique_update = 0
+
+        self.historique_plantes = [self.nb_plantes]
+        self.historique_herbivores = [self.nb_herbivores]
+        self.historique_carnivores = [self.nb_carnivores]
+        self.liste_jours = [0]
+        self.fig, self.ax = creer_figure()
+        self.surface_graphique = None
+        self.affichage_graphique = False
 
     def demarrage(
         self,
@@ -206,6 +218,12 @@ class Display:
             )
             self.apparaitre_carnivore(self.carnivore)
             self.nb_carnivores += 1
+
+        self.historique_plantes = [self.nb_plantes]
+        self.historique_herbivores = [self.nb_herbivores]
+        self.historique_carnivores = [self.nb_carnivores]
+        self.liste_jours = [0]
+        update_graphique(self)
         # Démarre la simulation
         self.is_playing = True
         self.pause = False
@@ -491,12 +509,38 @@ class Display:
             self.tous_carnivores.draw(screen)
 
             self.chrono_ms += temps  # accumule les millisecondes
-            if self.chrono_ms >= 1000:  # 1000ms = 1 seconde réelle
-                self.seconde += 1
-                self.chrono_ms -= 1000  # soustrait plutôt que remet à 0 pour pas perdre les ms en trop
-                if self.seconde >= 60:
-                    self.minute += 1
-                    self.seconde = 0
+            if self.chrono_ms >= 208:
+                self.heures += 1
+                self.chrono_ms -= 208
+                if self.heures >= 24:
+                    self.jours += 1
+                    self.heures = 0
+
+            self.chrono_graphique += temps
+            if self.chrono_graphique >= 208:
+                self.liste_jours.append(self.jours * 24 + self.heures)
+                self.historique_plantes.append(self.nb_plantes)
+                self.historique_herbivores.append(self.nb_herbivores)
+                self.historique_carnivores.append(self.nb_carnivores)
+                self.chrono_graphique -= 208
+
+            if len(self.historique_plantes) > 200:
+                while len(self.historique_plantes) > 200:
+                    self.historique_plantes.pop(0)
+            if len(self.historique_herbivores) > 200:
+                while len(self.historique_herbivores) > 200:
+                    self.historique_herbivores.pop(0)
+            if len(self.historique_carnivores) > 200:
+                while len(self.historique_carnivores) > 200:
+                    self.historique_carnivores.pop(0)
+            if len(self.liste_jours) > 200:
+                while len(self.liste_jours) > 200:
+                    self.liste_jours.pop(0)
+
+            self.chrono_graphique_update += temps
+            if self.chrono_graphique_update >= 1000:
+                update_graphique(self)
+                self.chrono_graphique_update -= 1000
 
     def reinitialiser(self):
         """
@@ -515,8 +559,12 @@ class Display:
         self.spawn_timer_herbivore = 0
         self.spawn_timer_carnivore = 0
         self.chrono_ms = 0
-        self.seconde = 0
-        self.minute = 0
+        self.heures = 0
+        self.jours = 0
+        self.chrono_graphique = 0
+        self.historique_plantes = 0
+        self.historique_herbivores = 0
+        self.historique_carnivores = 0
         self.start = False
 
     def verifier_collision(self, sprite, group):

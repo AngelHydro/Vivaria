@@ -12,6 +12,7 @@ import pygame
 import config
 import environment
 from display import Display
+from graphique import *
 
 # Initialisation de Pygame et de la fenêtre principale
 pygame.init()
@@ -50,6 +51,13 @@ bouton_demarrer = pygame.Rect(
 bouton_reinitialiser = pygame.Rect(
     config.LARGEUR * 83 / 100,
     config.HAUTEUR * 75 / 100,
+    config.LARGEUR * 15 / 100,
+    config.HAUTEUR * 7 / 100,
+)
+
+bouton_graphique = pygame.Rect(
+    config.LARGEUR * 83 / 100,
+    config.HAUTEUR * 85 / 100,
     config.LARGEUR * 15 / 100,
     config.HAUTEUR * 7 / 100,
 )
@@ -165,9 +173,9 @@ bouton_hiver = pygame.Rect(
 )
 
 surface_chrono = pygame.Rect(
-    config.LARGEUR * 90 / 100,
+    config.LARGEUR * 88 / 100,
     config.HAUTEUR * 3 / 100,
-    config.LARGEUR * 7 / 100,
+    config.LARGEUR * 10 / 100,
     config.HAUTEUR * 4 / 100,
 )
 
@@ -212,7 +220,11 @@ def recalculer_dimensions(screen):
     bouton_ete = pygame.Rect(w * 10 / 100, h * 91 / 100, w * 7 / 100, h * 4 / 100)
     bouton_automne = pygame.Rect(w * 19 / 100, h * 91 / 100, w * 7 / 100, h * 4 / 100)
     bouton_hiver = pygame.Rect(w * 2 / 100, h * 97 / 100, w * 7 / 100, h * 4 / 100)
-    surface_chrono = pygame.Rect(w * 90 / 100, h * 3 / 100, w * 7 / 100, h * 4 / 100)
+    surface_chrono = pygame.Rect(w * 88 / 100, h * 3 / 100, w * 10 / 100, h * 4 / 100)
+    bouton_graphique = pygame.Rect(w * 83 / 100, h * 85 / 100, w * 15 / 100, h * 7 / 100)
+
+    display.fig.set_size_inches(w / 100, h / 100)
+    display.ax.clear()
 
     # Retourne tous les boutons et surfaces recalculés
     return (
@@ -236,7 +248,8 @@ def recalculer_dimensions(screen):
         bouton_ete,
         bouton_automne,
         bouton_hiver,
-        surface_chrono
+        surface_chrono,
+        bouton_graphique
     )
 
 contenu_texte_demarrer = "Lancer"
@@ -257,31 +270,31 @@ while running:
             fond = pygame.image.load("data/img/Plaine_Hiver.png")
     elif display.biome.etat == "foret":
         if display.saison.etat == "printemps":
-            
+            fond = pygame.image.load("data/img/Foret_Printemps.png")
         elif display.saison.etat == "ete":
-
+            fond = pygame.image.load("data/img/Foret_été.png")
         elif display.saison.etat == "automne":
-
+            fond = pygame.image.load("data/img/Foret_automne.png")
         elif display.saison.etat == "hiver":
-
+            fond = pygame.image.load("data/img/Foret_hiver.png")
     elif display.biome.etat == "desert":
-        if display.saison.etat == "printemps"
-        
+        if display.saison.etat == "printemps":
+            fond = pygame.image.load("data/img/Desert_printemps.png")
         elif display.saison.etat == "ete":
-            
+            fond = pygame.image.load("data/img/Desert_été.png")
         elif display.saison.etat == "automne":
-            
+            fond = pygame.image.load("data/img/Desert_automne.png")
         elif display.saison.etat == "hiver":
-
+            fond = pygame.image.load("data/img/Desert_hiver.png")
     elif display.biome.etat == "toundra":
         if display.saison.etat == "printemps":
-
+            fond = pygame.image.load("data/img/Toundra_printemps.png")
         elif display.saison.etat == "ete":
-
+            fond = pygame.image.load("data/img/Toundra_été.png")
         elif display.saison.etat == "automne":
-
+            fond = pygame.image.load("data/img/Toundra_automne.png")
         elif display.saison.etat == "hiver":
-
+            fond = pygame.image.load("data/img/Toundra_hiver.png")
     # Recalcule dynamiquement les positions et tailles des boutons/surfaces à chaque frame
     (
         bouton_demarrer,
@@ -304,7 +317,8 @@ while running:
         bouton_ete,
         bouton_automne,
         bouton_hiver,
-        surface_chrono
+        surface_chrono,
+        bouton_graphique
     ) = recalculer_dimensions(screen)
 
     # Applique les effets de l'environnement si les attributs nécessaires existent
@@ -326,6 +340,12 @@ while running:
     texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
     pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
     screen.blit(texte_demarrer, texte_demarrer_rect)
+
+    texte_graphique_font = pygame.font.Font(None, config.TAILLE_FONT)
+    texte_graphique = texte_graphique_font.render("Graphique", True, (0, 0, 0))
+    texte_graphique_rect = texte_graphique.get_rect(center=bouton_graphique.center)
+    pygame.draw.rect(screen, (0, 0, 0), bouton_graphique, 3)
+    screen.blit(texte_graphique, texte_graphique_rect)
 
     # Génère dynamiquement les textes des compteurs d'entités à chaque frame
     texte_nb_plantes_font = pygame.font.Font(None, config.TAILLE_FONT)
@@ -357,19 +377,22 @@ while running:
     screen.blit(texte_nb_carnivores, texte_nb_carnivores_rect)
 
     texte_chrono_font = pygame.font.Font(None, config.TAILLE_FONT)
-    if display.minute < 10:
-        if display.seconde < 10:
-            contenu_texte_chrono = f"0{display.minute}:0{display.seconde}"
+    if display.jours < 10:
+        if display.heures < 10:
+            contenu_texte_chrono = f"0{display.jours}j 0{display.heures}h"
         else:
-            contenu_texte_chrono = f"0{display.minute}:{display.seconde}"
-    elif display.seconde < 10:
-        contenu_texte_chrono = f"{display.minute}:0{display.seconde}"
+            contenu_texte_chrono = f"0{display.jours}j {display.heures}h"
+    elif display.heures < 10:
+        contenu_texte_chrono = f"{display.jours}j 0{display.heures}h"
     else:
-        contenu_texte_chrono = f"{display.minute}:{display.seconde}"
+        contenu_texte_chrono = f"{display.jours}j {display.heures}h"
     texte_chrono = texte_chrono_font.render(contenu_texte_chrono, True, (0, 0, 0))
     texte_chrono_rect = texte_chrono.get_rect(center=surface_chrono.center)
     pygame.draw.rect(screen, (0, 0, 0), surface_chrono, 3)
     screen.blit(texte_chrono, texte_chrono_rect)
+
+    if display.affichage_graphique and display.surface_graphique is not None:
+        screen.blit(display.surface_graphique, (0, 0))
 
     # Si la simulation est en cours et non en pause, on met à jour les entités
     if display.is_playing and not display.pause:
@@ -552,6 +575,8 @@ while running:
                     display.pause = True
             elif bouton_reinitialiser.collidepoint(event.pos):
                 display.reinitialiser()
+            elif bouton_graphique.collidepoint(event.pos):
+                display.affichage_graphique = not display.affichage_graphique
             # conditions pour les collisions des boutons de changement de biome
             if bouton_plaine.collidepoint(event.pos):
                 display.reinitialiser()

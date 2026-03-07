@@ -19,9 +19,9 @@ Interface Base
   -🌱 Nombre de plantes v
   -🐰 Nombre d'herbivores v
   -🦁 Nombre de carnivores v
-  -⏱️ Temps écoulé (en jours simulés)
+  -⏱️ Temps écoulé (en heures et jours simulés) v
 
-- Bouton ▶️ Play / ⏸️ Pause
+- Bouton ▶️ Play / ⏸️ Pause v
 - Bouton 🔄 Reset (réinitialise tout) v
 
 - Sélection de 4 biomes :
@@ -38,6 +38,7 @@ Technique
   - ecosystem.py - Logique simulation v
   - environment.py - Environnement dynamique v
   - display.py - Interface graphique v
+  - graphique.py - fonctions de traçage de graphique v
   - config.py - Paramètres v
 
 - Gestion propre des événements (clavier, souris) v
@@ -67,8 +68,8 @@ Interface Avancée
 - Interface overlay complète (style jeu vidéo moderne)
 - Tous les boutons environnement fonctionnels :
   - 4 boutons biomes v
-  - 4 boutons météo
-  - 4 boutons saisons
+  - 4 boutons météo v
+  - 4 boutons saisons v
 
 - Feedback visuel systématique :
   - Bouton actif = couleur distinctive (vert/orange/violet)
@@ -76,19 +77,19 @@ Interface Avancée
   - Bordures et transparence
 
 - Graphiques populations (popup Matplotlib) :
-  - Courbes d'évolution des 3 populations
-  - Axe X = temps, Axe Y = nombre d'individus
+  - Courbes d'évolution des 3 populations v
+  - Axe X = temps, Axe Y = nombre d'individus v
   - Légende claire
-  - Bouton "📊 Graphiques" pour ouvrir
+  - Bouton "📊 Graphiques" pour ouvrir v
 
 - Contrôle vitesse simulation :
   - Boutons : x1, x2, x5, x10
   - Affichage vitesse actuelle dans l'interface
 
 - Stockage historique populations :
-  - Liste circulaire des 1000 dernières valeurs
+  - Liste circulaire des 1000 dernières valeurs v
   - Mise à jour chaque frame v
-  - Nécessaire pour graphiques
+  - Nécessaire pour graphiques v
 
 - Indicateur état simulation :
   - Texte visible : "⏸️ PAUSE" / "▶️ EN COURS" / "⚡ x5"
@@ -104,7 +105,7 @@ Données
 🟢 BONUS
 Visuel (DA)
 - Sprites pixel-art pour entités (16x16 ou 32x32) v
-- Backgrounds PNG par biome (optionnel)
+- Backgrounds PNG par biome (optionnel) v
 - Animations simples (herbivore mange plante = flash)
 
 Gameplay
