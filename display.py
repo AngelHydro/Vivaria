@@ -524,17 +524,17 @@ class Display:
                 self.historique_carnivores.append(self.nb_carnivores)
                 self.chrono_graphique -= 208
 
-            if len(self.historique_plantes) > 200:
-                while len(self.historique_plantes) > 200:
+            if len(self.historique_plantes) > 1000:
+                while len(self.historique_plantes) > 1000:
                     self.historique_plantes.pop(0)
-            if len(self.historique_herbivores) > 200:
-                while len(self.historique_herbivores) > 200:
+            if len(self.historique_herbivores) > 1000:
+                while len(self.historique_herbivores) > 1000:
                     self.historique_herbivores.pop(0)
-            if len(self.historique_carnivores) > 200:
-                while len(self.historique_carnivores) > 200:
+            if len(self.historique_carnivores) > 1000:
+                while len(self.historique_carnivores) > 1000:
                     self.historique_carnivores.pop(0)
-            if len(self.liste_jours) > 200:
-                while len(self.liste_jours) > 200:
+            if len(self.liste_jours) > 1000:
+                while len(self.liste_jours) > 1000:
                     self.liste_jours.pop(0)
 
             self.chrono_graphique_update += temps
@@ -565,6 +565,7 @@ class Display:
         self.historique_plantes = 0
         self.historique_herbivores = 0
         self.historique_carnivores = 0
+        self.ax.clear()
         self.start = False
 
     def verifier_collision(self, sprite, group):

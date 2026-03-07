@@ -79,7 +79,7 @@ Interface Avancée
 - Graphiques populations (popup Matplotlib) :
   - Courbes d'évolution des 3 populations v
   - Axe X = temps, Axe Y = nombre d'individus v
-  - Légende claire
+  - Légende claire v
   - Bouton "📊 Graphiques" pour ouvrir v
 
 - Contrôle vitesse simulation :
