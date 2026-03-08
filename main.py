@@ -287,19 +287,19 @@ while running:
         texte_biome_font = pygame.font.Font(None, config.TAILLE_FONT)
         texte_biome = texte_biome_font.render("Biome", True, (255, 255, 255))
         texte_biome_rect = texte_biome.get_rect(
-            center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 55 / 100)
+            center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 51 / 100)
         )
 
         texte_meteo_font = pygame.font.Font(None, config.TAILLE_FONT)
         texte_meteo = texte_meteo_font.render("Météo", True, (255, 255, 255))
         texte_meteo_rect = texte_meteo.get_rect(
-            center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 72 / 100)
+            center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 68 / 100)
         )
 
         texte_saison_font = pygame.font.Font(None, config.TAILLE_FONT)
         texte_saison = texte_saison_font.render("Saison", True, (255, 255, 255))
         texte_saison_rect = texte_saison.get_rect(
-            center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 89 / 100)
+            center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 85 / 100)
         )
 
         # Bouton "Plaine"

@@ -562,9 +562,10 @@ class Display:
         self.heures = 0
         self.jours = 0
         self.chrono_graphique = 0
-        self.historique_plantes = 0
-        self.historique_herbivores = 0
-        self.historique_carnivores = 0
+        self.liste_jours = [0]
+        self.historique_plantes = [self.nb_plantes]
+        self.historique_herbivores = [self.nb_herbivores]
+        self.historique_carnivores = [self.nb_carnivores]
         self.ax.clear()
         self.start = False
 
