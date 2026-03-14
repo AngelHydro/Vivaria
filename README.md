@@ -38,6 +38,7 @@ Permettre à l'utilisateur d'**observer en temps réel** l'évolution des popula
 ### Prérequis
 - Python 3.8 ou supérieur
 - Pygame 3.6.2
+- Matplotlib 3.5.0 ou supérieur
 
 ### Installation
 #### Cloner le projet
@@ -60,6 +61,7 @@ python main.py
 
 - **Python 3.8 ou supérieur** : Langage principal
 - **Pygame 3.6.2** : Moteur graphique et gestion des sprites
+- **Matplotlib** : Librairie pour les graphiques d'évolution
 - **Programmation Orientée Objet** : Architecture modulaire
 
 ### Structure du projet
@@ -70,7 +72,8 @@ vivaria/
 ├── display.py        # Gestion de l'affichage et des interactions
 ├── environment.py    # Système de biomes, météo et saisons
 ├── config.py         # Paramètres de configuration
-└── data/            # Assets graphiques
+├── graphique.py      # Gestion des graphiques d'évolution
+└── data/             # Assets graphiques
 ```
 
 ---

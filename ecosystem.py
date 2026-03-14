@@ -121,7 +121,7 @@ class Herbivores(pygame.sprite.Sprite):
     def grow(self):
         # Vieillit l'herbivore et réduit son énergie à chaque "tick"
         self.age += config.CROISSANCE  # à ajuster selon l'échelle de temps souhaitée
-        self.energy -= self.cout_energy_base
+        self.energy -= self.cout_energy
         self.check_life()
         # Si un carnivore est en collision avec l'herbivore, il meurt (prédation)
         if self.display.verifier_collision(self, self.display.tous_carnivores):

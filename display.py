@@ -498,7 +498,6 @@ class Display:
                         self.apparaitre_carnivore(self.carnivore)
                         self.nb_carnivores += 1
 
-
             # Fait grandir chaque plante (croissance, vieillissement, etc.)
             for plante in list(self.tous_plantes):
                 plante.grow()
@@ -538,9 +537,9 @@ class Display:
                     self.liste_jours.pop(0)
 
             self.chrono_graphique_update += temps
-            if self.chrono_graphique_update >= 1000:
+            if self.chrono_graphique_update >= 2000:
                 update_graphique(self)
-                self.chrono_graphique_update -= 1000
+                self.chrono_graphique_update -= 2000
 
     def reinitialiser(self):
         """
