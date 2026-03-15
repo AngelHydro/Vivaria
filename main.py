@@ -193,20 +193,7 @@ while running:
             display.saison,
         )
 
-    # Affichage des boutons et compteurs sur la fenêtre
-    def affichage_boutons_permanents():
-        texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
-        texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
-        texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
-        pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
-        screen.blit(texte_demarrer, texte_demarrer_rect)
-
-        texte_graphique_font = pygame.font.Font(None, config.TAILLE_FONT)
-        texte_graphique = texte_graphique_font.render("Graphique", True, (0, 0, 0))
-        texte_graphique_rect = texte_graphique.get_rect(center=bouton_graphique.center)
-        pygame.draw.rect(screen, (0, 0, 0), bouton_graphique, 3)
-        screen.blit(texte_graphique, texte_graphique_rect)
-
+    def affichage_nb_entites():
         # Génère dynamiquement les textes des compteurs d'entités à chaque frame
         texte_nb_plantes_font = pygame.font.Font(None, config.TAILLE_FONT)
         texte_nb_plantes = texte_nb_plantes_font.render(
@@ -236,6 +223,20 @@ while running:
         pygame.draw.rect(screen, (0, 0, 0), surface_nb_carnivores, 3)
         screen.blit(texte_nb_carnivores, texte_nb_carnivores_rect)
 
+    # Affichage des boutons et compteurs sur la fenêtre
+    def affichage_boutons_permanents():
+        texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
+        texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
+        texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
+        screen.blit(texte_demarrer, texte_demarrer_rect)
+
+        texte_graphique_font = pygame.font.Font(None, config.TAILLE_FONT)
+        texte_graphique = texte_graphique_font.render("Graphique", True, (0, 0, 0))
+        texte_graphique_rect = texte_graphique.get_rect(center=bouton_graphique.center)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_graphique, 3)
+        screen.blit(texte_graphique, texte_graphique_rect)
+
         texte_chrono_font = pygame.font.Font(None, config.TAILLE_FONT)
         if display.jours < 10:
             if display.heures < 10:
@@ -255,6 +256,7 @@ while running:
     if display.is_playing and not display.pause:
         contenu_texte_demarrer = "Pause"
         display.mise_a_jour(screen, temps)
+        affichage_nb_entites()
         if display.affichage_graphique and display.surface_graphique is not None:
             screen.blit(display.surface_graphique, (0, 0))
         affichage_boutons_permanents()
@@ -393,6 +395,7 @@ while running:
         screen.blit(texte_automne, texte_automne_rect)
         screen.blit(texte_hiver, texte_hiver_rect)
 
+        affichage_nb_entites()
         if display.affichage_graphique and display.surface_graphique is not None:
             screen.blit(display.surface_graphique, (0, 0))
         affichage_boutons_permanents()

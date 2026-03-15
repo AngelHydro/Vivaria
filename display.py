@@ -537,9 +537,9 @@ class Display:
                     self.liste_jours.pop(0)
 
             self.chrono_graphique_update += temps
-            if self.chrono_graphique_update >= 2000:
+            if self.chrono_graphique_update >= 1000:
                 update_graphique(self)
-                self.chrono_graphique_update -= 2000
+                self.chrono_graphique_update -= 1000
 
     def reinitialiser(self):
         """
