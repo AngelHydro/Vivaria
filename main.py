@@ -44,6 +44,7 @@ def draw_background():
 running = True
 fullscreen = False
 
+compt_vitesse = 0
 
 # Fonction qui prend en paramètre l'écran et retourne les différents boutons et surfaces de l'interface redimensionnés en fonction de la taille d'écran
 def recalculer_dimensions(screen):
@@ -55,6 +56,8 @@ def recalculer_dimensions(screen):
     bouton_reinitialiser = pygame.Rect(
         w * 83 / 100, h * 70 / 100, w * 15 / 100, h * 7 / 100
     )
+    bouton_graphique = pygame.Rect(w * 83 / 100, h * 80 / 100, w * 15 / 100, h * 7 / 100)
+    bouton_vitesse_sim = pygame.Rect(w * 83 / 100, h * 90 / 100, w * 15 / 100, h * 7 / 100)
     surface_nb_plantes = pygame.Rect(
         w * 2 / 100, h * 3 / 100, w * 15 / 100, h * 7 / 100
     )
@@ -80,7 +83,6 @@ def recalculer_dimensions(screen):
     bouton_automne = pygame.Rect(w * 19 / 100, h * 87 / 100, w * 7 / 100, h * 4 / 100)
     bouton_hiver = pygame.Rect(w * 2 / 100, h * 93 / 100, w * 7 / 100, h * 4 / 100)
     surface_chrono = pygame.Rect(w * 88 / 100, h * 3 / 100, w * 10 / 100, h * 4 / 100)
-    bouton_graphique = pygame.Rect(w * 83 / 100, h * 80 / 100, w * 15 / 100, h * 7 / 100)
 
     display.fig.set_size_inches(w / 100, h / 100)
     display.ax.clear()
@@ -89,6 +91,7 @@ def recalculer_dimensions(screen):
     return (
         bouton_demarrer,
         bouton_reinitialiser,
+        bouton_vitesse_sim,
         surface_nb_plantes,
         surface_nb_herbivores,
         surface_nb_carnivores,
@@ -158,6 +161,7 @@ while running:
     (
         bouton_demarrer,
         bouton_reinitialiser,
+        bouton_vitesse_sim,
         surface_nb_plantes,
         surface_nb_herbivores,
         surface_nb_carnivores,
@@ -224,7 +228,7 @@ while running:
         screen.blit(texte_nb_carnivores, texte_nb_carnivores_rect)
 
     # Affichage des boutons et compteurs sur la fenêtre
-    def affichage_boutons_permanents():
+    def affichage_boutons_permanents(compt_vitesse):
         texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
         texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
         texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
@@ -236,6 +240,12 @@ while running:
         texte_graphique_rect = texte_graphique.get_rect(center=bouton_graphique.center)
         pygame.draw.rect(screen, (0, 0, 0), bouton_graphique, 3)
         screen.blit(texte_graphique, texte_graphique_rect)
+
+        texte_vitesse_sim_font = pygame.font.Font(None, config.TAILLE_FONT)
+        texte_vitesse_sim = texte_vitesse_sim_font.render(f"x {config.VITESSE_SIMULATION[compt_vitesse]}", True, (0, 0, 0))
+        texte_vitesse_sim_rect = texte_vitesse_sim.get_rect(center=bouton_vitesse_sim.center)
+        pygame.draw.rect(screen, (0, 0, 0), bouton_vitesse_sim, 3)
+        screen.blit(texte_vitesse_sim, texte_vitesse_sim_rect)
 
         texte_chrono_font = pygame.font.Font(None, config.TAILLE_FONT)
         if display.jours < 10:
@@ -259,7 +269,7 @@ while running:
         affichage_nb_entites()
         if display.affichage_graphique and display.surface_graphique is not None:
             screen.blit(display.surface_graphique, (0, 0))
-        affichage_boutons_permanents()
+        affichage_boutons_permanents(compt_vitesse)
     else:
         contenu_texte_demarrer = "Lancer"
         # Sinon, on affiche le titre, les instructions et le bouton réinitialiser
@@ -398,7 +408,7 @@ while running:
         affichage_nb_entites()
         if display.affichage_graphique and display.surface_graphique is not None:
             screen.blit(display.surface_graphique, (0, 0))
-        affichage_boutons_permanents()
+        affichage_boutons_permanents(compt_vitesse)
 
     # Gestion des événements utilisateur (clavier, souris, redimensionnement, fermeture)
     for event in pygame.event.get():
@@ -444,6 +454,12 @@ while running:
                 display.reinitialiser()
             elif bouton_graphique.collidepoint(event.pos):
                 display.affichage_graphique = not display.affichage_graphique
+            elif bouton_vitesse_sim.collidepoint(event.pos):
+                compt_vitesse += 1
+                if compt_vitesse == 4:
+                    compt_vitesse = 0
+                    display.vitesse_sim = config.VITESSE_SIMULATION_BASE
+                display.vitesse_sim = config.VITESSE_SIMULATION_BASE * config.VITESSE_SIMULATION[compt_vitesse]
             # conditions pour les collisions des boutons de changement de biome
             if bouton_plaine.collidepoint(event.pos):
                 display.reinitialiser()

@@ -16,12 +16,14 @@ Benjamin s’occupe quant à lui du visuel du projet (comment le projet apparaî
 
 ### Temps passé sur le projet
 #### En groupe
-Temps passé en groupe : 
+Temps passé en groupe : 9h
 
 #### Individuellement
-**Angel SANCHEZ** : 
-**Augustin MINOT** : 
-**Benjamin MICHALAK** : 
+**Angel SANCHEZ** : 30h
+
+**Augustin MINOT** : 18h
+
+**Benjamin MICHALAK** : 30h
 
 #### Total
 Au total, nous avons donc passés 

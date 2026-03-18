@@ -16,9 +16,9 @@ def creer_figure():
 
 def update_graphique(display):
     display.ax.clear()
-    display.ax.plot(display.liste_jours, display.historique_plantes, color="red")
+    display.ax.plot(display.liste_jours, display.historique_plantes, color="green")
     display.ax.plot(display.liste_jours, display.historique_herbivores, color="blue")
-    display.ax.plot(display.liste_jours, display.historique_carnivores, color="green")
+    display.ax.plot(display.liste_jours, display.historique_carnivores, color="red")
     display.ax.set_xlim(min(display.liste_jours), max(display.liste_jours) + 1)
     display.ax.set_ylim(0, 40)
     display.ax.set_title(f"Evolution du nombres d'êtres vivants dans l'environnement {display.biome.etat} en fonction du temps")

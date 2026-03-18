@@ -27,7 +27,7 @@ Permettre à l'utilisateur d'**observer en temps réel** l'évolution des popula
 - **4 saisons** : Printemps, Été, Automne, Hiver
 - Chaque paramètre impacte la croissance, reproduction et survie
 
-### Interface (à venir)
+### Interface
 - Affichage temps réel des populations
 - Contrôle de la vitesse de simulation (x1, x2, x5, x10)
 - Graphiques d'évolution

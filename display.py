@@ -58,6 +58,8 @@ class Display:
         self.surface_graphique = None
         self.affichage_graphique = False
 
+        self.vitesse_sim = config.VITESSE_SIMULATION_BASE
+
     def demarrage(
         self,
         screen,
@@ -508,20 +510,20 @@ class Display:
             self.tous_carnivores.draw(screen)
 
             self.chrono_ms += temps  # accumule les millisecondes
-            if self.chrono_ms >= 208:
+            if self.chrono_ms >= config.CHRONO_MS:
                 self.heures += 1
-                self.chrono_ms -= 208
+                self.chrono_ms -= config.CHRONO_MS
                 if self.heures >= 24:
                     self.jours += 1
                     self.heures = 0
 
             self.chrono_graphique += temps
-            if self.chrono_graphique >= 208:
+            if self.chrono_graphique >= config.CHRONO_GRAPH:
                 self.liste_jours.append(self.jours * 24 + self.heures)
                 self.historique_plantes.append(self.nb_plantes)
                 self.historique_herbivores.append(self.nb_herbivores)
                 self.historique_carnivores.append(self.nb_carnivores)
-                self.chrono_graphique -= 208
+                self.chrono_graphique -= config.CHRONO_GRAPH
 
             if len(self.historique_plantes) > 1000:
                 while len(self.historique_plantes) > 1000:
@@ -537,9 +539,14 @@ class Display:
                     self.liste_jours.pop(0)
 
             self.chrono_graphique_update += temps
-            if self.chrono_graphique_update >= 1000:
+            if self.chrono_graphique_update >= config.CHRONO_GRAPH_UPDATE:
                 update_graphique(self)
-                self.chrono_graphique_update -= 1000
+                self.chrono_graphique_update -= config.CHRONO_GRAPH_UPDATE
+
+            self.change_vitesse_simulation(config.VITESSE_SIMULATION_BASE)
+            self.change_vitesse_simulation(config.VITESSE_SIMULATION[1])
+            self.change_vitesse_simulation(config.VITESSE_SIMULATION[2])
+            self.change_vitesse_simulation(config.VITESSE_SIMULATION[3])
 
     def reinitialiser(self):
         """
@@ -594,3 +601,18 @@ class Display:
         Ajoute un carnivore au groupe de sprites correspondant.
         """
         self.tous_carnivores.add(carnivores_class)
+
+    def change_vitesse_simulation(self, val_vitesse):
+        if self.vitesse_sim == val_vitesse:
+            # change les vitesses de tous les attributs de vitesse
+            config.CROISSANCE = config.CROISSANCE_BASE * self.vitesse_sim
+            config.DELAIS_SPAWN_PLANTES = config.DELAIS_SPAWN_PLANTES_BASE / self.vitesse_sim
+            config.DELAIS_SPAWN_HERBIVORES = config.DELAIS_SPAWN_HERBIVORES_BASE / self.vitesse_sim
+            config.DELAIS_SPAWN_CARNIVORES = config.DELAIS_SPAWN_CARNIVORES_BASE / self.vitesse_sim
+            config.COUT_ENERGY_HERBIVORE = config.COUT_ENERGY_HERBIVORE_BASE * self.vitesse_sim
+            config.COUT_ENERGY_CARNIVORE = config.COUT_ENERGY_CARNIVORE_BASE * self.vitesse_sim
+            config.VITESSE_HERBIVORE = config.VITESSE_HERBIVORE_BASE * self.vitesse_sim
+            config.VITESSE_CARNIVORE = config.VITESSE_CARNIVORE_BASE * self.vitesse_sim
+            config.CHRONO_MS = config.CHRONO_MS_BASE / self.vitesse_sim
+            config.CHRONO_GRAPH = config.CHRONO_GRAPH_BASE / self.vitesse_sim
+            config.CHRONO_GRAPH_UPDATE = config.CHRONO_GRAPH_UPDATE_BASE / self.vitesse_sim
