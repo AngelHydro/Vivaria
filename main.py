@@ -43,6 +43,7 @@ def draw_background():
 
 running = True
 fullscreen = False
+affichage_boutons = True
 
 compt_vitesse = 0
 
@@ -51,22 +52,17 @@ def recalculer_dimensions(screen):
     # Récupère la largeur et la hauteur de l'écran actuel
     w, h = screen.get_size()
 
+    # surface invisible pour faire réapparaitre les boutons par dessus le graphique
+    zone_boutons_options = pygame.Rect(w * 83 / 100, h * 60 / 100, w * 15 / 100, h * 45 / 100)
+
     # Redimensionne et repositionne tous les boutons et surfaces selon la taille de l'écran
     bouton_demarrer = pygame.Rect(w * 83 / 100, h * 60 / 100, w * 15 / 100, h * 7 / 100)
-    bouton_reinitialiser = pygame.Rect(
-        w * 83 / 100, h * 70 / 100, w * 15 / 100, h * 7 / 100
-    )
+    bouton_reinitialiser = pygame.Rect(w * 83 / 100, h * 70 / 100, w * 15 / 100, h * 7 / 100)
     bouton_graphique = pygame.Rect(w * 83 / 100, h * 80 / 100, w * 15 / 100, h * 7 / 100)
     bouton_vitesse_sim = pygame.Rect(w * 83 / 100, h * 90 / 100, w * 15 / 100, h * 7 / 100)
-    surface_nb_plantes = pygame.Rect(
-        w * 2 / 100, h * 3 / 100, w * 15 / 100, h * 7 / 100
-    )
-    surface_nb_herbivores = pygame.Rect(
-        w * 2 / 100, h * 13 / 100, w * 15 / 100, h * 7 / 100
-    )
-    surface_nb_carnivores = pygame.Rect(
-        w * 2 / 100, h * 23 / 100, w * 15 / 100, h * 7 / 100
-    )
+    surface_nb_plantes = pygame.Rect(w * 2 / 100, h * 3 / 100, w * 15 / 100, h * 7 / 100)
+    surface_nb_herbivores = pygame.Rect(w * 2 / 100, h * 13 / 100, w * 15 / 100, h * 7 / 100)
+    surface_nb_carnivores = pygame.Rect(w * 2 / 100, h * 23 / 100, w * 15 / 100, h * 7 / 100)
     surface_biome = pygame.Rect(0, h * 49 / 100, w * 30 / 100, h * 16 / 100)
     surface_meteo = pygame.Rect(0, h * 66 / 100, w * 30 / 100, h * 16 / 100)
     surface_saison = pygame.Rect(0, h * 83 / 100, w * 30 / 100, h * 16 / 100)
@@ -89,6 +85,7 @@ def recalculer_dimensions(screen):
 
     # Retourne tous les boutons et surfaces recalculés
     return (
+        zone_boutons_options,
         bouton_demarrer,
         bouton_reinitialiser,
         bouton_vitesse_sim,
@@ -114,6 +111,25 @@ def recalculer_dimensions(screen):
         bouton_graphique
     )
 
+fonds = {
+    ("plaine", "printemps"): pygame.image.load("data/img/Plaine_printemps.png"),
+    ("plaine", "ete"): pygame.image.load("data/img/Plaine_été.png"),
+    ("plaine", "automne"): pygame.image.load("data/img/Plaine_automne.png"),
+    ("plaine", "hiver"): pygame.image.load("data/img/Plaine_Hiver.png"),
+    ("foret", "printemps"): pygame.image.load("data/img/Foret_Printemps.png"),
+    #("foret", "ete"): pygame.image.load("data/img/Foret_été.png"),
+    #("foret", "automne"): pygame.image.load("data/img/Foret_automne.png"),
+    #("foret", "hiver"): pygame.image.load("data/img/Foret_hiver.png"),
+    ("desert", "printemps"): pygame.image.load("data/img/Desert_printemps.png"),
+    #("desert", "ete"): pygame.image.load("data/img/Desert_été.png"),
+    #("desert", "automne"): pygame.image.load("data/img/Desert_automne.png"),
+    #("desert", "hiver"): pygame.image.load("data/img/Desert_hiver.png"),
+    ("toundra", "printemps"): pygame.image.load("data/img/Toundra_printemps.png"),
+    #("toundra", "ete"): pygame.image.load("data/img/Toundra_été.png"),
+    #("toundra", "automne"): pygame.image.load("data/img/Toundra_automne.png"),
+    #("toundra", "hiver"): pygame.image.load("data/img/Toundra_hiver.png"),
+}
+
 contenu_texte_demarrer = "Lancer"
 
 # Boucle principale du jeu
@@ -121,44 +137,12 @@ while running:
     draw_background()
     # Limite la boucle à 60 FPS et récupère le temps écoulé depuis la dernière frame
     temps = clock.tick(60)
-    if display.biome.etat == "plaine":
-        if display.saison.etat == "printemps":
-            fond = pygame.image.load("data/img/Plaine_printemps.png")
-        elif display.saison.etat == "ete":
-            fond = pygame.image.load("data/img/Plaine_été.png")
-        elif display.saison.etat == "automne":
-            fond = pygame.image.load("data/img/Plaine_automne.png")
-        elif display.saison.etat == "hiver":
-            fond = pygame.image.load("data/img/Plaine_Hiver.png")
-    elif display.biome.etat == "foret":
-        if display.saison.etat == "printemps":
-            fond = pygame.image.load("data/img/Foret_Printemps.png")
-        elif display.saison.etat == "ete":
-            fond = pygame.image.load("data/img/Foret_été.png")
-        elif display.saison.etat == "automne":
-            fond = pygame.image.load("data/img/Foret_automne.png")
-        elif display.saison.etat == "hiver":
-            fond = pygame.image.load("data/img/Foret_hiver.png")
-    elif display.biome.etat == "desert":
-        if display.saison.etat == "printemps":
-            fond = pygame.image.load("data/img/Desert_printemps.png")
-        elif display.saison.etat == "ete":
-            fond = pygame.image.load("data/img/Desert_été.png")
-        elif display.saison.etat == "automne":
-            fond = pygame.image.load("data/img/Desert_automne.png")
-        elif display.saison.etat == "hiver":
-            fond = pygame.image.load("data/img/Desert_hiver.png")
-    elif display.biome.etat == "toundra":
-        if display.saison.etat == "printemps":
-            fond = pygame.image.load("data/img/Toundra_printemps.png")
-        elif display.saison.etat == "ete":
-            fond = pygame.image.load("data/img/Toundra_été.png")
-        elif display.saison.etat == "automne":
-            fond = pygame.image.load("data/img/Toundra_automne.png")
-        elif display.saison.etat == "hiver":
-            fond = pygame.image.load("data/img/Toundra_hiver.png")
+    fond = fonds[(display.biome.etat, display.saison.etat)]
+    taille_w = fond.get_width()
+    taille_h = fond.get_height()
     # Recalcule dynamiquement les positions et tailles des boutons/surfaces à chaque frame
     (
+        zone_boutons_options,
         bouton_demarrer,
         bouton_reinitialiser,
         bouton_vitesse_sim,
@@ -229,23 +213,30 @@ while running:
 
     # Affichage des boutons et compteurs sur la fenêtre
     def affichage_boutons_permanents(compt_vitesse):
-        texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
-        texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
-        texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
-        pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
-        screen.blit(texte_demarrer, texte_demarrer_rect)
+        if affichage_boutons:
+            texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
+            texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
+            texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
+            pygame.draw.rect(screen, (0, 0, 0), bouton_demarrer, 3)
+            screen.blit(texte_demarrer, texte_demarrer_rect)
 
-        texte_graphique_font = pygame.font.Font(None, config.TAILLE_FONT)
-        texte_graphique = texte_graphique_font.render("Graphique", True, (0, 0, 0))
-        texte_graphique_rect = texte_graphique.get_rect(center=bouton_graphique.center)
-        pygame.draw.rect(screen, (0, 0, 0), bouton_graphique, 3)
-        screen.blit(texte_graphique, texte_graphique_rect)
+            texte_reinitialiser_font = pygame.font.Font(None, config.TAILLE_FONT)
+            texte_reinitialiser = texte_reinitialiser_font.render("Réinitialiser", True, (0, 0, 0))
+            texte_reinitialiser_rect = texte_reinitialiser.get_rect(center=bouton_reinitialiser.center)
+            pygame.draw.rect(screen, (0, 0, 0), bouton_reinitialiser, 3)
+            screen.blit(texte_reinitialiser, texte_reinitialiser_rect)
 
-        texte_vitesse_sim_font = pygame.font.Font(None, config.TAILLE_FONT)
-        texte_vitesse_sim = texte_vitesse_sim_font.render(f"x {config.VITESSE_SIMULATION[compt_vitesse]}", True, (0, 0, 0))
-        texte_vitesse_sim_rect = texte_vitesse_sim.get_rect(center=bouton_vitesse_sim.center)
-        pygame.draw.rect(screen, (0, 0, 0), bouton_vitesse_sim, 3)
-        screen.blit(texte_vitesse_sim, texte_vitesse_sim_rect)
+            texte_graphique_font = pygame.font.Font(None, config.TAILLE_FONT)
+            texte_graphique = texte_graphique_font.render("Graphique", True, (0, 0, 0))
+            texte_graphique_rect = texte_graphique.get_rect(center=bouton_graphique.center)
+            pygame.draw.rect(screen, (0, 0, 0), bouton_graphique, 3)
+            screen.blit(texte_graphique, texte_graphique_rect)
+
+            texte_vitesse_sim_font = pygame.font.Font(None, config.TAILLE_FONT)
+            texte_vitesse_sim = texte_vitesse_sim_font.render(f"x {config.VITESSE_SIMULATION[compt_vitesse]}", True, (0, 0, 0))
+            texte_vitesse_sim_rect = texte_vitesse_sim.get_rect(center=bouton_vitesse_sim.center)
+            pygame.draw.rect(screen, (0, 0, 0), bouton_vitesse_sim, 3)
+            screen.blit(texte_vitesse_sim, texte_vitesse_sim_rect)
 
         texte_chrono_font = pygame.font.Font(None, config.TAILLE_FONT)
         if display.jours < 10:
@@ -269,6 +260,10 @@ while running:
         affichage_nb_entites()
         if display.affichage_graphique and display.surface_graphique is not None:
             screen.blit(display.surface_graphique, (0, 0))
+        if zone_boutons_options.collidepoint(pygame.mouse.get_pos()):
+            affichage_boutons = True
+        else:
+            affichage_boutons = False
         affichage_boutons_permanents(compt_vitesse)
     else:
         contenu_texte_demarrer = "Lancer"
@@ -285,14 +280,6 @@ while running:
         )
         instruction_rect = instruction.get_rect(
             center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
-        )
-
-        texte_reinitialiser_font = pygame.font.Font(None, config.TAILLE_FONT)
-        texte_reinitialiser = texte_reinitialiser_font.render(
-            "Réinitialiser", True, (0, 0, 0)
-        )
-        texte_reinitialiser_rect = texte_reinitialiser.get_rect(
-            center=bouton_reinitialiser.center
         )
 
         # Titre des surfaces de boutons de changement de biome, de météo et de saison
@@ -369,7 +356,6 @@ while running:
 
         # Affichage des éléments de l'interface utilisateur pendant la pause ou avant le démarrage
         # Dessine les contours des différentes surfaces et boutons
-        pygame.draw.rect(screen, (0, 0, 0), bouton_reinitialiser, 3)
         pygame.draw.rect(screen, (0, 0, 0), surface_biome, 3)
         pygame.draw.rect(screen, (0, 0, 0), surface_meteo, 3)
         pygame.draw.rect(screen, (0, 0, 0), surface_saison, 3)
@@ -388,7 +374,6 @@ while running:
         # Affiche le titre, les instructions et les textes des boutons/surfaces
         screen.blit(titre, titre_rect)
         screen.blit(instruction, instruction_rect)
-        screen.blit(texte_reinitialiser, texte_reinitialiser_rect)
         screen.blit(texte_biome, texte_biome_rect)
         screen.blit(texte_meteo, texte_meteo_rect)
         screen.blit(texte_saison, texte_saison_rect)
@@ -407,7 +392,13 @@ while running:
 
         affichage_nb_entites()
         if display.affichage_graphique and display.surface_graphique is not None:
+            if zone_boutons_options.collidepoint(pygame.mouse.get_pos()):
+                affichage_boutons = True
+            else:
+                affichage_boutons = False
             screen.blit(display.surface_graphique, (0, 0))
+        else:
+            affichage_boutons = True
         affichage_boutons_permanents(compt_vitesse)
 
     # Gestion des événements utilisateur (clavier, souris, redimensionnement, fermeture)
@@ -460,6 +451,10 @@ while running:
                     compt_vitesse = 0
                     display.vitesse_sim = config.VITESSE_SIMULATION_BASE
                 display.vitesse_sim = config.VITESSE_SIMULATION_BASE * config.VITESSE_SIMULATION[compt_vitesse]
+                display.change_vitesse_simulation(config.VITESSE_SIMULATION_BASE)
+                display.change_vitesse_simulation(config.VITESSE_SIMULATION[1])
+                display.change_vitesse_simulation(config.VITESSE_SIMULATION[2])
+                display.change_vitesse_simulation(config.VITESSE_SIMULATION[3])
             # conditions pour les collisions des boutons de changement de biome
             if bouton_plaine.collidepoint(event.pos):
                 display.reinitialiser()

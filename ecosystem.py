@@ -13,15 +13,6 @@ import pygame
 import config
 
 
-# Fonction dist compatible avec tous les Python et le typage statique.
-# Utilise math.dist si disponible, sinon une version manuelle.
-def dist(p, q):
-    if hasattr(math, "dist"):
-        return math.dist(p, q)
-    else:
-        return math.sqrt(sum((px - qx) ** 2 for px, qx in zip(p, q)))
-
-
 class Plantes(pygame.sprite.Sprite):
     """Classe représentant les plantes dans l'écosystème."""
 
@@ -33,8 +24,7 @@ class Plantes(pygame.sprite.Sprite):
         self.y = y
         self.age = 1  # Âge de la plante (en "jours" de simulation)
         self.display = display
-        self.image = pygame.image.load(img)
-        self.image = pygame.transform.scale(self.image, config.TAILLE_SPRITE)
+        self.image = pygame.transform.scale(img, config.TAILLE_SPRITE)
         self.rect = self.image.get_rect()
         self.croissance_base = 1
         self.croissance = self.croissance_base
@@ -82,8 +72,7 @@ class Herbivores(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.age = 1  # Âge de l'herbivore
-        self.image = pygame.image.load(img)
-        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.image = pygame.transform.scale(img, (50, 50))
         self.rect = self.image.get_rect()
         self.energy = (
             config.ENERGIE_MAX_HERBIVORE
@@ -142,7 +131,9 @@ class Herbivores(pygame.sprite.Sprite):
 
     def calcul_distance_proie(self, position_proie):
         # Calcule la distance à une proie (plante ou autre)
-        return dist((self.x, self.y), position_proie)
+        dx = self.x - position_proie[0]
+        dy = self.y - position_proie[1]
+        return dx*dx + dy*dy
 
     def calcul_angle_proie(self, position_proie):
         # Calcule l'angle vers une proie pour cibler sa direction
@@ -156,7 +147,9 @@ class Herbivores(pygame.sprite.Sprite):
 
     def calcul_distance_predateur(self, position_predateur):
         # Calcule la distance à un prédateur
-        return dist((self.x, self.y), position_predateur)
+        dx = self.x - position_predateur[0]
+        dy = self.y - position_predateur[1]
+        return dx*dx + dy*dy
 
     def calcul_angle_predateur(self, position_predateur):
         # Calcule l'angle vers un prédateur pour fuir dans la direction opposée
@@ -200,8 +193,7 @@ class Carnivores(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.age = 1  # Âge du carnivore
-        self.image = pygame.image.load(img)
-        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.image = pygame.transform.scale(img, (50, 50))
         self.rect = self.image.get_rect()
         self.energy = config.ENERGIE_MAX_CARNIVORE  # Énergie du carnivore
         self.direction = 0  # Direction actuelle (en degrés)
@@ -258,7 +250,9 @@ class Carnivores(pygame.sprite.Sprite):
 
     def calcul_distance_proie(self, position_proie):
         # Calcule la distance à une proie (herbivore)
-        return dist((self.x, self.y), position_proie)
+        dx = self.x - position_proie[0]
+        dy = self.y - position_proie[1]
+        return dx*dx + dy*dy
 
     def calcul_angle_proie(self, position_proie):
         # Calcule l'angle vers une proie pour cibler sa direction

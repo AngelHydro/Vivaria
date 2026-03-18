@@ -60,6 +60,41 @@ class Display:
 
         self.vitesse_sim = config.VITESSE_SIMULATION_BASE
 
+        self.dico_images = {
+            # Plantes plaine
+            "FleurPrintemps_Plaine": pygame.image.load("data/img/FleurPrintemps_Plaine.png"),
+            "PlantePrintemps_plaine": pygame.image.load("data/img/PlantePrintemps_plaine.png"),
+            "PlanteEte_plaine": pygame.image.load("data/img/PlanteEte_plaine-Grown.png"), # à changer plus tard quand texture créée
+            "PlanteAutomne_plaine": pygame.image.load("data/img/PlanteAutomne_plaine-Grown.png"),
+            "PlanteHiver_plaine": pygame.image.load("data/img/PlanteHiver_plaine-Grown.png"),
+            # Plantes forêt
+            "PlantePrintemps_Foret": pygame.image.load("data/img/PlantePrintemps_Foret.png"),
+            #"PlanteEte_Foret": pygame.image.load("data/img/PlanteEte_Foret.png"),
+            #"PlanteAutomne_Foret": pygame.image.load("data/img/PlanteAutomne_Foret.png"),
+            #"PlanteHiver_Foret": pygame.image.load("data/img/PlanteHiver_Foret.png"),
+            # Plantes désert
+            "PlantePrintemps_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
+            #"PlanteEte_Desert": pygame.image.load("data/img/PlanteEte_Desert.png"),
+            #"PlanteAutomne_Desert": pygame.image.load("data/img/PlanteAutomne_Desert.png"),
+            #"PlanteHiver_Desert": pygame.image.load("data/img/PlanteHiver_Desert.png"),
+            # Plantes toundra
+            "PlantePrintemps_Toundra": pygame.image.load("data/img/PlantePrintemps_Toundra.png"),
+            "PlanteEte_Toundra": pygame.image.load("data/img/PlanteEte_Toundra.png"),
+            "PlanteAutomne_Toundra": pygame.image.load("data/img/PlanteAutomne_Toundra.png"),
+            "PlanteHiver_Toundra": pygame.image.load("data/img/PlanteHiver_Toundra.png"),
+            # Herbivores
+            "Herbivore_plaine": pygame.image.load("data/img/Herbivore_plaine.png"),
+            "Herbivore2_plaine": pygame.image.load("data/img/Herbivore2_plaine.png"),
+            "Herbivore_foret": pygame.image.load("data/img/Herbivore_foret.png"),
+            "Herbivore_desert": pygame.image.load("data/img/Herbivore_desert.png"),
+            "Herbivore_toundra": pygame.image.load("data/img/Herbivore_toundra.png"),
+            # Carnivores
+            "Predateur_plaine": pygame.image.load("data/img/Predateur_plaine.png"),
+            "Predateur_foret": pygame.image.load("data/img/Predateur_foret.png"),
+            "Predateur_desert": pygame.image.load("data/img/Predateur_desert.png"),
+            "Predateur_toundra": pygame.image.load("data/img/Predateur_toundra.png"),
+        }
+
     def demarrage(
         self,
         screen,
@@ -81,69 +116,69 @@ class Display:
                 if self.saison.etat == "printemps":
                     self.type_plante = choice(["Fleur", "Buisson"])
                     if self.type_plante == "Fleur":
-                        self.plante_image = "data/img/FleurPrintemps_Plaine.png"
+                        self.plante_image = self.dico_images["FleurPrintemps_Plaine"]
                     else:
-                        self.plante_image = "data/img/PlantePrintemps_plaine.png"
+                        self.plante_image = self.dico_images["PlantePrintemps_plaine"]
                 # Textures des plantes de la plaine en été
                 elif self.saison.etat == "ete":
                     self.type_plante = "Buisson"
-                    self.plante_image = "data/img/PlanteEte_plaine.png"
+                    self.plante_image = self.dico_images["PlanteEte_plaine"]
                 # Textures des plantes de la plaine en automne
                 elif self.saison.etat == "automne":
                     self.type_plante = "Buisson"
-                    self.plante_image = "data/img/PlanteAutomne_plaine.png"
+                    self.plante_image = self.dico_images["PlanteAutomne_plaine"]
                 # Textures des plantes de la plaine en hiver
                 elif self.saison.etat == "hiver":
                     self.type_plante = "Buisson"
-                    self.plante_image = "data/img/PlanteHiver_Plaine-Grown.png"
+                    self.plante_image = self.dico_images["PlanteHiver_plaine"]
 
             # Textures des plantes de la forêt
             elif self.biome.etat == "foret":
                 self.type_plante = "Buisson"
                 # Textures des plantes de la forêt au printemps
                 if self.saison.etat == "printemps":
-                    self.plante_image = "data/img/PlantePrintemps_Foret.png"
+                    self.plante_image = self.dico_images["PlantePrintemps_Foret"]
                 # Textures des plantes de la forêt en été
                 elif self.saison.etat == "ete":
-                    self.plante_image = "data/img/PlanteEte_Foret.png"
+                    self.plante_image = self.dico_images["PlanteEte_Foret"]
                 # Textures des plantes de la forêt en automne
                 elif self.saison.etat == "automne":
-                    self.plante_image = "data/img/PlanteAutomne_Foret.png"
+                    self.plante_image = self.dico_images["PlanteAutomne_Foret"]
                 # Textures des plantes de la fôret en hier
                 elif self.saison.etat == "hiver":
-                    self.plante_image = "data/img/PlanteHiver_Foret.png"
+                    self.plante_image = self.dico_images["PlanteHiver_Foret"]
 
             # Textures des plantes du désert
             elif self.biome.etat == "desert":
                 self.type_plante = "Cactus"
                 # Textures des plantes du désert au printemps
                 if self.saison.etat == "printemps":
-                    self.plante_image = "data/img/PlantePrintemps_Desert.png"
+                    self.plante_image = self.dico_images["PlantePrintemps_Desert"]
                 # Textures des plantes du désert en été
                 elif self.saison.etat == "ete":
-                    self.plante_image = "data/img/PlanteEte_Desert.png"
+                    self.plante_image = self.dico_images["PlanteEte_Desert"]
                 # Textures des plantes du désert en automne
                 elif self.saison.etat == "automne":
-                    self.plante_image = "data/img/PlanteAutomne_Desert.png"
+                    self.plante_image = self.dico_images["PlanteAutomne_Desert"]
                 # Textures des plantes du désert en hiver
                 elif self.saison.etat == "hiver":
-                    self.plante_image = "data/img/PlanteHiver_Desert.png"
+                    self.plante_image = self.dico_images["PlanteHiver_Desert"]
 
             # Textures des plantes de la toundra
             elif self.biome.etat == "toundra":
                 self.type_plante = "Buisson"
                 # Textures des plantes de la toundra au printemps
                 if self.saison.etat == "printemps":
-                    self.plante_image = "data/img/PlantePrintemps_Toundra.png"
+                    self.plante_image = self.dico_images["PlantePrintemps_Toundra"]
                 # Textures des plantes de la toundra en été
                 elif self.saison.etat == "ete":
-                    self.plante_image = "data/img/PlanteEte_Toundra.png"
+                    self.plante_image = self.dico_images["PlanteEte_Toundra"]
                 # Textures des plantes de la toundra en automne
                 elif self.saison.etat == "automne":
-                    self.plante_image = "data/img/PlanteAutomne_Toundra.png"
+                    self.plante_image = self.dico_images["PlanteAutomne_Toundra"]
                 # Textures des plantes de la toundra en hiver
                 elif self.saison.etat == "hiver":
-                    self.plante_image = "data/img/PlanteHiver_Toundra.png"
+                    self.plante_image = self.dico_images["PlanteHiver_Toundra"]
             # Création et ajout de la plante
             self.plante = Plantes(
                 self,
@@ -163,21 +198,21 @@ class Display:
             if self.biome.etat == "plaine":
                 self.type_herbivore = choice(["Poule", "Vache"])
                 if self.type_herbivore == "Poule":
-                    self.herbivore_image = "data/img/Herbivore_plaine.png"
+                    self.herbivore_image = self.dico_images["Herbivore_plaine"]
                 elif self.type_herbivore == "Vache":
-                    self.herbivore_image = "data/img/Herbivore2_plaine.png"
+                    self.herbivore_image = self.dico_images["Herbivore2_plaine"]
             # Textures des herbivores de la forêt
             elif self.biome.etat == "foret":
                 self.type_herbivore = "Sanglier"
-                self.herbivore_image = "data/img/Herbivore_foret.png"
+                self.herbivore_image = self.dico_images["Herbivore_foret"]
             # Textures des herbivores du désert
             elif self.biome.etat == "desert":
                 self.type_herbivore = "Chameau"
-                self.herbivore_image = "data/img/Herbivore_desert.png"
+                self.herbivore_image = self.dico_images["Herbivore_desert"]
             # Textures des herbivores de la toundra
             elif self.biome.etat == "toundra":
                 self.type_herbivore = "Cerf"
-                self.herbivore_image = "data/img/Herbivore_toundra.png"
+                self.herbivore_image = self.dico_images["Herbivore_toundra"]
             # Création et ajout de l'herbivore
             self.herbivore = Herbivores(
                 self,
@@ -195,19 +230,19 @@ class Display:
             # Textures des carnivores de la plaine
             if self.biome.etat == "plaine":
                 self.type_carnivore = "Renard"
-                self.carnivore_image = "data/img/Predateur_plaine.png"
+                self.carnivore_image = self.dico_images["Predateur_plaine"]
             # Textures des carnivores de la forêt
             elif self.biome.etat == "foret":
                 self.type_carnivore = "Ours"
-                self.carnivore_image = "data/img/Predateur_foret.png"
+                self.carnivore_image = self.dico_images["Predateur_foret"]
             # Textures des carnivores du désert
             elif self.biome.etat == "desert":
                 self.type_carnivore = "Fennec"
-                self.carnivore_image = "data/img/Predateur_desert.png"
+                self.carnivore_image = self.dico_images["Predateur_desert"]
             # Textures des carnivores de la toundra
             elif self.biome.etat == "toundra":
                 self.type_carnivore = "Loup"
-                self.carnivore_image = "data/img/Predateur_toundra.png"
+                self.carnivore_image = self.dico_images["Predateur_toundra"]
             # Création et ajout du carnivore
             self.carnivore = Carnivores(
                 self,
@@ -258,7 +293,7 @@ class Display:
                         distance = carnivore.calcul_distance_proie(
                             (herbivore.x, herbivore.y)
                         )
-                        if distance <= carnivore.rayon_vision:
+                        if distance <= carnivore.rayon_vision ** 2:
                             proies_detectees.append(herbivore)
                             distance_proies.append(distance)
                     if proies_detectees == []:
@@ -297,7 +332,7 @@ class Display:
                         distance = herbivore.calcul_distance_predateur(
                             (carnivore.x, carnivore.y)
                         )
-                        if distance <= herbivore.rayon_vision:
+                        if distance <= herbivore.rayon_vision ** 2:
                             predateurs_detectes.append(carnivore)
                             distance_predateurs.append(distance)
                     if predateurs_detectes == []:
@@ -308,7 +343,7 @@ class Display:
                             distance = herbivore.calcul_distance_proie(
                                 (plante.x, plante.y)
                             )
-                            if distance <= herbivore.rayon_vision:
+                            if distance <= herbivore.rayon_vision ** 2:
                                 proies_detectees.append(plante)
                                 distance_proies.append(distance)
                         if proies_detectees == []:
@@ -356,60 +391,73 @@ class Display:
                     # Apparition de nouvelles plantes selon le biome et la saison, avec des noms de fichiers cohérents
                     # Plantes de la plaine
                     if self.biome.etat == "plaine":
+                        # Textures des plantes de la plaine au printemps
                         if self.saison.etat == "printemps":
-                            # Printemps : Fleur ou Buisson
                             self.type_plante = choice(["Fleur", "Buisson"])
                             if self.type_plante == "Fleur":
-                                self.plante_image = "data/img/FleurPrintemps_Plaine.png"
+                                self.plante_image = self.dico_images["FleurPrintemps_Plaine"]
                             else:
-                                self.plante_image = (
-                                    "data/img/PlantePrintemps_Plaine.png"
-                                )
+                                self.plante_image = self.dico_images["PlantePrintemps_plaine"]
+                        # Textures des plantes de la plaine en été
                         elif self.saison.etat == "ete":
                             self.type_plante = "Buisson"
-                            self.plante_image = "data/img/PlanteEte_Plaine.png"
+                            self.plante_image = self.dico_images["PlanteEte_plaine"]
+                        # Textures des plantes de la plaine en automne
                         elif self.saison.etat == "automne":
                             self.type_plante = "Buisson"
-                            self.plante_image = "data/img/PlanteAutomne_Plaine.png"
+                            self.plante_image = self.dico_images["PlanteAutomne_plaine"]
+                        # Textures des plantes de la plaine en hiver
                         elif self.saison.etat == "hiver":
                             self.type_plante = "Buisson"
-                            self.plante_image = "data/img/PlanteHiver_Plaine-Grown.png"
+                            self.plante_image = self.dico_images["PlanteHiver_plaine"]
 
-                    # Plantes de la forêt
+                    # Textures des plantes de la forêt
                     elif self.biome.etat == "foret":
                         self.type_plante = "Buisson"
+                        # Textures des plantes de la forêt au printemps
                         if self.saison.etat == "printemps":
-                            self.plante_image = "data/img/PlantePrintemps_Foret.png"
+                            self.plante_image = self.dico_images["PlantePrintemps_Foret"]
+                        # Textures des plantes de la forêt en été
                         elif self.saison.etat == "ete":
-                            self.plante_image = "data/img/PlanteEte_Foret.png"
+                            self.plante_image = self.dico_images["PlanteEte_Foret"]
+                        # Textures des plantes de la forêt en automne
                         elif self.saison.etat == "automne":
-                            self.plante_image = "data/img/PlanteAutomne_Foret.png"
+                            self.plante_image = self.dico_images["PlanteAutomne_Foret"]
+                        # Textures des plantes de la fôret en hier
                         elif self.saison.etat == "hiver":
-                            self.plante_image = "data/img/PlanteHiver_Foret.png"
+                            self.plante_image = self.dico_images["PlanteHiver_Foret"]
 
-                    # Plantes du désert (Cactus)
+                    # Textures des plantes du désert
                     elif self.biome.etat == "desert":
                         self.type_plante = "Cactus"
+                        # Textures des plantes du désert au printemps
                         if self.saison.etat == "printemps":
-                            self.plante_image = "data/img/PlantePrintemps_Desert.png"
+                            self.plante_image = self.dico_images["PlantePrintemps_Desert"]
+                        # Textures des plantes du désert en été
                         elif self.saison.etat == "ete":
-                            self.plante_image = "data/img/PlanteEte_Desert.png"
+                            self.plante_image = self.dico_images["PlanteEte_Desert"]
+                        # Textures des plantes du désert en automne
                         elif self.saison.etat == "automne":
-                            self.plante_image = "data/img/PlanteAutomne_Desert.png"
+                            self.plante_image = self.dico_images["PlanteAutomne_Desert"]
+                        # Textures des plantes du désert en hiver
                         elif self.saison.etat == "hiver":
-                            self.plante_image = "data/img/PlanteHiver_Desert.png"
+                            self.plante_image = self.dico_images["PlanteHiver_Desert"]
 
-                    # Plantes de la toundra (Buisson)
+                    # Textures des plantes de la toundra
                     elif self.biome.etat == "toundra":
                         self.type_plante = "Buisson"
+                        # Textures des plantes de la toundra au printemps
                         if self.saison.etat == "printemps":
-                            self.plante_image = "data/img/PlantePrintemps_Toundra.png"
+                            self.plante_image = self.dico_images["PlantePrintemps_Toundra"]
+                        # Textures des plantes de la toundra en été
                         elif self.saison.etat == "ete":
-                            self.plante_image = "data/img/PlanteEte_Toundra.png"
+                            self.plante_image = self.dico_images["PlanteEte_Toundra"]
+                        # Textures des plantes de la toundra en automne
                         elif self.saison.etat == "automne":
-                            self.plante_image = "data/img/PlanteAutomne_Toundra.png"
+                            self.plante_image = self.dico_images["PlanteAutomne_Toundra"]
+                        # Textures des plantes de la toundra en hiver
                         elif self.saison.etat == "hiver":
-                            self.plante_image = "data/img/PlanteHiver_Toundra.png"
+                            self.plante_image = self.dico_images["PlanteHiver_Toundra"]
 
                     # Création de la nouvelle plante et ajout au groupe de sprites
                     nouvelle_plante = Plantes(
@@ -435,22 +483,19 @@ class Display:
                         if self.biome.etat == "plaine":
                             if list(self.tous_herbivores)[index].name == "Poule":
                                 self.type_herbivore = "Poule"
-                                self.herbivore_image = "data/img/Herbivore_plaine.png"
+                                self.herbivore_image = self.dico_images["Herbivore_plaine"]
                             elif list(self.tous_herbivores)[index].name == "Vache":
                                 self.type_herbivore = "Vache"
-                                self.herbivore_image = "data/img/Herbivore2_plaine.png"
-                        # Textures des herbivores de la forêt
+                                self.herbivore_image = self.dico_images["Herbivore2_plaine"]
                         elif self.biome.etat == "foret":
                             self.type_herbivore = "Sanglier"
-                            self.herbivore_image = "data/img/Herbivore_foret.png"
-                        # Textures des herbivores du désert
+                            self.herbivore_image = self.dico_images["Herbivore_foret"]
                         elif self.biome.etat == "desert":
                             self.type_herbivore = "Chameau"
-                            self.herbivore_image = "data/img/Herbivore_desert.png"
-                        # Textures des herbivores de la toundra
+                            self.herbivore_image = self.dico_images["Herbivore_desert"]
                         elif self.biome.etat == "toundra":
                             self.type_herbivore = "Cerf"
-                            self.herbivore_image = "data/img/Herbivore_toundra.png"
+                            self.herbivore_image = self.dico_images["Herbivore_toundra"]
                         # Création et ajout de l'herbivore
                         self.herbivore = Herbivores(
                             self,
@@ -473,19 +518,19 @@ class Display:
                     for _ in range(nb_nouvelles):
                         if self.biome.etat == "plaine":
                             self.type_carnivore = "Renard"
-                            self.carnivore_image = "data/img/Predateur_plaine.png"
+                            self.carnivore_image = self.dico_images["Predateur_plaine"]
                         # Textures des carnivores de la forêt
                         elif self.biome.etat == "foret":
                             self.type_carnivore = "Ours"
-                            self.carnivore_image = "data/img/Predateur_foret.png"
+                            self.carnivore_image = self.dico_images["Predateur_foret"]
                         # Textures des carnivores du désert
                         elif self.biome.etat == "desert":
                             self.type_carnivore = "Fennec"
-                            self.carnivore_image = "data/img/Predateur_desert.png"
+                            self.carnivore_image = self.dico_images["Predateur_desert"]
                         # Textures des carnivores de la toundra
                         elif self.biome.etat == "toundra":
                             self.type_carnivore = "Loup"
-                            self.carnivore_image = "data/img/Predateur_toundra.png"
+                            self.carnivore_image = self.dico_images["Predateur_toundra"]
                         # Création et ajout du carnivore
                         index = randint(0, len(self.tous_carnivores) - 1)
                         self.carnivore = Carnivores(
@@ -526,27 +571,18 @@ class Display:
                 self.chrono_graphique -= config.CHRONO_GRAPH
 
             if len(self.historique_plantes) > 1000:
-                while len(self.historique_plantes) > 1000:
-                    self.historique_plantes.pop(0)
+                self.historique_plantes.pop(0)
             if len(self.historique_herbivores) > 1000:
-                while len(self.historique_herbivores) > 1000:
-                    self.historique_herbivores.pop(0)
+                self.historique_herbivores.pop(0)
             if len(self.historique_carnivores) > 1000:
-                while len(self.historique_carnivores) > 1000:
-                    self.historique_carnivores.pop(0)
+                self.historique_carnivores.pop(0)
             if len(self.liste_jours) > 1000:
-                while len(self.liste_jours) > 1000:
-                    self.liste_jours.pop(0)
+                self.liste_jours.pop(0)
 
             self.chrono_graphique_update += temps
             if self.chrono_graphique_update >= config.CHRONO_GRAPH_UPDATE:
                 update_graphique(self)
                 self.chrono_graphique_update -= config.CHRONO_GRAPH_UPDATE
-
-            self.change_vitesse_simulation(config.VITESSE_SIMULATION_BASE)
-            self.change_vitesse_simulation(config.VITESSE_SIMULATION[1])
-            self.change_vitesse_simulation(config.VITESSE_SIMULATION[2])
-            self.change_vitesse_simulation(config.VITESSE_SIMULATION[3])
 
     def reinitialiser(self):
         """
@@ -574,6 +610,8 @@ class Display:
         self.historique_carnivores = [self.nb_carnivores]
         self.ax.clear()
         self.start = False
+        self.is_playing = False
+        self.pause = False
 
     def verifier_collision(self, sprite, group):
         """
@@ -604,7 +642,7 @@ class Display:
 
     def change_vitesse_simulation(self, val_vitesse):
         if self.vitesse_sim == val_vitesse:
-            # change les vitesses de tous les attributs de vitesse
+            # change les valeurss de tous les attributs de vitesse, d'energie et de delais de spawn
             config.CROISSANCE = config.CROISSANCE_BASE * self.vitesse_sim
             config.DELAIS_SPAWN_PLANTES = config.DELAIS_SPAWN_PLANTES_BASE / self.vitesse_sim
             config.DELAIS_SPAWN_HERBIVORES = config.DELAIS_SPAWN_HERBIVORES_BASE / self.vitesse_sim
@@ -616,3 +654,14 @@ class Display:
             config.CHRONO_MS = config.CHRONO_MS_BASE / self.vitesse_sim
             config.CHRONO_GRAPH = config.CHRONO_GRAPH_BASE / self.vitesse_sim
             config.CHRONO_GRAPH_UPDATE = config.CHRONO_GRAPH_UPDATE_BASE / self.vitesse_sim
+            # met à jour les valeurs pour chaque animaux
+            for herbivore in list(self.tous_herbivores):
+                herbivore.vitesse_base = config.VITESSE_HERBIVORE
+                herbivore.vitesse = config.VITESSE_HERBIVORE
+                herbivore.cout_energy_base = config.COUT_ENERGY_HERBIVORE
+                herbivore.cout_energy = config.COUT_ENERGY_HERBIVORE
+            for carnivore in list(self.tous_carnivores):
+                carnivore.vitesse_base = config.VITESSE_CARNIVORE
+                carnivore.vitesse = config.VITESSE_CARNIVORE
+                carnivore.cout_energy_base = config.COUT_ENERGY_CARNIVORE
+                carnivore.cout_energy = config.COUT_ENERGY_CARNIVORE
