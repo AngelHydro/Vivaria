@@ -36,9 +36,9 @@ Permettre à l'utilisateur d'**observer en temps réel** l'évolution des popula
 ---
 ## Comment jouer
 ### Prérequis
-- Python 3.8 ou supérieur
-- Pygame 3.6.2
-- Matplotlib 3.5.0 ou supérieur
+- Python
+- Pygame
+- Matplotlib
 
 ### Installation
 #### Cloner le projet

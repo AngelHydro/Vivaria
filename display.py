@@ -264,19 +264,60 @@ class Display:
         # Démarre la simulation
         self.is_playing = True
         self.pause = False
+        print("Lancement")
+
+    def creer_grille_spatiale(self, taille_cellule=100):
+        """Divise l'écran en grille pour optimiser la détection."""
+        grille = {}
+        
+        # Place chaque entité dans sa cellule
+        for plante in self.tous_plantes:
+            cell_x = int(plante.x // taille_cellule)
+            cell_y = int(plante.y // taille_cellule)
+            key = (cell_x, cell_y)
+            if key not in grille:
+                grille[key] = {'plantes': [], 'herbivores': [], 'carnivores': []}
+            grille[key]['plantes'].append(plante)
+        
+        for herbivore in self.tous_herbivores:
+            cell_x = int(herbivore.x // taille_cellule)
+            cell_y = int(herbivore.y // taille_cellule)
+            key = (cell_x, cell_y)
+            if key not in grille:
+                grille[key] = {'plantes': [], 'herbivores': [], 'carnivores': []}
+            grille[key]['herbivores'].append(herbivore)
+        
+        for carnivore in self.tous_carnivores:
+            cell_x = int(carnivore.x // taille_cellule)
+            cell_y = int(carnivore.y // taille_cellule)
+            key = (cell_x, cell_y)
+            if key not in grille:
+                grille[key] = {'plantes': [], 'herbivores': [], 'carnivores': []}
+            grille[key]['carnivores'].append(carnivore)
+        
+        return grille
+
+    def get_voisins(self, grille, cell_x, cell_y, type_entite):
+        """Récupère les entités voisines dans un rayon de 1 cellule."""
+        voisins = []
+        for dx in [-1, 0, 1]:
+            for dy in [-1, 0, 1]:
+                key = (cell_x + dx, cell_y + dy)
+                if key in grille:
+                    voisins.extend(grille[key][type_entite])
+        return voisins
 
     def mise_a_jour(self, screen, temps):
         """
         Met à jour l'écran et permet l'affichage et les déplacements des êtres vivants.
         Gère la logique de poursuite, fuite, et bordures pour chaque entité.
         """
-        if not self.is_playing:
+        if not self.is_playing or self.pause:
             return
-        elif self.pause:
-            pass
         else:
+            grille = self.creer_grille_spatiale(taille_cellule=100)
             # --- Gestion des carnivores ---
-            for carnivore in list(self.tous_carnivores):
+            for carnivore in self.tous_carnivores:
                 # Si le carnivore sort de l'écran, il rebondit sur le bord
                 if (
                     carnivore.x < 20
@@ -287,9 +328,13 @@ class Display:
                     carnivore.bordure()
                 else:
                     # Recherche des proies (herbivores) dans le rayon de vision
+                    cell_x = int(carnivore.x // 100)
+                    cell_y = int(carnivore.y // 100)
+                    herbivores_proches = self.get_voisins(grille, cell_x, cell_y, 'herbivores')
+                    
                     proies_detectees = []
                     distance_proies = []
-                    for herbivore in list(self.tous_herbivores):
+                    for herbivore in herbivores_proches:
                         distance = carnivore.calcul_distance_proie(
                             (herbivore.x, herbivore.y)
                         )
@@ -301,8 +346,7 @@ class Display:
                         carnivore.changer_direction([-5, 0, 5])
                     else:
                         # Sinon, il cible la proie la plus proche
-                        proie_la_plus_proche = min(distance_proies)
-                        indice_proie = distance_proies.index(proie_la_plus_proche)
+                        indice_proie = distance_proies.index(min(distance_proies))
                         proie_cible = proies_detectees[indice_proie]
                         angle_cible = carnivore.calcul_angle_proie(
                             (proie_cible.x, proie_cible.y)
@@ -312,7 +356,7 @@ class Display:
                 carnivore.grow()
 
             # --- Gestion des herbivores ---
-            for herbivore in list(self.tous_herbivores):
+            for herbivore in self.tous_herbivores:
                 # Détection de la proximité des bords de l'écran
                 au_bord = (
                     herbivore.x < 20
@@ -326,9 +370,12 @@ class Display:
                     herbivore.grow()
                 else:
                     # Recherche de prédateurs (carnivores) dans le rayon de vision
+                    cell_x = int(herbivore.x // 100)
+                    cell_y = int(herbivore.y // 100)
+                    carnivores_proches = self.get_voisins(grille, cell_x, cell_y, 'carnivores')
                     predateurs_detectes = []
                     distance_predateurs = []
-                    for carnivore in list(self.tous_carnivores):
+                    for carnivore in carnivores_proches:
                         distance = herbivore.calcul_distance_predateur(
                             (carnivore.x, carnivore.y)
                         )
@@ -337,9 +384,12 @@ class Display:
                             distance_predateurs.append(distance)
                     if predateurs_detectes == []:
                         # Si aucun prédateur détecté, recherche de plantes à manger
+                        cell_x = int(herbivore.x // 100)
+                        cell_y = int(herbivore.y // 100)
+                        plantes_proches = self.get_voisins(grille, cell_x, cell_y, 'plantes')
                         proies_detectees = []
                         distance_proies = []
-                        for plante in list(self.tous_plantes):
+                        for plante in plantes_proches:
                             distance = herbivore.calcul_distance_proie(
                                 (plante.x, plante.y)
                             )
@@ -351,8 +401,7 @@ class Display:
                             herbivore.changer_direction([-5, 0, 5])
                         else:
                             # Sinon, cible la plante la plus proche
-                            proie_la_plus_proche = min(distance_proies)
-                            indice_proie = distance_proies.index(proie_la_plus_proche)
+                            indice_proie = distance_proies.index(min(distance_proies))
                             proie_cible = proies_detectees[indice_proie]
                             angle_cible = herbivore.calcul_angle_proie(
                                 (proie_cible.x, proie_cible.y)
@@ -581,7 +630,8 @@ class Display:
 
             self.chrono_graphique_update += temps
             if self.chrono_graphique_update >= config.CHRONO_GRAPH_UPDATE:
-                update_graphique(self)
+                if self.affichage_graphique:
+                    update_graphique(self)
                 self.chrono_graphique_update -= config.CHRONO_GRAPH_UPDATE
 
     def reinitialiser(self):

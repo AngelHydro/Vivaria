@@ -9,8 +9,6 @@ import config
 import sys
 import pygame
 import matplotlib.pyplot as plt
-import numpy as np
-from scipy.interpolate import make_interp_spline
 
 def creer_figure():
     fig, ax = plt.subplots(1, 1, figsize=(config.LARGEUR/100, config.HAUTEUR/100), dpi=100)
