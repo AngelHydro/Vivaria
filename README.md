@@ -60,7 +60,7 @@ python main.py
 ## Technologies utilisées
 
 - **Python 3.8 ou supérieur** : Langage principal
-- **Pygame 3.6.2** : Moteur graphique et gestion des sprites
+- **Pygame** : Moteur graphique et gestion des sprites
 - **Matplotlib** : Librairie pour les graphiques d'évolution
 - **Programmation Orientée Objet** : Architecture modulaire
 
@@ -74,6 +74,10 @@ vivaria/
 ├── config.py         # Paramètres de configuration
 ├── graphique.py      # Gestion des graphiques d'évolution
 └── data/             # Assets graphiques
+      ├── Neige Frame      # Frames pour l'animation de la neige
+      ├── Pluie Frame      # Frames pour l'animation de la pluie
+      └── Orage Frame      # Frames pour l'animation de l'orage
+      
 ```
 
 ---
