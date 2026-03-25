@@ -94,5 +94,5 @@ Interface utilisateur - Intégration visuelle et tests de simulation
 **Cadre :** Trophées NSI 2026  
 **Établissement :** Lycée Polyvalent Clos Maire  
 **Classe :** Terminale NSI  
-**Encadrants :** Chaddai FOUCHE & Christophe GUENEAU(Professeurs de NSI)  
+**Encadrants :** Chaddai FOUCHE & Christophe GUENEAU (Professeurs de NSI)  
 **Thème :** Nature

@@ -69,16 +69,16 @@ class Display:
             "PlanteHiver_plaine": pygame.image.load("data/img/PlanteHiver_plaine-Grown.png"),
             # Plantes forêt
             "PlantePrintemps_Foret": pygame.image.load("data/img/PlantePrintemps_Foret.png"),
-            #"PlanteEte_Foret": pygame.image.load("data/img/PlanteEte_Foret.png"),
-            #"PlanteAutomne_Foret": pygame.image.load("data/img/PlanteAutomne_Foret.png"),
-            #"PlanteHiver_Foret": pygame.image.load("data/img/PlanteHiver_Foret.png"),
+            "PlanteEte_Foret": pygame.image.load("data/img/PlanteEte_Foret.png"),
+            "PlanteAutomne_Foret": pygame.image.load("data/img/PlanteAutomne_Foret.png"),
+            "PlanteHiver_Foret": pygame.image.load("data/img/PlanteHiver_Foret.png"),
             # Plantes désert
             "PlantePrintemps_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
-            #"PlanteEte_Desert": pygame.image.load("data/img/PlanteEte_Desert.png"),
-            #"PlanteAutomne_Desert": pygame.image.load("data/img/PlanteAutomne_Desert.png"),
-            #"PlanteHiver_Desert": pygame.image.load("data/img/PlanteHiver_Desert.png"),
+            "PlanteEte_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
+            "PlanteAutomne_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
+            "PlanteHiver_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
             # Plantes toundra
-            "PlantePrintemps_Toundra": pygame.image.load("data/img/PlantePrintemps_Toundra.png"),
+            "PlantePrintemps_Toundra": pygame.image.load("data/img/PlantePrintemps_toundra.png"),
             "PlanteEte_Toundra": pygame.image.load("data/img/PlanteEte_Toundra.png"),
             "PlanteAutomne_Toundra": pygame.image.load("data/img/PlanteAutomne_Toundra.png"),
             "PlanteHiver_Toundra": pygame.image.load("data/img/PlanteHiver_Toundra.png"),
