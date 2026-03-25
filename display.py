@@ -13,12 +13,13 @@ import config
 from ecosystem import Carnivores, Herbivores, Plantes
 from environment import Biomes, Meteo, Saisons
 from graphique import *
+from img_meteo import *
 
 
 class Display:
     """Class Display qui sert à faire fonctionner toutes les interactions entre les êtres vivants"""
 
-    def __init__(self, screen):
+    def __init__(self, screen, taille_w, taille_h):
         # Indique si la simulation est en cours
         self.is_playing = False
         # Indique si la simulation est en pause
@@ -46,6 +47,9 @@ class Display:
         self.spawn_timer_plante = 0  # Initialisation du timer
         self.spawn_timer_herbivore = 0
         self.spawn_timer_carnivore = 0
+
+        self.taille_w = taille_w
+        self.taille_h = taille_h
 
         self.chrono_graphique = 0
         self.chrono_graphique_update = 0
@@ -94,6 +98,13 @@ class Display:
             "Predateur_desert": pygame.image.load("data/img/Predateur_desert.png"),
             "Predateur_toundra": pygame.image.load("data/img/Predateur_toundra.png"),
         }
+
+        self.liste_img_pluie = charger_image("data/img/Pluie_frame/")
+        self.liste_img_orage = charger_image("data/img/Orage_frame/")
+        self.liste_img_neige = charger_image("data/img/Neige_frame/")
+
+        self.index_frame = 0
+        self.timer_meteo = 0
 
     def demarrage(
         self,
@@ -264,12 +275,11 @@ class Display:
         # Démarre la simulation
         self.is_playing = True
         self.pause = False
-        print("Lancement")
 
     def creer_grille_spatiale(self, taille_cellule=100):
         """Divise l'écran en grille pour optimiser la détection."""
         grille = {}
-        
+
         # Place chaque entité dans sa cellule
         for plante in self.tous_plantes:
             cell_x = int(plante.x // taille_cellule)
@@ -278,7 +288,7 @@ class Display:
             if key not in grille:
                 grille[key] = {'plantes': [], 'herbivores': [], 'carnivores': []}
             grille[key]['plantes'].append(plante)
-        
+
         for herbivore in self.tous_herbivores:
             cell_x = int(herbivore.x // taille_cellule)
             cell_y = int(herbivore.y // taille_cellule)
@@ -286,7 +296,7 @@ class Display:
             if key not in grille:
                 grille[key] = {'plantes': [], 'herbivores': [], 'carnivores': []}
             grille[key]['herbivores'].append(herbivore)
-        
+
         for carnivore in self.tous_carnivores:
             cell_x = int(carnivore.x // taille_cellule)
             cell_y = int(carnivore.y // taille_cellule)
@@ -294,7 +304,7 @@ class Display:
             if key not in grille:
                 grille[key] = {'plantes': [], 'herbivores': [], 'carnivores': []}
             grille[key]['carnivores'].append(carnivore)
-        
+
         return grille
 
     def get_voisins(self, grille, cell_x, cell_y, type_entite):
@@ -331,7 +341,7 @@ class Display:
                     cell_x = int(carnivore.x // 100)
                     cell_y = int(carnivore.y // 100)
                     herbivores_proches = self.get_voisins(grille, cell_x, cell_y, 'herbivores')
-                    
+
                     proies_detectees = []
                     distance_proies = []
                     for herbivore in herbivores_proches:
@@ -598,6 +608,40 @@ class Display:
             for plante in list(self.tous_plantes):
                 plante.grow()
 
+            if self.meteo.etat == "pluie":
+                frame = pygame.transform.scale(self.liste_img_pluie[self.index_frame], (128, 128))
+                for i in range(0, config.LARGEUR, 128):
+                    for j in range(0, config.HAUTEUR, 128):
+                        screen.blit(frame, (i, j))
+                self.timer_meteo += temps
+                if self.timer_meteo >= config.CHRONO_MS:
+                    self.index_frame += 1
+                    self.timer_meteo = 0
+                if self.index_frame >= len(self.liste_img_pluie):
+                    self.index_frame = 0
+            elif self.meteo.etat == "orage":
+                frame = pygame.transform.scale(self.liste_img_orage[self.index_frame], (128, 128))
+                for i in range(0, config.LARGEUR, 128):
+                    for j in range(0, config.HAUTEUR, 128):
+                        screen.blit(frame, (i, j))
+                self.timer_meteo += temps
+                if self.timer_meteo >= config.CHRONO_MS:
+                    self.index_frame += 1
+                    self.timer_meteo = 0
+                if self.index_frame >= len(self.liste_img_orage):
+                    self.index_frame = 0
+            elif self.meteo.etat == "neige":
+                frame = pygame.transform.scale(self.liste_img_neige[self.index_frame], (128, 128))
+                for i in range(0, config.LARGEUR, 128):
+                    for j in range(0, config.HAUTEUR, 128):
+                        screen.blit(frame, (i, j))
+                self.timer_meteo += temps
+                if self.timer_meteo >= config.CHRONO_MS:
+                    self.index_frame += 1
+                    self.timer_meteo = 0
+                if self.index_frame >= len(self.liste_img_neige):
+                    self.index_frame = 0
+
             # Affichage de tous les sprites sur l'écran
             self.tous_plantes.draw(screen)
             self.tous_herbivores.draw(screen)
@@ -715,3 +759,46 @@ class Display:
                 carnivore.vitesse = config.VITESSE_CARNIVORE
                 carnivore.cout_energy_base = config.COUT_ENERGY_CARNIVORE
                 carnivore.cout_energy = config.COUT_ENERGY_CARNIVORE
+
+    def mettre_a_jour_textures_plantes(self):
+        """
+        Met à jour l'image de toutes les plantes existantes
+        selon le biome et la saison courants.
+        """
+        for plante in self.tous_plantes:
+            biome = self.biome.etat
+            saison = self.saison.etat
+
+            if biome == "plaine":
+                if saison == "printemps":
+                    nouvelle_img = self.dico_images["PlantePrintemps_plaine"]
+                elif saison == "ete":
+                    nouvelle_img = self.dico_images["PlanteEte_plaine"]
+                elif saison == "automne":
+                    nouvelle_img = self.dico_images["PlanteAutomne_plaine"]
+                elif saison == "hiver":
+                    nouvelle_img = self.dico_images["PlanteHiver_plaine"]
+            elif biome == "foret":
+                if saison == "printemps":
+                    nouvelle_img = self.dico_images["PlantePrintemps_Foret"]
+                elif saison == "ete":
+                    nouvelle_img = self.dico_images["PlanteEte_Foret"]
+                elif saison == "automne":
+                    nouvelle_img = self.dico_images["PlanteAutomne_Foret"]
+                elif saison == "hiver":
+                    nouvelle_img = self.dico_images["PlanteHiver_Foret"]
+            elif biome == "desert":
+                nouvelle_img = self.dico_images[f"Plante{saison.capitalize()}_Desert"]
+            elif biome == "toundra":
+                if saison == "printemps":
+                    nouvelle_img = self.dico_images["PlantePrintemps_Toundra"]
+                elif saison == "ete":
+                    nouvelle_img = self.dico_images["PlanteEte_Toundra"]
+                elif saison == "automne":
+                    nouvelle_img = self.dico_images["PlanteAutomne_Toundra"]
+                elif saison == "hiver":
+                    nouvelle_img = self.dico_images["PlanteHiver_Toundra"]
+            else:
+                continue
+
+            plante.image = pygame.transform.scale(nouvelle_img, config.TAILLE_SPRITE)

@@ -27,15 +27,15 @@ def main():
     # Création de la fenêtre redimensionnable avec la taille définie dans config
     screen = pygame.display.set_mode((config.LARGEUR, config.HAUTEUR), pygame.RESIZABLE)
 
-    # Instancie la classe Display qui gère toutes les entités et interactions
-    display = Display(screen)
-
     fond = pygame.image.load("data/img/Plaine_printemps.png")
     taille_w = fond.get_width()
     taille_h = fond.get_height()
 
+    # Instancie la classe Display qui gère toutes les entités et interactions
+    display = Display(screen, taille_w, taille_h)
+
     def draw_background():
-        # Dessine un fond vert sur toute la surface de la fenêtre
+        # Dessine un fond sur toute la surface de la fenêtre
         for i in range(0, config.LARGEUR, taille_w):
             for j in range(0, config.HAUTEUR, taille_h):
                 screen.blit(fond, (i, j))
@@ -45,7 +45,8 @@ def main():
 
     running = True
     fullscreen = False
-    affichage_boutons = True
+    boutons_options_affiches = True
+    boutons_environnement_affiches = True
 
     compt_vitesse = 0
 
@@ -56,6 +57,7 @@ def main():
 
         # surface invisible pour faire réapparaitre les boutons par dessus le graphique
         zone_boutons_options = pygame.Rect(w * 83 / 100, h * 60 / 100, w * 15 / 100, h * 45 / 100)
+        zone_boutons_environnement = pygame.Rect(0, h * 49 / 100, w * 30 / 100, h * 99 / 100)
 
         # Redimensionne et repositionne tous les boutons et surfaces selon la taille de l'écran
         bouton_demarrer = pygame.Rect(w * 83 / 100, h * 60 / 100, w * 15 / 100, h * 7 / 100)
@@ -88,6 +90,7 @@ def main():
         # Retourne tous les boutons et surfaces recalculés
         return (
             zone_boutons_options,
+            zone_boutons_environnement,
             bouton_demarrer,
             bouton_reinitialiser,
             bouton_vitesse_sim,
@@ -136,6 +139,7 @@ def main():
 
     (
         zone_boutons_options,
+        zone_boutons_environnement,
         bouton_demarrer,
         bouton_reinitialiser,
         bouton_vitesse_sim,
@@ -213,8 +217,8 @@ def main():
             screen.blit(texte_nb_carnivores, texte_nb_carnivores_rect)
 
         # Affichage des boutons et compteurs sur la fenêtre
-        def affichage_boutons_permanents(compt_vitesse):
-            if affichage_boutons:
+        def affichage_boutons_options(compt_vitesse):
+            if boutons_options_affiches:
                 texte_demarrer_font = pygame.font.Font(None, config.TAILLE_FONT)
                 texte_demarrer = texte_demarrer_font.render(contenu_texte_demarrer, True, (0, 0, 0))
                 texte_demarrer_rect = texte_demarrer.get_rect(center=bouton_demarrer.center)
@@ -239,6 +243,110 @@ def main():
                 pygame.draw.rect(screen, (0, 0, 0), bouton_vitesse_sim, 3)
                 screen.blit(texte_vitesse_sim, texte_vitesse_sim_rect)
 
+        def affichage_boutons_environnement():
+            if boutons_environnement_affiches:
+                # Titre des surfaces de boutons de changement de biome, de météo et de saison
+                texte_biome_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_biome = texte_biome_font.render("Biome", True, (255, 255, 255))
+                texte_biome_rect = texte_biome.get_rect(
+                    center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 51 / 100)
+                )
+                pygame.draw.rect(screen, (0, 0, 0), surface_biome, 3)
+                screen.blit(texte_biome, texte_biome_rect)
+
+                texte_meteo_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_meteo = texte_meteo_font.render("Météo", True, (255, 255, 255))
+                texte_meteo_rect = texte_meteo.get_rect(
+                    center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 68 / 100)
+                )
+                pygame.draw.rect(screen, (0, 0, 0), surface_meteo, 3)
+                screen.blit(texte_meteo, texte_meteo_rect)
+
+                texte_saison_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_saison = texte_saison_font.render("Saison", True, (255, 255, 255))
+                texte_saison_rect = texte_saison.get_rect(
+                    center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 85 / 100)
+                )
+                pygame.draw.rect(screen, (0, 0, 0), surface_saison, 3)
+                screen.blit(texte_saison, texte_saison_rect)
+
+                # Bouton "Plaine"
+                texte_plaine_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_plaine = texte_plaine_font.render("Plaine", True, (0, 0, 0))
+                texte_plaine_rect = texte_plaine.get_rect(center=bouton_plaine.center)
+                pygame.draw.rect(screen, (0, 0, 0), bouton_plaine, 3)
+                screen.blit(texte_plaine, texte_plaine_rect)
+                # Bouton "Forêt"
+                texte_foret_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_foret = texte_foret_font.render("Forêt", True, (0, 0, 0))
+                texte_foret_rect = texte_foret.get_rect(center=bouton_foret.center)
+                pygame.draw.rect(screen, (0, 0, 0), bouton_desert, 3)
+                screen.blit(texte_foret, texte_foret_rect)
+                # Bouton "Désert"
+                texte_desert_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_desert = texte_desert_font.render("Désert", True, (0, 0, 0))
+                texte_desert_rect = texte_desert.get_rect(center=bouton_desert.center)
+                pygame.draw.rect(screen, (0, 0, 0), bouton_foret, 3)
+                screen.blit(texte_desert, texte_desert_rect)
+                # Bouton "Toundra"
+                texte_toundra_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_toundra = texte_toundra_font.render("Toundra", True, (0, 0, 0))
+                texte_toundra_rect = texte_toundra.get_rect(center=bouton_toundra.center)
+                pygame.draw.rect(screen, (0, 0, 0), bouton_toundra, 3)
+                screen.blit(texte_toundra, texte_toundra_rect)
+
+                # Bouton "Soleil"
+                texte_soleil_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_soleil = texte_soleil_font.render("Soleil", True, (0, 0, 0))
+                texte_soleil_rect = texte_soleil.get_rect(center=(bouton_soleil.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_soleil, 3)
+                screen.blit(texte_soleil, texte_soleil_rect)
+                # Bouton "Pluie"
+                texte_pluie_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_pluie = texte_pluie_font.render("Pluie", True, (0, 0, 0))
+                texte_pluie_rect = texte_pluie.get_rect(center=(bouton_pluie.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_pluie, 3)
+                screen.blit(texte_pluie, texte_pluie_rect)
+                # Bouton "Orage"
+                texte_orage_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_orage = texte_orage_font.render("Orage", True, (0, 0, 0))
+                texte_orage_rect = texte_orage.get_rect(center=(bouton_orage.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_orage, 3)
+                screen.blit(texte_orage, texte_orage_rect)
+                # Bouton "Neige"
+                texte_neige_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_neige = texte_neige_font.render("Neige", True, (0, 0, 0))
+                texte_neige_rect = texte_neige.get_rect(center=(bouton_neige.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_neige, 3)
+                screen.blit(texte_neige, texte_neige_rect)
+
+                # Bouton "Printemps"
+                texte_printemps_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_printemps = texte_printemps_font.render("Printemps", True, (0, 0, 0))
+                texte_printemps_rect = texte_printemps.get_rect(
+                    center=(bouton_printemps.center)
+                )
+                pygame.draw.rect(screen, (0, 0, 0), bouton_printemps, 3)
+                screen.blit(texte_printemps, texte_printemps_rect)
+                # Bouton "Ete"
+                texte_ete_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_ete = texte_ete_font.render("Été", True, (0, 0, 0))
+                texte_ete_rect = texte_ete.get_rect(center=(bouton_ete.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_ete, 3)
+                screen.blit(texte_ete, texte_ete_rect)
+                # Bouton "Automne"
+                texte_automne_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_automne = texte_automne_font.render("Automne", True, (0, 0, 0))
+                texte_automne_rect = texte_automne.get_rect(center=(bouton_automne.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_automne, 3)
+                screen.blit(texte_automne, texte_automne_rect)
+                # Bouton "Hiver"
+                texte_hiver_font = pygame.font.Font(None, config.TAILLE_FONT)
+                texte_hiver = texte_hiver_font.render("Hiver", True, (0, 0, 0))
+                texte_hiver_rect = texte_hiver.get_rect(center=(bouton_hiver.center))
+                pygame.draw.rect(screen, (0, 0, 0), bouton_hiver, 3)
+                screen.blit(texte_hiver, texte_hiver_rect)
+
             texte_chrono_font = pygame.font.Font(None, config.TAILLE_FONT)
             if display.jours < 10:
                 if display.heures < 10:
@@ -262,10 +370,15 @@ def main():
             if display.affichage_graphique and display.surface_graphique is not None:
                 screen.blit(display.surface_graphique, (0, 0))
             if zone_boutons_options.collidepoint(pygame.mouse.get_pos()):
-                affichage_boutons = True
+                boutons_options_affiches = True
             else:
-                affichage_boutons = False
-            affichage_boutons_permanents(compt_vitesse)
+                boutons_options_affiches = False
+            if zone_boutons_environnement.collidepoint(pygame.mouse.get_pos()):
+                boutons_environnement_affiches = True
+            else:
+                boutons_environnement_affiches = False
+            affichage_boutons_options(compt_vitesse)
+            affichage_boutons_environnement()
         else:
             contenu_texte_demarrer = "Lancer"
             # Sinon, on affiche le titre, les instructions et le bouton réinitialiser
@@ -282,125 +395,27 @@ def main():
             instruction_rect = instruction.get_rect(
                 center=(config.LARGEUR // 2, config.HAUTEUR // 2 + 20)
             )
-
-            # Titre des surfaces de boutons de changement de biome, de météo et de saison
-            texte_biome_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_biome = texte_biome_font.render("Biome", True, (255, 255, 255))
-            texte_biome_rect = texte_biome.get_rect(
-                center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 51 / 100)
-            )
-
-            texte_meteo_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_meteo = texte_meteo_font.render("Météo", True, (255, 255, 255))
-            texte_meteo_rect = texte_meteo.get_rect(
-                center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 68 / 100)
-            )
-
-            texte_saison_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_saison = texte_saison_font.render("Saison", True, (255, 255, 255))
-            texte_saison_rect = texte_saison.get_rect(
-                center=(config.LARGEUR * 13.5 / 100, config.HAUTEUR * 85 / 100)
-            )
-
-            # Bouton "Plaine"
-            texte_plaine_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_plaine = texte_plaine_font.render("Plaine", True, (0, 0, 0))
-            texte_plaine_rect = texte_plaine.get_rect(center=bouton_plaine.center)
-            # Bouton "Forêt"
-            texte_foret_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_foret = texte_foret_font.render("Forêt", True, (0, 0, 0))
-            texte_foret_rect = texte_foret.get_rect(center=bouton_foret.center)
-            # Bouton "Désert"
-            texte_desert_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_desert = texte_desert_font.render("Désert", True, (0, 0, 0))
-            texte_desert_rect = texte_desert.get_rect(center=bouton_desert.center)
-            # Bouton "Toundra"
-            texte_toundra_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_toundra = texte_toundra_font.render("Toundra", True, (0, 0, 0))
-            texte_toundra_rect = texte_toundra.get_rect(center=bouton_toundra.center)
-
-            # Bouton "Soleil"
-            texte_soleil_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_soleil = texte_soleil_font.render("Soleil", True, (0, 0, 0))
-            texte_soleil_rect = texte_soleil.get_rect(center=(bouton_soleil.center))
-            # Bouton "Pluie"
-            texte_pluie_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_pluie = texte_pluie_font.render("Pluie", True, (0, 0, 0))
-            texte_pluie_rect = texte_pluie.get_rect(center=(bouton_pluie.center))
-            # Bouton "Orage"
-            texte_orage_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_orage = texte_orage_font.render("Orage", True, (0, 0, 0))
-            texte_orage_rect = texte_orage.get_rect(center=(bouton_orage.center))
-            # Bouton "Neige"
-            texte_neige_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_neige = texte_neige_font.render("Neige", True, (0, 0, 0))
-            texte_neige_rect = texte_neige.get_rect(center=(bouton_neige.center))
-
-            # Bouton "Printemps"
-            texte_printemps_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_printemps = texte_printemps_font.render("Printemps", True, (0, 0, 0))
-            texte_printemps_rect = texte_printemps.get_rect(
-                center=(bouton_printemps.center)
-            )
-            # Bouton "Ete"
-            texte_ete_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_ete = texte_ete_font.render("Été", True, (0, 0, 0))
-            texte_ete_rect = texte_ete.get_rect(center=(bouton_ete.center))
-            # Bouton "Automne"
-            texte_automne_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_automne = texte_automne_font.render("Automne", True, (0, 0, 0))
-            texte_automne_rect = texte_automne.get_rect(center=(bouton_automne.center))
-            # Bouton "Hiver"
-            texte_hiver_font = pygame.font.Font(None, config.TAILLE_FONT)
-            texte_hiver = texte_hiver_font.render("Hiver", True, (0, 0, 0))
-            texte_hiver_rect = texte_hiver.get_rect(center=(bouton_hiver.center))
-
-            # Affichage des éléments de l'interface utilisateur pendant la pause ou avant le démarrage
-            # Dessine les contours des différentes surfaces et boutons
-            pygame.draw.rect(screen, (0, 0, 0), surface_biome, 3)
-            pygame.draw.rect(screen, (0, 0, 0), surface_meteo, 3)
-            pygame.draw.rect(screen, (0, 0, 0), surface_saison, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_plaine, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_desert, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_foret, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_toundra, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_soleil, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_pluie, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_orage, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_neige, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_printemps, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_ete, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_automne, 3)
-            pygame.draw.rect(screen, (0, 0, 0), bouton_hiver, 3)
-            # Affiche le titre, les instructions et les textes des boutons/surfaces
             screen.blit(titre, titre_rect)
             screen.blit(instruction, instruction_rect)
-            screen.blit(texte_biome, texte_biome_rect)
-            screen.blit(texte_meteo, texte_meteo_rect)
-            screen.blit(texte_saison, texte_saison_rect)
-            screen.blit(texte_plaine, texte_plaine_rect)
-            screen.blit(texte_foret, texte_foret_rect)
-            screen.blit(texte_desert, texte_desert_rect)
-            screen.blit(texte_toundra, texte_toundra_rect)
-            screen.blit(texte_soleil, texte_soleil_rect)
-            screen.blit(texte_pluie, texte_pluie_rect)
-            screen.blit(texte_orage, texte_orage_rect)
-            screen.blit(texte_neige, texte_neige_rect)
-            screen.blit(texte_printemps, texte_printemps_rect)
-            screen.blit(texte_ete, texte_ete_rect)
-            screen.blit(texte_automne, texte_automne_rect)
-            screen.blit(texte_hiver, texte_hiver_rect)
 
             affichage_nb_entites()
             if display.affichage_graphique and display.surface_graphique is not None:
                 if zone_boutons_options.collidepoint(pygame.mouse.get_pos()):
-                    affichage_boutons = True
+                    boutons_options_affiches = True
                 else:
-                    affichage_boutons = False
+                    boutons_options_affiches = False
                 screen.blit(display.surface_graphique, (0, 0))
             else:
-                affichage_boutons = True
-            affichage_boutons_permanents(compt_vitesse)
+                boutons_options_affiches = True
+            if display.affichage_graphique and display.surface_graphique is not None:
+                if zone_boutons_environnement.collidepoint(pygame.mouse.get_pos()):
+                    boutons_environnement_affiches = True
+                else:
+                    boutons_environnement_affiches = False
+            else:
+                boutons_environnement_affiches = True
+            affichage_boutons_options(compt_vitesse)
+            affichage_boutons_environnement()
 
         # Gestion des événements utilisateur (clavier, souris, redimensionnement, fermeture)
         for event in pygame.event.get():
@@ -421,6 +436,7 @@ def main():
                         )
                     (
                         zone_boutons_options,
+                        zone_boutons_environnement,
                         bouton_demarrer,
                         bouton_reinitialiser,
                         bouton_vitesse_sim,
@@ -448,18 +464,16 @@ def main():
                 elif event.key == pygame.K_g:
                     display.affichage_graphique = not display.affichage_graphique
                 elif event.key == pygame.K_SPACE:
-                    if display.pause:
-                        if not display.start:
-                            print("démarrage")
-                            display.demarrage(
-                                screen,
-                                temps,
-                                config.NOMBRE_INITIAL_PLANTES,
-                                config.NOMBRE_INITIAL_HERBIVORES,
-                                config.NOMBRE_INITIAL_CARNIVORES,
-                            )
-                        else:
-                            display.pause = False
+                    if not display.start:
+                        display.demarrage(
+                            screen,
+                            temps,
+                            config.NOMBRE_INITIAL_PLANTES,
+                            config.NOMBRE_INITIAL_HERBIVORES,
+                            config.NOMBRE_INITIAL_CARNIVORES,
+                        )
+                    elif display.pause:
+                        display.pause = False
                     else:
                         display.pause = True
 
@@ -472,6 +486,7 @@ def main():
                     )
                 (
                     zone_boutons_options,
+                    zone_boutons_environnement,
                     bouton_demarrer,
                     bouton_reinitialiser,
                     bouton_vitesse_sim,
@@ -499,18 +514,16 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 # Gestion des clics sur les boutons
                 if bouton_demarrer.collidepoint(event.pos):
-                    if display.pause:
-                        if not display.start:
-                            print("démarrage")
-                            display.demarrage(
-                                screen,
-                                temps,
-                                config.NOMBRE_INITIAL_PLANTES,
-                                config.NOMBRE_INITIAL_HERBIVORES,
-                                config.NOMBRE_INITIAL_CARNIVORES,
-                            )
-                        else:
-                            display.pause = False
+                    if not display.start:
+                        display.demarrage(
+                            screen,
+                            temps,
+                            config.NOMBRE_INITIAL_PLANTES,
+                            config.NOMBRE_INITIAL_HERBIVORES,
+                            config.NOMBRE_INITIAL_CARNIVORES,
+                        )
+                    elif display.pause:
+                        display.pause = False
                     else:
                         display.pause = True
                 elif bouton_reinitialiser.collidepoint(event.pos):
@@ -552,12 +565,16 @@ def main():
                 # conditions pour les conditions des boutons de changement de saison
                 if bouton_printemps.collidepoint(event.pos):
                     display.saison.printemps()
+                    display.mettre_a_jour_textures_plantes()
                 elif bouton_ete.collidepoint(event.pos):
                     display.saison.ete()
+                    display.mettre_a_jour_textures_plantes()
                 elif bouton_automne.collidepoint(event.pos):
                     display.saison.automne()
+                    display.mettre_a_jour_textures_plantes()
                 elif bouton_hiver.collidepoint(event.pos):
                     display.saison.hiver()
+                    display.mettre_a_jour_textures_plantes()
 
         # Rafraîchit l'affichage à chaque itération de la boucle
         pygame.display.flip()
