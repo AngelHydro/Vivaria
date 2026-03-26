@@ -73,6 +73,7 @@ vivaria/
 ├── environment.py    # Système de biomes, météo et saisons
 ├── config.py         # Paramètres de configuration
 ├── graphique.py      # Gestion des graphiques d'évolution
+├── img_meteo.py      # Gère l'importation des images de pluie, de neige et d'orage
 └── data/             # Assets graphiques
       ├── Neige Frame      # Frames pour l'animation de la neige
       ├── Pluie Frame      # Frames pour l'animation de la pluie
