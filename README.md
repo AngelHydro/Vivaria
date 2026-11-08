@@ -54,7 +54,7 @@ python main.py
 #### macOS
 Depuis le code : `python3 main.py` (installer Python depuis python.org ou Homebrew).
 
-Application prête à l'emploi : télécharger `Vivaria-macOS-arm64.zip` (Apple Silicon) ou `Vivaria-macOS-x86_64.zip` (Intel) dans les artefacts de l'onglet *Actions* du dépôt, dézipper, puis **clic droit > Ouvrir** au premier lancement (l'application n'est pas signée par Apple).
+Application prête à l'emploi : télécharger `Vivaria-macOS-arm64.zip` (Mac Apple Silicon ; sur Mac Intel, lancer depuis le code) dans les artefacts de l'onglet *Actions* du dépôt, dézipper, puis **clic droit > Ouvrir** au premier lancement (l'application n'est pas signée par Apple).
 
 Construire soi-même la `.app` : `pip install pyinstaller pillow && pyinstaller Vivaria.spec` → `dist/Vivaria.app`.
 

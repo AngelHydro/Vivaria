@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, macos-13, windows-latest]  # macos-latest = Apple Silicon, macos-13 = Intel
+        os: [macos-latest, windows-latest]  # macos-latest = Apple Silicon
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
