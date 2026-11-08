@@ -66,42 +66,42 @@ class Display:
 
         self.dico_images = {
             # Plantes plaine
-            "FleurPrintemps_Plaine": pygame.image.load("data/img/FleurPrintemps_Plaine.png"),
-            "PlantePrintemps_plaine": pygame.image.load("data/img/PlantePrintemps_plaine.png"),
-            "PlanteEte_plaine": pygame.image.load("data/img/PlanteEte_plaine-Grown.png"), # à changer plus tard quand texture créée
-            "PlanteAutomne_plaine": pygame.image.load("data/img/PlanteAutomne_plaine-Grown.png"),
-            "PlanteHiver_plaine": pygame.image.load("data/img/PlanteHiver_plaine-Grown.png"),
+            "FleurPrintemps_Plaine": pygame.image.load(config.chemin("data/img/FleurPrintemps_Plaine.png")),
+            "PlantePrintemps_plaine": pygame.image.load(config.chemin("data/img/PlantePrintemps_plaine.png")),
+            "PlanteEte_plaine": pygame.image.load(config.chemin("data/img/PlanteEte_Plaine-Grown.png")), # à changer plus tard quand texture créée
+            "PlanteAutomne_plaine": pygame.image.load(config.chemin("data/img/PlanteAutomne_Plaine-Grown.png")),
+            "PlanteHiver_plaine": pygame.image.load(config.chemin("data/img/PlanteHiver_Plaine-Grown.png")),
             # Plantes forêt
-            "PlantePrintemps_Foret": pygame.image.load("data/img/PlantePrintemps_Foret.png"),
-            "PlanteEte_Foret": pygame.image.load("data/img/PlanteEte_Foret.png"),
-            "PlanteAutomne_Foret": pygame.image.load("data/img/PlanteAutomne_Foret.png"),
-            "PlanteHiver_Foret": pygame.image.load("data/img/PlanteHiver_Foret.png"),
+            "PlantePrintemps_Foret": pygame.image.load(config.chemin("data/img/PlantePrintemps_Foret.png")),
+            "PlanteEte_Foret": pygame.image.load(config.chemin("data/img/PlanteEte_Foret.png")),
+            "PlanteAutomne_Foret": pygame.image.load(config.chemin("data/img/PlanteAutomne_Foret.png")),
+            "PlanteHiver_Foret": pygame.image.load(config.chemin("data/img/PlanteHiver_Foret.png")),
             # Plantes désert
-            "PlantePrintemps_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
-            "PlanteEte_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
-            "PlanteAutomne_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
-            "PlanteHiver_Desert": pygame.image.load("data/img/PlantePrintemps_Desert.png"),
+            "PlantePrintemps_Desert": pygame.image.load(config.chemin("data/img/PlantePrintemps_Desert.png")),
+            "PlanteEte_Desert": pygame.image.load(config.chemin("data/img/PlantePrintemps_Desert.png")),
+            "PlanteAutomne_Desert": pygame.image.load(config.chemin("data/img/PlantePrintemps_Desert.png")),
+            "PlanteHiver_Desert": pygame.image.load(config.chemin("data/img/PlantePrintemps_Desert.png")),
             # Plantes toundra
-            "PlantePrintemps_Toundra": pygame.image.load("data/img/PlantePrintemps_toundra.png"),
-            "PlanteEte_Toundra": pygame.image.load("data/img/PlanteEte_Toundra.png"),
-            "PlanteAutomne_Toundra": pygame.image.load("data/img/PlanteAutomne_Toundra.png"),
-            "PlanteHiver_Toundra": pygame.image.load("data/img/PlanteHiver_Toundra.png"),
+            "PlantePrintemps_Toundra": pygame.image.load(config.chemin("data/img/PlantePrintemps_toundra.png")),
+            "PlanteEte_Toundra": pygame.image.load(config.chemin("data/img/PlanteEte_Toundra.png")),
+            "PlanteAutomne_Toundra": pygame.image.load(config.chemin("data/img/PlanteAutomne_Toundra.png")),
+            "PlanteHiver_Toundra": pygame.image.load(config.chemin("data/img/PlanteHiver_Toundra.png")),
             # Herbivores
-            "Herbivore_plaine": pygame.image.load("data/img/Herbivore_plaine.png"),
-            "Herbivore2_plaine": pygame.image.load("data/img/Herbivore2_plaine.png"),
-            "Herbivore_foret": pygame.image.load("data/img/Herbivore_foret.png"),
-            "Herbivore_desert": pygame.image.load("data/img/Herbivore_desert.png"),
-            "Herbivore_toundra": pygame.image.load("data/img/Herbivore_toundra.png"),
+            "Herbivore_plaine": pygame.image.load(config.chemin("data/img/Herbivore_plaine.png")),
+            "Herbivore2_plaine": pygame.image.load(config.chemin("data/img/Herbivore2_plaine.png")),
+            "Herbivore_foret": pygame.image.load(config.chemin("data/img/Herbivore_foret.png")),
+            "Herbivore_desert": pygame.image.load(config.chemin("data/img/Herbivore_desert.png")),
+            "Herbivore_toundra": pygame.image.load(config.chemin("data/img/Herbivore_toundra.png")),
             # Carnivores
-            "Predateur_plaine": pygame.image.load("data/img/Predateur_plaine.png"),
-            "Predateur_foret": pygame.image.load("data/img/Predateur_foret.png"),
-            "Predateur_desert": pygame.image.load("data/img/Predateur_desert.png"),
-            "Predateur_toundra": pygame.image.load("data/img/Predateur_toundra.png"),
+            "Predateur_plaine": pygame.image.load(config.chemin("data/img/Predateur_plaine.png")),
+            "Predateur_foret": pygame.image.load(config.chemin("data/img/Predateur_foret.png")),
+            "Predateur_desert": pygame.image.load(config.chemin("data/img/Predateur_desert.png")),
+            "Predateur_toundra": pygame.image.load(config.chemin("data/img/Predateur_toundra.png")),
         }
 
-        self.liste_img_pluie = charger_image("data/img/Pluie_frame/")
-        self.liste_img_orage = charger_image("data/img/Orage_frame/")
-        self.liste_img_neige = charger_image("data/img/Neige_frame/")
+        self.liste_img_pluie = charger_image(config.chemin("data/img/Pluie_frame/"))
+        self.liste_img_orage = charger_image(config.chemin("data/img/Orage_frame/"))
+        self.liste_img_neige = charger_image(config.chemin("data/img/Neige_frame/"))
 
         self.index_frame = 0
         self.timer_meteo = 0

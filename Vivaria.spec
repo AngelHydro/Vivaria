@@ -1,4 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
+import os
+import sys
 
 
 a = Analysis(
@@ -35,5 +37,13 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['data\\img\\logo.png'],
+    icon=[os.path.join('data', 'img', 'logo.png')],
 )
+
+if sys.platform == "darwin":
+    app = BUNDLE(
+        exe,
+        name='Vivaria.app',
+        icon=os.path.join('data', 'img', 'logo.png'),
+        bundle_identifier='fr.vivaria.app',
+    )
