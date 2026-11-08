@@ -23,12 +23,12 @@ def main():
     clock = pygame.time.Clock()
     # Définit le titre de la fenêtre et l'icône de l'application
     pygame.display.set_caption("Vivaria")
-    icone = pygame.image.load("data/img/logo.png")
+    icone = pygame.image.load(config.chemin("data/img/logo.png"))
     pygame.display.set_icon(icone)
     # Création de la fenêtre redimensionnable avec la taille définie dans config
     screen = pygame.display.set_mode((config.LARGEUR, config.HAUTEUR), pygame.RESIZABLE)
 
-    fond = pygame.image.load("data/img/Plaine_printemps.png")
+    fond = pygame.image.load(config.chemin("data/img/Plaine_printemps.png"))
     taille_w = fond.get_width()
     taille_h = fond.get_height()
 
@@ -146,22 +146,22 @@ def main():
         )
 
     fonds = {
-        ("plaine", "printemps"): pygame.image.load("data/img/Plaine_printemps.png"),
-        ("plaine", "ete"): pygame.image.load("data/img/Plaine_été.png"),
-        ("plaine", "automne"): pygame.image.load("data/img/Plaine_automne.png"),
-        ("plaine", "hiver"): pygame.image.load("data/img/Plaine_Hiver.png"),
-        ("foret", "printemps"): pygame.image.load("data/img/Foret_Printemps.png"),
-        ("foret", "ete"): pygame.image.load("data/img/Foret_Ete.png"),
-        ("foret", "automne"): pygame.image.load("data/img/Foret_Automne.png"),
-        ("foret", "hiver"): pygame.image.load("data/img/Foret_Hiver.png"),
-        ("desert", "printemps"): pygame.image.load("data/img/Desert_printemps.png"),
-        ("desert", "ete"): pygame.image.load("data/img/Desert_printemps.png"),
-        ("desert", "automne"): pygame.image.load("data/img/Desert_printemps.png"),
-        ("desert", "hiver"): pygame.image.load("data/img/Desert_printemps.png"),
-        ("toundra", "printemps"): pygame.image.load("data/img/Toundra_printemps.png"),
-        ("toundra", "ete"): pygame.image.load("data/img/Toundra_Ete.png"),
-        ("toundra", "automne"): pygame.image.load("data/img/Toundra_Automne.png"),
-        ("toundra", "hiver"): pygame.image.load("data/img/Toundra_Hiver.png"),
+        ("plaine", "printemps"): pygame.image.load(config.chemin("data/img/Plaine_printemps.png")),
+        ("plaine", "ete"): pygame.image.load(config.chemin("data/img/Plaine_été.png")),
+        ("plaine", "automne"): pygame.image.load(config.chemin("data/img/Plaine_automne.png")),
+        ("plaine", "hiver"): pygame.image.load(config.chemin("data/img/Plaine_Hiver.png")),
+        ("foret", "printemps"): pygame.image.load(config.chemin("data/img/Foret_Printemps.png")),
+        ("foret", "ete"): pygame.image.load(config.chemin("data/img/Foret_Ete.png")),
+        ("foret", "automne"): pygame.image.load(config.chemin("data/img/Foret_Automne.png")),
+        ("foret", "hiver"): pygame.image.load(config.chemin("data/img/Foret_Hiver.png")),
+        ("desert", "printemps"): pygame.image.load(config.chemin("data/img/Desert_printemps.png")),
+        ("desert", "ete"): pygame.image.load(config.chemin("data/img/Desert_printemps.png")),
+        ("desert", "automne"): pygame.image.load(config.chemin("data/img/Desert_printemps.png")),
+        ("desert", "hiver"): pygame.image.load(config.chemin("data/img/Desert_printemps.png")),
+        ("toundra", "printemps"): pygame.image.load(config.chemin("data/img/Toundra_printemps.png")),
+        ("toundra", "ete"): pygame.image.load(config.chemin("data/img/Toundra_Ete.png")),
+        ("toundra", "automne"): pygame.image.load(config.chemin("data/img/Toundra_Automne.png")),
+        ("toundra", "hiver"): pygame.image.load(config.chemin("data/img/Toundra_Hiver.png")),
     }
 
     contenu_texte_demarrer = "Lancer"

@@ -8,6 +8,8 @@ Gère les traçages de graphiques
 import config
 import sys
 import pygame
+import matplotlib
+matplotlib.use("Agg")  # rendu hors écran : évite le conflit backend macosx / SDL
 import matplotlib.pyplot as plt
 
 def creer_figure():

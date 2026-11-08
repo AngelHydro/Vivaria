@@ -5,6 +5,17 @@
 Tous les paramètres réglables du jeu.
 """
 
+import os
+import sys
+
+# Dossier des ressources : source, ou dossier extrait par PyInstaller (.exe / .app)
+BASE = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+
+
+def chemin(rel):
+    return os.path.join(BASE, rel)
+
+
 # Affichage
 FPS = 60
 VITESSE_SIMULATION_BASE = 1 # Agis comme valeur à réattribuer
